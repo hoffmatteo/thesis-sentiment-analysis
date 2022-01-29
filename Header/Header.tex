@@ -1,0 +1,102 @@
+\documentclass[12pt, oneside, a4paper, bibgerm, numbers=noenddot, parskip=half]{scrreprt}
+\usepackage[T1]{fontenc} 
+
+\headheight 50pt
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+
+\usepackage[german, english]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[macce]{inputenc}
+
+\usepackage{graphicx}
+\usepackage{placeins}
+\usepackage{subfig}
+\usepackage{bibgerm}
+\usepackage{url}
+\bibliographystyle{alphadin}
+
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\algrenewcommand\algorithmicrequire{\textbf{Input:}}
+\algrenewcommand\algorithmicensure{\textbf{Output:}}
+
+\renewcommand{\familydefault}{\sfdefault}
+\renewcommand{\baselinestretch}{1.0}
+
+\makeatletter
+\renewcommand\l@figure{\@dottedtocline{1}{0em}{2.6em}}
+\renewcommand\l@table{\@dottedtocline{1}{0em}{2.6em}}
+\makeatother
+
+
+\def\mydotfill{
+\leaders\hbox to 0.80em{.\hss}\hfill}
+\usepackage{nomencl}
+\let\abk\nomenclature
+\renewcommand{\nomname}{Abkrzungsverzeichnis}
+\renewcommand{\nompreamble}{\vspace*{0.6\baselineskip}\markboth{\nomname}{\nomname}}
+\setlength{\nomlabelwidth}{0.4\textwidth}				% Setzt den Abstand zwischen Abkrzung und Erklrung
+\renewcommand{\nomlabel}[1]{#1 \mydotfill}			% Punkte zwischen Abkrzung und Erklrung
+\setlength{\nomitemsep}{-\parsep}					% Zeilenabstnde zwischen den Abkrzungen verkleinern
+\usepackage[normalem]{ulem}
+\newcommand{\markup}[1]{\uline{#1}}
+\makenomenclature
+
+\setlength{\parindent}{0pt}
+
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{R.red}{RGB}{187,0,0}
+\definecolor{R.green}{RGB}{127,166,0}
+
+\lstset{language=Perl,
+	 basicstyle=\small,
+	 numbers=left,
+	 numberstyle=\small,
+	 numbersep=5pt,
+	 captionpos=b,
+	 keywordstyle=\color{R.red},
+	 commentstyle=\color{R.green}
+}
+
+\renewcommand{\labelitemi}{--}
+
+\usepackage[percent]{overpic}
+\pdfminorversion=5
+\usepackage[absolute]{textpos}
+
+\usepackage{ntheorem} 
+\usepackage{mathtools} 
+
+
+\usepackage{float}
+\restylefloat{figure}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{supertabular}
+\usepackage{multirow}
+\usepackage{multicol}
+
+\pagestyle{headings}
+
+\lstdefinelanguage{Lua}{%
+morekeywords={%
+and,break,do,else,elseif,end,false,for,function,if,in,%
+local,nil,not,or,repeat,return,then,true,until,while%
+},%
+sensitive=true,%
+morecomment=[l]{--},%
+morecomment=[n]{--[[}{]]},%
+morestring=[b]",%
+morestring=[b]',%
+}[keywords,comments,strings]% 
+
+\newcommand{\tc}[1]{\ensuremath{\underline{\smash{\mathit{#1}}}}}
+
+\DeclareMathOperator{\atan2}{atan2}
+

@@ -1,0 +1,36 @@
+\input{Header/Header}
+
+\begin{document}
+\include{Titelseite/Titelseite}
+\include{Versicherung/Versicherung}
+\include{Zusammenfassung/Zusammenfassung}
+
+\tableofcontents		% Fügt das Inhaltsverzeichnis ein
+\addtocontents{toc}{\protect\enlargethispage{0.5cm}}
+
+
+% \pagenumbering{arabic}	% Verwendet als Seitenzahl arabische Ziffern
+
+\include{Kapitel/1_Introduction}
+\include{Kapitel/2_RelatedWork}
+\include{Kapitel/3_Fundamentals}
+\include{Kapitel/4_Methodology}
+\include{Kapitel/5_Conclusion}
+
+
+% Literaturverzeichnis
+\newcommand{\Literatur}{Bilbiography}
+\addcontentsline{toc}{chapter}{\Literatur}
+\nocite{*}
+\bibliography{Literaturverzeichnis/literatur}
+
+
+% Fügt Anhang zum Dokument hinzu
+\appendix
+\chapter{Implementation source code}
+%\addcontentsline{toc}{chapter}{Appendix}
+%\include{Appendix/Appendix}
+%\include{Appendix/Code}
+
+
+\end{document}
