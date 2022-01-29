@@ -10,4 +10,11 @@ jobs:
         uses: dante-ev/latex-action@latest
         with:
           root_file: Bachelorarbeit.tex
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Bachelorarbeit
+          path: Bachelorarbeit.pdf
+        
+      
  
