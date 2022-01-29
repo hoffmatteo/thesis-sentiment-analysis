@@ -42,11 +42,35 @@ Analysis
 \begin{itemize}
     \item Lexicon-Based Method
     \begin{itemize}
-    \item dd
+    \item General approach: Multiple lexicons with different topics
+    \begin{itemize}
+        \item Sentiment Words --> List of words with polarity, e.g. good
+        \item Negation Words --> Words that negate the polarity of other words, e.g. not
+        \item Intensity words --> Words that amplify the polarity, e.g. very
+        \item Emoticons
+    \end{itemize}
+    \item Find the above word types in tweet
+    \item Adjust polarity of sentiment words based on negation and/or intensity
+    \item Calculate average of polarities including emoticons
+    \item Example: The weather today is very terrible but the sound of rain is delightful.
+    \begin{itemize}
+        \item Sentiment of "very terrible": amplified negative (e.g. -2)
+        \item Sentiment of "delightful": positive (e.g. +1)
+        \item Overall: -2 + 1 = -1 --> negative
+    \end{itemize}
     
     \end{itemize}
     \item Machine Learning Based Method
+    \begin{itemize}
+        \item Naive Bayes --> TODO
+        \item Logistic Regression?
+    \end{itemize}
     \item Hybrid Method
+    \begin{itemize}
+        \item Approach 1 --> use lexicon based score as additional feature for classifier (even if 0, it still can be classified)
+        \item 
+    \end{itemize}
+    
 \end{itemize}
 
 
