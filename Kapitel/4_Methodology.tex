@@ -58,12 +58,20 @@ Analysis
         \item Sentiment of "delightful": positive (e.g. +1)
         \item Overall: -2 + 1 = -1 --> negative
     \end{itemize}
-    
     \end{itemize}
     \item Machine Learning Based Method
     \begin{itemize}
-        \item Naive Bayes --> TODO
-        \item Logistic Regression?
+        \item Naive Bayes
+        \begin{itemize}
+            \item Based on Bayes theorem with conditional independence, add-one (laplace) smoothing, calculate P(x|y)
+            \item Look at every word contained in tweet, apply formula to known words:
+\[P(\mathrm{w}_{i}^{}|c) = \frac{count(\mathrm{w}_{i}^{}, c)+1}{(\sum_{w\in V}^{} (count(w,c)) + \left| V \right|} \]
+            \item w = word, c is class (negative, positive), V is vocabulary of all known words
+            \item Train with labelled tweets
+           \[ \mathrm{c}_{NB}^{} = argmax_{c \in C}  P(c) \prod_{i \in positions}^{} P(\mathrm{w}_{i}^{}|c)\]
+           \item TODO better source --> currently 3rd edition draft of Speech and Language Processing + Introduction to Data Mining
+        \end{itemize}
+        \item Logistic Regression? --> compute P(c|w)
     \end{itemize}
     \item Hybrid Method
     \begin{itemize}
