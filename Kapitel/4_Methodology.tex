@@ -34,6 +34,7 @@ Content
     \item Parameters --> objektive Kriterien, Qualitaet der Analyse Methode + Begruendung der Kriterien, Komplexitaet (Laufzeitkomplexitaet ja, Implementierung --> an sich nicht schlimm, aber robust? Abstuerze?)
     \item Case Study
     \item Qualitaet der Ergebnisse --> gut/schlecht, kann das akkurat erkannt werden?, evtl. menschliche Analyse, schoener: auf subjektive Einschaetzung verzichten
+    \item Comparison with human tweets labeled by humans?
 \end{itemize}
 \end{itemize}
 
@@ -42,7 +43,7 @@ Analysis
 \begin{itemize}
     \item Lexicon-Based Method
     \begin{itemize}
-    \item General approach: Multiple lexicons with different topics
+    \item General approach: Multiple lexicons with different topics, positive/neutral/negative
     \begin{itemize}
         \item Sentiment Words --> List of words with polarity, e.g. good
         \item Negation Words --> Words that negate the polarity of other words, e.g. not
@@ -58,10 +59,14 @@ Analysis
         \item Sentiment of "delightful": positive (e.g. +1)
         \item Overall: -2 + 1 = -1 --> negative
     \end{itemize}
+    \item Comparison of different sentiment lexicons?
+    \item Stop words --> needs, wants, etc. --> automatically negative (except for negation?)
+    \item common idioms?
+    \item slang
     \end{itemize}
     \item Machine Learning Based Method
     \begin{itemize}
-        \item Naive Bayes
+        \item Naive Bayes --> probabilistic, multiple classes
         \begin{itemize}
             \item Based on Bayes theorem with conditional independence, add-one (laplace) smoothing, calculate P(x|y)
             \item Look at every word contained in tweet, apply formula to known words:
@@ -69,17 +74,59 @@ Analysis
             \item w = word, c is class (negative, positive), V is vocabulary of all known words
             \item Train with labelled tweets
            \[ \mathrm{c}_{NB}^{} = argmax_{c \in C}  P(c) \prod_{i \in positions}^{} P(\mathrm{w}_{i}^{}|c)\]
-           \item TODO better source --> currently 3rd edition draft of Speech and Language Processing + Introduction to Data Mining
+          
+           
         \end{itemize}
-        \item Logistic Regression? --> compute P(c|w)
+        \item Logistic Regression? --> discriminative, binary classes
+        \begin{itemize}
+        \item Advantage: Not as many assumptions --> works better even when some features are correlated
+        \end{itemize} 
+        
     \end{itemize}
     \item Hybrid Method
     \begin{itemize}
         \item Approach 1 --> use lexicon based score as additional feature for classifier (even if 0, it still can be classified)
-        \item 
+        \item Combine previous two or e.g. use a different classifier if that works better?
     \end{itemize}
-    
 \end{itemize}
+\
+
+New Learnings
+\begin{itemize}
+    \item Evaluation of different classifiers --> (J48), Naive Bayes (gaussian + multinominal distribution), Support Vector Machine, Logistic Regression, Random Forest
+    \item Currently best: Naive Bayes with a multinomial distribution, 78.67\% of 4726 instances correct
+    \item Caveats: Training for SVM and Logistic Regression not possible with all 1.2MM tweets --> system memory/runtime
+    \item TODO: currently the ML method only recognized positive and neutral, more test instances?
+    \item Lexicon Method: 75.68\% accurate on 9057 instances (includes neutral)
+\end{itemize}
+
+RandomForest
+\begin{itemize}
+    \item Collection of tree-structured classifiers
+    \item Each tree depends on values of a random, independent vector
+    \item Output is class selected by most trees
+\end{itemize}
+
+Questions
+\begin{itemize}
+    \item Fundamentals vs. Methodology: Wo z.B. Classifiers erklären?
+    \item Welche Classifier wie vertiefen?
+    \begin{itemize}
+    \item Tabelle die Classifier vergleicht
+    \item Kurze Erklärung aller Classifier?
+    \item "Besten" Classifier tiefer erklären?
+    \item z.B. Naive Bayes: Multinominale und Gaußsche Verteilung vergleichen/erklären?
+    \end{itemize}
+    \item Spezifische Bibliothek erwähnen (weka), Filter genauer (speichert nur 15000 Wörter, die mindestens 10x vorkommen, lowercase)?
+    \item Daten beschreiben: Referenz + kurzer Überblick (Anzahl positiv/neutral/negativ, Themen, Zeitraum, bei Testdaten die Methode zur Klassifikation)
+\end{itemize}
+\ \\
+
+\emph{Naive Bayes}
+
+Naive Bayes is a blablabla \cite{DBLP:books/aw/TanSKK2019}
+
+
 
 
 
