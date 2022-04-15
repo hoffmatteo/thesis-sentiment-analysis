@@ -124,7 +124,33 @@ Questions
 
 \emph{Naive Bayes}
 
-Naive Bayes is a blablabla \cite{DBLP:books/aw/TanSKK2019}
+Naive Bayes is a probabilistic classification model. It is based on Bayes theorem:
+\begin{equation}
+\label{eq:bayes}
+            P(y|x) = \frac{P(y) * P(x|y)}{P(x)}
+\end{equation}
+where $y$ is the class label and $x$ is the a of attribute values \cite{DBLP:books/aw/TanSKK2019}. 
+
+Bayes theorem allows to calculate the posterior probability $P(y|x)$, which Tan et al. describe as ''the probability of observing a class label $y$ for a data instance given its set of attribute values $x$.'' \cite[p.~418]{DBLP:books/aw/TanSKK2019}. 
+
+To calculate the posterior probability, the class conditional probability $P(x|y)$ is needed, which describes the probability of observing a set of attribute values given a class. One approach to calculate the class conditional probability outlined by Tan et al. is to ''consider the fraction of training instances of a given class for every possible combination of attribute values'' \cite[p.~419]{DBLP:books/aw/TanSKK2019}. With a large number of attributes and values, this method becomes computationally infeasible due to the exponential growth of combinations. \cite{DBLP:books/aw/TanSKK2019}
+
+Due to this, the Naive Bayes assumption is employed to estimate the class conditional probability. Naive Bayes uses conditional independence, which states that attribute values are only dependent on the class label and not each other. Thus, the class conditional probability can be calculated by the following formula:
+\begin{equation}
+\label{eq:naive_assumption}
+            P(x|y) = \prod_{i=1}^{d}P(x_{i}|y)
+\end{equation}
+with $x$ containing $d$ attributes $\{x\textsubscript{1},x\textsubscript{2},...,x\textsubscript{i}\}$ \cite{DBLP:books/aw/TanSKK2019}.
+
+Furthermore, $P(x)$ remains constant for every class label $y$, so the class that maximizes the following is chosen:
+\begin{equation}
+\label{eq:naive_final}
+            P(y|x)\propto P(y)\prod_{i=1}^{d}P(x_{i}|y)
+\end{equation}      
+
+
+
+
 
 
 
