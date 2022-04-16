@@ -120,9 +120,47 @@ Questions
     \item Spezifische Bibliothek erwähnen (weka), Filter genauer (speichert nur 15000 Wörter, die mindestens 10x vorkommen, lowercase)?
     \item Daten beschreiben: Referenz + kurzer Überblick (Anzahl positiv/neutral/negativ, Themen, Zeitraum, bei Testdaten die Methode zur Klassifikation)
 \end{itemize}
-\ \\
 
-\emph{Naive Bayes}
+\section{Lexicon Method}
+As previously mentioned, the lexicon method uses several dictionaries in order to classify a tweet. 
+TODO preprocess, negation thing
+\begin{algorithm}[H]
+  \caption{Lexicon algorithm}\label{euclid}
+\begin{algorithmic}[1]
+    \Procedure{analyze}{$tweet$}\Comment{Sentiment score of tweet}
+\State $SentimentLexicon \gets$ Dictionary containing sentiment words with their polarities
+\State $NegationList \gets$ List containing negation words
+\State $IntensityLexicon \gets$ Dictionary containing intensity words with their multipliers
+\State $EmojiLexicon \gets$ Dictionary containing UTF-8 emojis with their polarities
+\ForEach {$word \in tweet$}
+\State $score \gets 0.0$
+\If{$word \in SentimentLexicon$} 
+    \State $polarity \gets 1$
+    \For{\texttt{previous two words}}
+        \If{$previousWord \in NegationList$}
+            \State $polarity \gets polarity * (-1)$
+        \Else
+            \If{$previousWord \in IntensityLexicon$}
+                \State $polarity \gets polarity * intensity$
+            \EndIf
+        \EndIf
+    \EndFor
+    \State $score \gets polarity * sentiment$
+\Else
+    \If{$word \in EmojiLexicon$}
+        \State $score \gets emojiSentiment$
+    \EndIf
+\EndIf 
+\EndFor
+    \EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+
+
+
+\section{Machine Learning Method}
+\subsection{Naive Bayes}
 
 Naive Bayes is a probabilistic classification model. It is based on Bayes theorem:
 \begin{equation}
@@ -142,10 +180,10 @@ Due to this, the Naive Bayes assumption is employed to estimate the class condit
 \end{equation}
 with $x$ containing $d$ attributes $\{x\textsubscript{1},x\textsubscript{2},...,x\textsubscript{i}\}$ \cite{DBLP:books/aw/TanSKK2019}.
 
-Furthermore, $P(x)$ remains constant for every class label $y$, so the class that maximizes the following is chosen:
+Furthermore, $P(x)$ remains constant for every class label $y$, so the class that maximizes the following is chosen \cite{DBLP:books/aw/TanSKK2019}:
 \begin{equation}
 \label{eq:naive_final}
-            P(y|x)\propto P(y)\prod_{i=1}^{d}P(x_{i}|y)
+            P(y|x)\propto P(y)\prod_{i=1}^{d}P(x_{i}|y) 
 \end{equation}      
 
 
