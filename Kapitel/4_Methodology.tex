@@ -188,6 +188,13 @@ TODO preprocess, negation thing
             P(y|x)\propto P(y)\prod_{i=1}^{d}P(x_{i}|y) 
         \end{equation}   
         
+        There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multi-variate Bernoulli model and a multinomial model. TODO multi-variate, aber wie genau?
+        
+        Per McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present, but how often it is present, the Bernoulli model's restriction to two values becomes uninformative. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
+        
+        According to Forbes et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. Outcome $A_i$ occurs with probability $pi$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
+        
+        
 \section{Evaluation}
 \begin{table}[h!]
 \centering
