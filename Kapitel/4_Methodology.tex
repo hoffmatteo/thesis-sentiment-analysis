@@ -122,9 +122,15 @@ Questions
 \end{itemize}
 
 \section{Lexicon Method}
-TOO testen, paar Werte anpassen, stop words, etc.
+\TODO{TODO testen, paar Werte anpassen, stop words, etc.}
+
+
 As previously mentioned, the lexicon method uses several dictionaries in order to classify a tweet. 
-TODO preprocess, negation thing
+
+
+\TODO{preprocess, negation thing}
+
+
 \begin{algorithm}[H]
   \caption{Lexicon algorithm}\label{euclid}
     \begin{algorithmic}[1]
@@ -167,32 +173,62 @@ TODO preprocess, negation thing
         Naive Bayes is a probabilistic classification model. It is based on Bayes theorem:
         \begin{equation}
             \label{eq:bayes}
-            P(y|x) = \frac{P(y) * P(x|y)}{P(x)}
+            P(c|d) = \frac{P(c) * P(d|c)}{P(d)}
         \end{equation}
-        where $y$ is the class label and $x$ is a set of attribute values \cite{DBLP:books/aw/TanSKK2019}. 
+        where $c$ is the class label and $d$ is a set of attribute values \cite{DBLP:books/aw/TanSKK2019}. 
+        
+        \TODO{Zitat abändern}
 
-        Bayes theorem allows to calculate the posterior probability $P(y|x)$, which Tan et al. describe as ''the probability of observing a class label $y$ for a data instance given its set of attribute values $x$.'' \cite[p.~418]{DBLP:books/aw/TanSKK2019}. 
+        Bayes theorem allows to calculate the posterior probability $P(c|d)$, which Tan et al. describe as ''the probability of observing a class label $c$ for a data instance given its set of attribute values $d$.'' \cite[p.~418]{DBLP:books/aw/TanSKK2019}. 
 
-        To calculate the posterior probability, the class conditional probability $P(x|y)$ is needed, which describes the probability of observing a set of attribute values given a class. One approach to calculate the class conditional probability outlined by Tan et al. is to ''consider the fraction of training instances of a given class for every possible combination of attribute values'' \cite[p.~419]{DBLP:books/aw/TanSKK2019}. With a large number of attributes and values, this method becomes computationally infeasible due to the exponential growth of combinations. \cite{DBLP:books/aw/TanSKK2019}
+        To calculate the posterior probability, the class conditional probability $P(d|c)$ is needed, which describes the probability of observing a set of attribute values given a class. One approach to calculate the class conditional probability outlined by Tan et al. is to ''consider the fraction of training instances of a given class for every possible combination of attribute values'' \cite[p.~419]{DBLP:books/aw/TanSKK2019}. With a large number of attributes and values, this method becomes computationally infeasible due to the exponential growth of combinations. \cite{DBLP:books/aw/TanSKK2019}
 
-        Due to this, the Naive Bayes assumption is employed to estimate the class conditional probability. Naive Bayes uses conditional independence, which states that attribute values are only dependent on the class label and not each other. Thus, the class conditional probability can be calculated by the following formula:
+        Due to this, the Naive Bayes assumption is employed to estimate the class conditional probability. Naive Bayes uses conditional independence, which states that attribute values are only dependent on the class label and not each other. Thus, the class conditional probability can be calculated by the following equation:
         \begin{equation}
             \label{eq:naive_assumption}
-            P(x|y) = \prod_{i=1}^{d}P(x_{i}|y)
+            P(d|c) = \prod_{i=1}^{n}P(d_{i}|y)
         \end{equation}
-        with $x$ containing $d$ attributes $\{x\textsubscript{1},x\textsubscript{2},...,x\textsubscript{i}\}$ \cite{DBLP:books/aw/TanSKK2019}.
+        with $d$ containing $n$ attributes $\{d_1,d_2,...,d_3\}$ \cite{DBLP:books/aw/TanSKK2019}.
 
-        Furthermore, $P(x)$ remains constant for every class label $y$, so the class that maximizes the following is chosen \cite{DBLP:books/aw/TanSKK2019}:
+        Furthermore, $P(d)$ remains constant for every class label $c$, so the class that maximizes the following is chosen \cite{DBLP:books/aw/TanSKK2019}:
         \begin{equation}
             \label{eq:naive_final}
-            P(y|x)\propto P(y)\prod_{i=1}^{d}P(x_{i}|y) 
+            P(c|d)\propto P(d)\prod_{i=1}^{n}P(d_{i}|c) 
         \end{equation}   
         
         There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multi-variate Bernoulli model and a multinomial model. TODO multi-variate, aber wie genau?
         
         Per McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present, but how often it is present, the Bernoulli model's restriction to two values becomes uninformative. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
         
+        \TODO {weg?}
+        
         According to Forbes et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. Outcome $A_i$ occurs with probability $pi$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
+        
+        Applying this to the model, McCallum and Nigan state that "each document $d_i$ is drawn from a multinomial distribution of words with as many independent trials as the length of $d_i$" \cite[p.~3]{Mccallum1998}. Using the multinomial distribution, the class conditional probability can then be calculated using this equation:
+        \begin{equation}
+            \label{eq:multinomial_bayes}
+                P(d_i|c_j) = P(|d_i|)|d_i|!\prod_{t=1}^{|V|}\frac{P(w_t|c_j)^{N_{i_t}}}{N_{i_t}!}
+        \end{equation}
+        
+        \TODO{ hat d wirklich V Wörter? }
+        
+        with the document $d_i$ containing $|V|$ words $w_t$, $N_{i_t}$ being the number of times $w_t$ appears in $d_i$ and $c_j$ describing a class \cite{Mccallum1998}. 
+        
+        In order to estimate $P(w_t|c_j$, the probability of a word $w_t$ given a class $c_j$, the training instances are used to count the amount of times a word appears in a class:
+        \begin{equation}
+            \label{eq:prob_word}
+                P(w_t|c_j) = \frac{1 + \sum_{i=1}^{|D|}N_{it} + P(c_j|d_i)}{|V| + \sum_{s=1}^{|V|} \sum_{i=1}^{|D|}N_{is} P (c_j|d_i)} 
+        \end{equation}
+        with $D$ containing labeled training documents $d_i$, $N_{it}$ describing the number of times $w_t$ appears in the document and $|V|$ containing all words.
+        Because the class conditional probabilities for labeled instances is 1 for one instance, and 0 for the other ones, \eqref{eq:prob_word} can be simplified:
+                \begin{equation}
+            \label{eq:prob_word_simpler}
+                P(w_t|c_j) = \frac{1 + N_{tj}}{|V| + \sum_{s=1}^{|V|}N_{sj}} 
+        \end{equation}
+        \TODO{evtl. anderes N, erklären, etc.}
+
+
+        
         
         
 \section{Evaluation}
