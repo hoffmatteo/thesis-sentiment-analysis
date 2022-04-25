@@ -85,8 +85,8 @@ Analysis
     \end{itemize}
     \item Hybrid Method
     \begin{itemize}
-        \item Approach 1 --> use lexicon based score as additional feature for classifier (even if 0, it still can be classified)
-        \item Combine previous two or e.g. use a different classifier if that works better?
+        \item Approach 1 --> use lexicon-based score as an additional feature for the classifier (even if 0, it still can be classified)
+        \item Combine the previous two or e.g. use a different classifier if that works better?
     \end{itemize}
 \end{itemize}
 \
@@ -170,7 +170,7 @@ As previously mentioned, the lexicon method uses several dictionaries in order t
 
 \section{Machine Learning Method}
     \subsection{Naive Bayes}
-        Naive Bayes is a probabilistic classification model. It is based on Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
+        Naive Bayes is a probabilistic classification model. It is based on the Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
         \begin{equation}
             \label{eq:bayes}
             P(c|d) = \frac{P(c) * P(d|c)}{P(d)}
@@ -198,13 +198,13 @@ As previously mentioned, the lexicon method uses several dictionaries in order t
         
         \TODO{P(c) eingehen}
         
-        There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multi-variate Bernoulli model and a multinomial model. \TODO{multi-variate, aber wie genau?}
+        There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multivariate Bernoulli model, and a multinomial model. \TODO{multi-variate, aber wie genau?}
         
-        Per McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present, but how often it is present, the Bernoulli model's restriction to two values becomes uninformative. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
+        According to McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present but also how often it is present, the Bernoulli model's restriction to two values becomes uninformative. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
         
         \TODO {weg? oder Gleichung?}
         
-        According to Forbes et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. Outcome $A_i$ occurs with probability $p_i$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
+        According to Forbes et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. The outcome $A_i$ occurs with probability $p_i$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
         
         Applying this to the model, McCallum and Nigan state that "each document $d_i$ is drawn from a multinomial distribution of words with as many independent trials as the length of $d_i$" \cite[p.~3]{Mccallum1998}. Using the multinomial distribution, the class conditional probability can then be calculated using Equation \eqref{eq:multinomial_bayes}:
         \begin{equation}
@@ -216,12 +216,12 @@ As previously mentioned, the lexicon method uses several dictionaries in order t
         
         with the document $d_i$ containing $|V|$ words $w_t$, $N_{i_t}$ being the number of times $w_t$ appears in $d_i$ and $c_j$ describing a class \cite{Mccallum1998}. 
         
-        In order to estimate $P(w_t|c_j$, the probability of a word $w_t$ given a class $c_j$, the training instances are used to count the amount of times a word appears in a class in Equation \eqref{eq:prob_word}
+        To estimate $P(w_t|c_j$, the probability of a word $w_t$ given a class $c_j$, training instances are used to count the number of times a word appears in a class in Equation \eqref{eq:prob_word}:
         \begin{equation}
             \label{eq:prob_word}
                 P(w_t|c_j) = \frac{1 + \sum_{i=1}^{|D|}N_{it} + P(c_j|d_i)}{|V| + \sum_{s=1}^{|V|} \sum_{i=1}^{|D|}N_{is} P (c_j|d_i)} 
         \end{equation}
-        with $D$ containing labeled training documents $d_i$, $N_{it}$ describing the number of times $w_t$ appears in the document $d_i$ and $|V|$ containing all words.
+        with $D$ containing labeled training documents $d_i$, $N_{it}$ describing the number of times $w_t$ appears in document $d_i$ and $|V|$ containing all words.
         Because the class conditional probabilities for labeled instances is 1 for one instance, and 0 for the other ones, Equation \eqref{eq:prob_word} can be simplified into Equation \eqref{eq:prob_word_simpler}:
                 \begin{equation}
             \label{eq:prob_word_simpler}
@@ -233,32 +233,73 @@ As previously mentioned, the lexicon method uses several dictionaries in order t
         with $N_{tj}$ being the number of training instances in class $c_j$ containing the word $w_t$. 
         
         By using Equation \eqref{eq:prob_word}, we calculate the word probability $P(w_t|c_j$). We utilize this in Equation \eqref{eq:multinomial_bayes} to calculate the class conditional probability $P(d_i|c_j)$ using the multinomial distribution. Finally, this allows us to estimate the posterior probability $P(c|d)$, as shown in Equation \eqref{eq:naive_final}. By selecting the class with the higher posterior probability, the classifier is able to make a prediction.
-
+        
+\subsection{Random Forest}
+        According to Tan et al., Random Forest is an ensemble method that utilizes multiple base classifiers to take a vote on their predictions. The final prediction is then made by either averaging the vote or taking the majority vote. Random Forest applies a set of decorrelated decision trees by implementing two key characteristics.
+        
+        The first characteristic is Bagging. Each tree is trained by a data set that was sampled from the original training data. Because the sampling is done with replacement and the samples must have the same size as the original training data, the sample will, on average, only contain 63\% of the original data.
+        
+        The selection of input attributes is the second characteristic. When a tree is being constructed, an attribute must be selected for splitting at each internal node.
+        Random Forest randomly chooses a subset of attributes, from which the attribute with the maximum reduction in an impurity measure is chosen.
+        
+        Through these characteristics, Random Forest reduces the correlation of trees and thus the variance \cite{DBLP:books/aw/TanSKK2019}.
+        
+        \begin{figure}[h!]
+        \centering
+        \begin{tikzpicture}
+        [
+        grow                    = right,
+    sibling distance        = 4em,
+    level distance          = 9em,
+    edge from parent/.style = {draw, -latex},
+    every node/.style       = {font=\footnotesize},
+    sloped
+  ]
+  \node [root] {}
+    child { node [dummy] {}
+      child { node [dummy] {}
+        child { node [dummy] {}
+            child { node [env] {$-1.0$}
+                edge from parent node [below, align=center] {$studying < 0.5$} }
+            child { node [env] {$+1.0$}
+                edge from parent node [above] {$studying \geq 0.5$} }
+            edge from parent node [below] {$will < 0.5$} }
+        child { node [env] {$-1.0$}
+                edge from parent node [above] {$will \geq 0.5$} }
+        edge from parent node [below] {$hates < 0.5$} }
+      child { node [env] {$-1.0$}
+              edge from parent node [above, align=center]
+                {$hates \geq 0.5$}}
+              edge from parent node [above] {$hurts \geq 0.5$} };
+\end{tikzpicture}
+    \caption{Part of a tree generated by the Random Forest classifier.}
+      \label{fig:tree}
+\end{figure}
 
         
+    
         
         
 \section{Evaluation}
 \begin{table}[h!]
 \centering
-
+\caption{Table to test captions and labels.}
 \begin{tabular}{ |p{3cm}||p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
  \hline
- Classifier name & Parameters & Training Instances & Accuracy & Kappa & Relative absolute error \\
+ Classifier name &          Parameters &             Training Instances &    Accuracy &      Kappa &     Relative absolute error \\
  \hline
- Naive Bayes (Gauss)        &fdsafdfdas&    121231&     78.12\%&        5.12&       78.3\%\\
+ Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%\\
   \hline
- Naive Bayes (Multinomial)  &fdsafdfdas&    121231&     78.12\%&        5.12&       78.3\%\\
+ Naive Bayes (Multinomial)  &-&                     1231862&                78.67\%&        0.51&       52.22\%\\
   \hline
- Random Forest              &fdsafdfdas&    121231&     78.12\%&        5.12&       78.3\%\\
+ Random Forest              &depth = 300&            12318&                 75.48\%&        0.45&       81.33\%\\
   \hline
- Logistic Regression        &fdsafdfdas&    121231&     78.12\%&        5.12&       78.3\%\\
+ Logistic Regression        &iterations = 10&            94655&                 77.40\%&        0.47&       59.70\%\\
   \hline
- Support Vector Machine     &fdsafdfdas&    121231&     78.12\%&        5.12&       78.3\%\\
+ Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%\\
  \hline
 \end{tabular}
-\caption{Table to test captions and labels.}
-\label{table:1}
+\label{tab:evaluations}
 \end{table}
 
 
