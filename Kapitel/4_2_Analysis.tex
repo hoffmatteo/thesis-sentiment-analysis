@@ -1,127 +1,5 @@
-\chapter{Methodology and Implementation}
-\label{cha:Chapter4_Methodology}
-
-Length: 20-25 pages
-
-Effort: 8 weeks+
-
-Teilung zwischen Methodik (eher abstrakt) und Implementierung
-Damit beginnen --> also mit Implementierung
-
-Questions:
-\begin{itemize}
-\item Structure --> differentiation between getting the data, analysing the data and evaluating the results ok? --> Kann man machen
-\item General idea: ``Readers should be able to carry out the same procedure using the thesis'' --> level of detail, e.g. cloud services? --> Implementierung auch auf Github zur Verfuegung stellen, API auf hoeherem Level (was machen die Funktionen verwenden),
-Falls Cloud: nur virtueller Rechner --> eher nicht wichtig, falls spezifische Dienstleistung z.B. OpenAI (KI, Parsing) --> dann detaillierter, eher Richtung Implementation
-\item Case study --> Evaluation of accuracy based on one real life topic? Topic, e.g. Covid-19 pandemic, german elections (aufpasssen, Politik schwer!), ...? --> je nach Umfang auch mehrere (sollen sich unterscheiden, Covid sehr viele Bereiche), Tweets auch auf Englisch
-\end{itemize}
-
-Content
-\begin{itemize}
-\item Data 
-\begin{itemize}
-    \item What data does twitter provide, auch z.B. Likes, Retweets
-    \item Data extraction, Cloud Services --> spezifischer Dienst?
-\end{itemize}
-\item Analysis
-\begin{itemize}
-    \item Lexicon-Based Method
-    \item Machine Learning Based Method
-    \item Hybrid Method
-\end{itemize}
-\item Evaluation
-\begin{itemize}
-    \item Parameters --> objektive Kriterien, Qualitaet der Analyse Methode + Begruendung der Kriterien, Komplexitaet (Laufzeitkomplexitaet ja, Implementierung --> an sich nicht schlimm, aber robust? Abstuerze?)
-    \item Case Study
-    \item Qualitaet der Ergebnisse --> gut/schlecht, kann das akkurat erkannt werden?, evtl. menschliche Analyse, schoener: auf subjektive Einschaetzung verzichten
-    \item Comparison with human tweets labeled by humans?
-\end{itemize}
-\end{itemize}
-
-
-Analysis
-\begin{itemize}
-    \item Lexicon-Based Method
-    \begin{itemize}
-    \item General approach: Multiple lexicons with different topics, positive/neutral/negative
-    \begin{itemize}
-        \item Sentiment Words --> List of words with polarity, e.g. good
-        \item Negation Words --> Words that negate the polarity of other words, e.g. not
-        \item Intensity words --> Words that amplify the polarity, e.g. very
-        \item Emoticons
-    \end{itemize}
-    \item Find the above word types in tweet
-    \item Adjust polarity of sentiment words based on negation and/or intensity
-    \item Calculate average of polarities including emoticons
-    \item Example: The weather today is very terrible but the sound of rain is delightful.
-    \begin{itemize}
-        \item Sentiment of "very terrible": amplified negative (e.g. -2)
-        \item Sentiment of "delightful": positive (e.g. +1)
-        \item Overall: -2 + 1 = -1 --> negative
-    \end{itemize}
-    \item Comparison of different sentiment lexicons?
-    \item Stop words --> needs, wants, etc. --> automatically negative (except for negation?)
-    \item common idioms?
-    \item slang
-    \end{itemize}
-    \item Machine Learning Based Method
-    \begin{itemize}
-        \item Naive Bayes --> probabilistic, multiple classes
-        \begin{itemize}
-            \item Based on Bayes theorem with conditional independence, add-one (laplace) smoothing, calculate P(x|y)
-            \item Look at every word contained in tweet, apply formula to known words:
-\[P(\mathrm{w}_{i}^{}|c) = \frac{count(\mathrm{w}_{i}^{}, c)+1}{(\sum_{w\in V}^{} (count(w,c)) + \left| V \right|} \]
-            \item w = word, c is class (negative, positive), V is vocabulary of all known words
-            \item Train with labelled tweets
-           \[ \mathrm{c}_{NB}^{} = argmax_{c \in C}  P(c) \prod_{i \in positions}^{} P(\mathrm{w}_{i}^{}|c)\]
-          
-           
-        \end{itemize}
-        \item Logistic Regression? --> discriminative, binary classes
-        \begin{itemize}
-        \item Advantage: Not as many assumptions --> works better even when some features are correlated
-        \end{itemize} 
-        
-    \end{itemize}
-    \item Hybrid Method
-    \begin{itemize}
-        \item Approach 1 --> use lexicon-based score as an additional feature for the classifier (even if 0, it still can be classified)
-        \item Combine the previous two or e.g. use a different classifier if that works better?
-    \end{itemize}
-\end{itemize}
-\
-
-New Learnings
-\begin{itemize}
-    \item Evaluation of different classifiers --> (J48), Naive Bayes (gaussian + multinominal distribution), Support Vector Machine, Logistic Regression, Random Forest
-    \item Currently best: Naive Bayes with a multinomial distribution, 78.67\% of 4726 instances correct
-    \item Caveats: Training for SVM and Logistic Regression not possible with all 1.2MM tweets --> system memory/runtime
-    \item TODO: currently the ML method only recognized positive and neutral, more test instances?
-    \item Lexicon Method: 75.68\% accurate on 9057 instances (includes neutral)
-\end{itemize}
-
-RandomForest
-\begin{itemize}
-    \item Collection of tree-structured classifiers
-    \item Each tree depends on values of a random, independent vector
-    \item Output is class selected by most trees
-\end{itemize}
-
-Questions
-\begin{itemize}
-    \item Fundamentals vs. Methodology: Wo z.B. Classifiers erklären?
-    \item Welche Classifier wie vertiefen?
-    \begin{itemize}
-    \item Tabelle die Classifier vergleicht
-    \item Kurze Erklärung aller Classifier?
-    \item "Besten" Classifier tiefer erklären?
-    \item z.B. Naive Bayes: Multinominale und Gaußsche Verteilung vergleichen/erklären?
-    \end{itemize}
-    \item Spezifische Bibliothek erwähnen (weka), Filter genauer (speichert nur 15000 Wörter, die mindestens 10x vorkommen, lowercase)?
-    \item Daten beschreiben: Referenz + kurzer Überblick (Anzahl positiv/neutral/negativ, Themen, Zeitraum, bei Testdaten die Methode zur Klassifikation)
-\end{itemize}
-
-\section{Lexicon Method}
+\section{Analysis}
+\subsection{Lexicon Method}
 \TODO{TODO testen, paar Werte anpassen, stop words, etc.}
 
 
@@ -168,7 +46,6 @@ As previously mentioned, the lexicon method uses several dictionaries in order t
 
 
 
-\section{Machine Learning Method}
     \subsection{Naive Bayes}
         Naive Bayes is a probabilistic classification model. It is based on the Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
         \begin{equation}
@@ -198,11 +75,11 @@ As previously mentioned, the lexicon method uses several dictionaries in order t
         
         \TODO{P(c) eingehen}
         
-        There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multivariate Bernoulli model, and a multinomial model. \TODO{multi-variate, aber wie genau?}
+        There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multivariate Bernoulli model, and a multinomial model, and found the multinomial model to perform better at larger vocabulary sizes \cite{Mccallum1998}.
         
         According to McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present but also how often it is present, the Bernoulli model's restriction to two values becomes uninformative. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
         
-        \TODO {weg? oder Gleichung?}
+        \TODO {Gleichung?}
         
         According to Forbes et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. The outcome $A_i$ occurs with probability $p_i$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
         
@@ -330,48 +207,29 @@ $\sigma(z)$ is called the sigmoid function, whose graph can be seen in Figure \r
 
 As seen in Figure \ref{fig:sigmoid}, $\sigma(z) \geq 0.5$ when $z \geq 0$, so if $z \geq 0$, we assign the instance $d_i$ to the class $c = 1$.
 
-Using training instances, the parameters $w$ and $b$ can be learned and thus the posterior probability $P(c_j|d_i)$ can be estimated \cite{DBLP:books/aw/TanSKK2019}.
+Using training instances, the parameters $w$ and $b$ can be learned, and thus the posterior probability $P(c_j|d_i)$ can be estimated \cite{DBLP:books/aw/TanSKK2019}.
 
 \subsection{Support Vector Machine}
+Tan et al. describe the Support Vector Machine as a discriminative classifier. It is based on a separating hyperplane that, as the name suggests, tries to separate the instances of two classes. Furthermore, it uses a subset of the training instances, those that are the hardest to classify, meaning those nearest the boundaries of the classes. These instances are called support vectors \cite{DBLP:books/aw/TanSKK2019}.
 
-
-
+The hyperplane can be described by Equation \eqref{eq:logistic_odds}:
+    \begin{equation}
+            \label{eq:logistic_odds}
+                w^Td + b = 0,
+        \end{equation}
+    where $d$ represents the attributes and $(w, b)$ are the parameters of the model. 
     
-
-        
+    There can be an indefinite number of hyperplanes, which is why it is necessary to choose one that has good generalization performance, which means that it can handle unseen instances. To do this, the margin of a hyperplane $B_i$ is calculated. To achieve this, two hyperplanes, $B_i1$ and $B_i2$, parallel to $B_i$ are drawn. The distance between the two hyperplanes is the margin of the hyperplane $B_i$ \cite{DBLP:books/aw/TanSKK2019}.
+    \begin{figure}
+        \centering
+        \caption{\TODO{source}
+        \label{fig:svm}
+        }
+        \includegraphics[scale=0.8]{Images/SVM_image.png}
+    \end{figure}
     
-        
-        
-\section{Evaluation}
-\begin{table}[h!]
-\centering
-\caption{Table to test captions and labels.}
-\begin{tabular}{ |p{3cm}||p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
- \hline
- Classifier name &          Parameters &             Training Instances &    Accuracy &      Kappa &     Relative absolute error \\
- \hline
- Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%\\
-  \hline
- Naive Bayes (Multinomial)  &-&                     1231862&                78.67\%&        0.51&       52.22\%\\
-  \hline
- Random Forest              &depth = 300&            12318&                 75.48\%&        0.45&       81.33\%\\
-  \hline
- Logistic Regression        &iterations = 10&            94655&                 77.40\%&        0.47&       59.70\%\\
-  \hline
- Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%\\
- \hline
-\end{tabular}
-\label{tab:evaluations}
-\end{table}
-
-
-
-
-
-
-
-
-
-
-
-
+    By choosing the hyperplane with the maximum margin, the classifier can allow for slight changes in data without immediately crossing onto the other side.
+    
+    In Figure \ref{fig:svm}, the data can be separated by a linear hyperplane. This is not always the case, which is why nonlinear SVM transform their input data $x$ into a new attribute space $\phi(x)$, in which a linear hyperplane can be constructed. Projected into the original attribute space, this hyperplane is a nonlinear decision boundary \cite{DBLP:books/aw/TanSKK2019}.
+    
+    \TODO{kernel function?}
