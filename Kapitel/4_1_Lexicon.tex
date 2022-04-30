@@ -1,0 +1,84 @@
+\section{Lexicon-based Method}
+\TODO{ZEITFORM -> past}
+\TODO{WHY? --> explain decisions more}
+
+\subsection{Lexicons}
+
+\subsubsection{Sentiment words}
+Sentiment words, also called opinion words, carry a positive or negative semantic orientation. Polarity-based lexicons only express whether a word is positive or negative, while a valence-based lexicon also determines the strength of a word. For example, a polarity-based lexicon would not differentiate between "bad" and "terrible", as both are negative, while a valence-based lexicon would establish "terrible" as having a stronger negative sentiment \cite{DBLP:conf/icwsm/HuttoG14}.
+
+\subsubsection{Intensifiers}
+\TODO{Quirk citation}
+
+Taboada et al., according to Quirk et al., name two types of intensifiers, amplifiers and downtoners. While amplifiers such as "very" increase the \TODO{connected} sentiment, downtoners such as "barely" diminish it. A possible approach to implement an intensifier could be the addition or substraction based on its type. While this works, it doesn't take the connected sentiment into account. For example, "almost perfect" is much more positive than "almost good" and should scale accordingly. For this reason, an intensifier should be multiplicative \cite{10.1162/COLI_a_00049}.
+
+\subsubsection{Negations}
+Negations reverse the polarity of the connected sentiment, for example turning the positive sentiment "good" into the negative sentiment "not good". It is important though to note that negations do not necessarily appear right in front of the sentiment word they reverse, for example, an intensifier can be in between as in "not very good" \cite{10.1162/COLI_a_00049}.
+
+\TODO{Source?, https://abs-0.twimg.com/emoji/v2/svg/1f600.svg}
+
+\subsubsection{Emojis}
+Especially on Twitter, emojis and emoticons are often used to quickly express a sentiment. An Emoji
+
+
+
+\subsection{Algorithm}
+
+
+\TODO{preprocess, negation thing}
+
+
+\begin{algorithm}[H]
+  \caption{Lexicon algorithm}\label{euclid}
+    \begin{algorithmic}[1]
+        \Procedure{analyze}{$tweet$}\Comment{Sentiment score of tweet}
+            \State $SentimentLexicon \gets$ Dictionary containing sentiment words with their polarities
+            \State $NegationList \gets$ List containing negation words
+            \State $IntensityLexicon \gets$ Dictionary containing intensity words with their multipliers
+            \State $EmojiLexicon \gets$ Dictionary containing UTF-8 emojis with their polarities
+            \ForEach {$word \in tweet$}
+                \State $word \gets$ preprocess($word$)
+                \State $score \gets 0.0$
+                \If{$word \in SentimentLexicon$} 
+                    \State $polarity \gets 1$
+                    \For{\texttt{previous two words}}
+                        \If{$previousWord \in NegationList$}
+                            \State $polarity \gets polarity * (-1)$
+                        \Else
+                            \If{$previousWord \in IntensityLexicon$}
+                                \State $polarity \gets polarity * intensity$
+                            \EndIf
+                        \EndIf
+                    \EndFor
+                    \State $score \gets score + polarity * sentiment$
+                \Else
+                    \If{$word \in EmojiLexicon$}
+                        \State $score \gets score + emojiSentiment$
+                    \EndIf
+                \EndIf 
+            \EndFor
+            \State \textbf{return} $score$
+        \EndProcedure
+    \end{algorithmic}
+\end{algorithm}
+
+
+
+
+\begin{itemize}
+    \item Methodology \begin{itemize}
+        \item Lexicon (Algorithm, Word classes etc.)
+        \item Machine Learning (Method explanations)
+        \item Hybrid
+    \end{itemize}
+    \item Implementation \begin{itemize}
+        \item Lexicon (Lexicons used, ...)
+        \item Machine Learning --> Weka, Runtime, Training Data
+        \item Hybrid ?
+        \item Evaluation?
+    \end{itemize}
+    
+\end{itemize}
+
+
+

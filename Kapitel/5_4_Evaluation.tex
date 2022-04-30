@@ -1,12 +1,5 @@
-\section{Data}
-\subsection{Lexicons}
+\section{Evaluation}
 
-\TODO{ZEITFORM -> past}
-
-\subsection{Training data}
-The training data for machine learning classifiers was created by Go et al. and consists of 1.6 million tweets \cite{GoBHaHua2009}. The tweets were parsed using the Twitter API by querying for positive or negative emoticons, such as ":)" and labeled as positive or negative depending on the emoticon. Furthermore, tweets containing both a negative and positive emoticon, as well as retweets were removed.
-
-This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a huge amount of topics.
 \subsection{Test data}
 
 The test data contained human-annotated tweets provided by two different sources and covered a wide variety of topics. In total, 10,372 tweets were used, of which 1,776 were negative, 4,968 neutral, and 3,628 positive.
@@ -25,4 +18,23 @@ The tweets were parsed based on popular topics that were identified earlier, and
 
 \TODO{task}
 
-
+\begin{table}[h!]
+\centering
+\caption{Table to test captions and labels.}
+\begin{tabular}{ |p{3cm}||p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+ \hline
+ Classifier name &          Parameters &             Training Instances &    Accuracy &      Kappa &     Relative absolute error \\
+ \hline
+ Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%\\
+  \hline
+ Naive Bayes (Multinomial)  &-&                     1231862&                78.67\%&        0.51&       52.22\%\\
+  \hline
+ Random Forest              &depth = 300&            12318&                 75.48\%&        0.45&       81.33\%\\
+  \hline
+ Logistic Regression        &iterations = 10&            94655&                 77.40\%&        0.47&       59.70\%\\
+  \hline
+ Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%\\
+ \hline
+\end{tabular}
+\label{tab:evaluations}
+\end{table}

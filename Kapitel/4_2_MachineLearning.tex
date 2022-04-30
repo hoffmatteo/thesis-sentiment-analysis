@@ -1,47 +1,4 @@
-\section{Analysis}
-\subsection{Lexicon Method}
-\TODO{TODO testen, paar Werte anpassen, stop words, etc.}
-
-
-As previously mentioned, the lexicon method uses several dictionaries in order to classify a tweet. 
-
-
-\TODO{preprocess, negation thing}
-
-
-\begin{algorithm}[H]
-  \caption{Lexicon algorithm}\label{euclid}
-    \begin{algorithmic}[1]
-        \Procedure{analyze}{$tweet$}\Comment{Sentiment score of tweet}
-            \State $SentimentLexicon \gets$ Dictionary containing sentiment words with their polarities
-            \State $NegationList \gets$ List containing negation words
-            \State $IntensityLexicon \gets$ Dictionary containing intensity words with their multipliers
-            \State $EmojiLexicon \gets$ Dictionary containing UTF-8 emojis with their polarities
-            \ForEach {$word \in tweet$}
-                \State $word \gets$ preprocess($word$)
-                \State $score \gets 0.0$
-                \If{$word \in SentimentLexicon$} 
-                    \State $polarity \gets 1$
-                    \For{\texttt{previous two words}}
-                        \If{$previousWord \in NegationList$}
-                            \State $polarity \gets polarity * (-1)$
-                        \Else
-                            \If{$previousWord \in IntensityLexicon$}
-                                \State $polarity \gets polarity * intensity$
-                            \EndIf
-                        \EndIf
-                    \EndFor
-                    \State $score \gets score + polarity * sentiment$
-                \Else
-                    \If{$word \in EmojiLexicon$}
-                        \State $score \gets score + emojiSentiment$
-                    \EndIf
-                \EndIf 
-            \EndFor
-            \State \textbf{return} $score$
-        \EndProcedure
-    \end{algorithmic}
-\end{algorithm}
+\section{Machine Learning based Method}
 
 
 
