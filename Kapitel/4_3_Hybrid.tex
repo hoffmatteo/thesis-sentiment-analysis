@@ -8,3 +8,31 @@ The second approach trains the machine learning classifier using tweets labeled 
 \subsection{Approach 3}
 
 
+\section{Evaluation}
+In order to compare and evaluate the different methods and classifiers, four measures are employed, which are frequently used for classifiers. The first measure is Accuracy, which calculates the ratio of correctly classified instances to total number of instances. and is described by Equation \eqref{eq:accuracy} for a binary classification (positive vs. negative):
+
+\begin{equation}
+    \label{eq:accuracy}
+    Accuracy = \frac{TP + TN}{TP + TN + FP + FN},
+\end{equation}
+with $TP$ denoting the number of true positives, $TN$ the number of true negatives, $FP$ the number of false positives, and $FN$ the number of false negatives \cite{DBLP:journals/csur/GiachanouC16}. 
+
+Next, Precision is used to measure the exactness, by comparing the number of instances classified as positive to the actual number of positive instances, as seen in Equation \eqref{eq:precision}:
+\begin{equation}
+    \label{eq:precision}
+    Accuracy = \frac{TP + TN}{TP + TN + FP + FN}.
+\end{equation}
+
+For the third measure, Recall is calculated, which, according to Giachanou and Crestani "denotes the fraction of positive instances that were predicted to be positive". The equation for this is shown in Equation \eqref{eq:recall}:
+\begin{equation}
+    \label{eq:recall}
+    Recall = \frac{TP}{TP + FN}.
+\end{equation}
+
+Finally, the last two measures are combined into the F-score, as seen in Equation \eqref{eq:fscore} \cite{DBLP:journals/csur/GiachanouC16}:
+\begin{equation}
+    \label{eq:fscore}
+    F-score = 2*\frac{precision * recall}{precision + recall}.
+\end{equation}
+
+
