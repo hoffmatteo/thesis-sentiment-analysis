@@ -1,5 +1,7 @@
 \section{Machine Learning based Method}
 
+For the machine learning method, WEKA, developed at the University of Waikato in New Zealand, was chosen as the library. As described by Witten et al., "[t]he WEKA workbench is a collection of machine learning algorithms and data preprocessing tools [...]" \cite[p.~7]{weka}. It also includes tools for the entire process of data mining, such as preparation of data and evaluation. WEKA is implemented in Java, the version of the library used in this thesis was 3.9.6. It also offers a graphical interface, which was not used in this thesis, only the library was used \cite{weka}. Weka was chosen because of its large collection of both algorithms and tools for data mining, as well as ease of use through an extensive documentation.
+
 \TODO{Twitter API for test data?}
 \subsection{Training data}
 The training data for machine learning classifiers was created by Go et al. and consists of 1.6 million tweets \cite{GoBHaHua2009}. The tweets were parsed using the Twitter API by querying for positive or negative emoticons, such as ":)" and labeled as positive or negative depending on the emoticon. Furthermore, tweets containing both a negative and positive emoticon, as well as retweets were removed \cite{GoBHaHua2009}.
@@ -50,7 +52,7 @@ Furthermore, the number of available words can be further reduced by using word 
                                         {0 0,   1 1 , 3 1 , 4 1}
                                         };
 \end{tikzpicture}
-    \caption{Caption}
+    \caption{Example of training data in the ARFF format utilized by Weka \cite{weka}.}
     \label{fig:arff_train}
 \end{figure}
 
@@ -72,30 +74,52 @@ Furthermore, the number of available words can be further reduced by using word 
     \end{itemize}
 \TODO{Where improvements to filtering?}
 
-Once the training data has been preprocessed and filtered, the actual task of training the models can begin. As previously discussed, the classifiers chosen were Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. The process for each classifier can be described as follows: First, the classifier was trained using the standard parameters set by Weka and a small subsection of the training data (\~12,000 tweets). This was done to provide a first impression of the training runtime, which proved to have a great effect. After this, the subset of training data was gradually increased, until the entire data set was used, or the process became too resource intensive. Once the appropriate training size was found, the parameters of each classifier were evaluated, both to improve performance and accuracy. If performance was improved, the training size was also increased accordingly.
+Once the training data has been preprocessed and filtered, the actual task of training the models can begin. As previously discussed, the classifiers chosen were Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. The process for each classifier can be described as follows: First, the classifier was trained using the standard parameters set by Weka and a small subsection of the training data. This was done to provide a first impression of the training runtime, which proved to have a great effect. After this, the subset of training data was gradually increased, until the entire data set was used, or the process became too resource intensive. Once the appropriate training size was found, the parameters of each classifier were evaluated, both to improve performance and accuracy. If performance was improved, the training size was also increased accordingly. Once the optimal parameters and training size were determined, weka's Evaluation class was used to calculate the parameters discussed \cite{weka}. Each classifier was first trained and evaluated using the maximum size of training data, and then reduced to the smallest classifier size, in this case \TODO{Logistic Regression with 95,000 instances}. This was done to provide both a guidance on best overall performance, which includes runtime, as well as good comparability.
 
 \subsection{Evaluation}
 In Table \ref{tab:evaluations}, each classifier can be seen with the optimal parameters, the number of training instances used, and the evaluation parameters discussed.
+\TODO{maybe also calculate for negative?}
+\begin{table}[]
+\centering
+\caption{Classification performance of each classifier when using the maximum number of training instances.}
+\begin{tabular}{ |p{3cm}||p{3cm}|p{2cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}| }
+ \hline
+ Classifier name &          Parameters &             Training Instances &    Accuracy &      Recall &     Precision& F-score \\
+ \hline
+ Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%& tt\\
+  \hline
+ Naive Bayes (Multinomial)  &-&                     1,600,000&                79.42\%&        0.66&       0.70& 0.68\\
+  \hline
+ Random Forest              &depth = 300&            120,000&                 77.76\%&        0.67&       0.66& 0.66\\
+  \hline
+ Logistic Regression        &iterations = 10&            95,000&                 76.94\%&        0.64&       0.65& 0.65\\
+  \hline
+ Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%& tt\\
+ \hline
+\end{tabular}
+\label{tab:evaluations_max}
+\end{table}
+
 
 \begin{table}[]
 \centering
-\caption{Table to test captions and labels.}
-\begin{tabular}{ |p{3cm}||p{3cm}|p{2cm}|p{2cm}|p{2cm}|p{2cm}|  }
+\caption{Classification performance of each classifier when using the same number of training instances.}
+\begin{tabular}{ |p{3cm}||p{3cm}|p{2cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}| }
  \hline
- Classifier name &          Parameters &             Training Instances &    Accuracy &      Kappa &     Relative absolute error \\
+ Classifier name &          Parameters &             Training Instances &    Accuracy &      Recall &     Precision& F-score \\
  \hline
- Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%\\
+ Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%& tt\\
   \hline
- Naive Bayes (Multinomial)  &-&                     1231862&                78.67\%&        0.51&       52.22\%\\
+ Naive Bayes (Multinomial)  &-&                     1,600,000&                79.42\%&        0.66&       0.70& 0.68\\
   \hline
- Random Forest              &depth = 300&            12318&                 75.48\%&        0.45&       81.33\%\\
+ Random Forest              &depth = 300&            120,000&                 77.76\%&        0.67&       0.66& 0.66\\
   \hline
- Logistic Regression        &iterations = 10&            94655&                 77.40\%&        0.47&       59.70\%\\
+ Logistic Regression        &iterations = 10&            95,000&                 76.94\%&        0.64&       0.65& 0.65\\
   \hline
- Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%\\
+ Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%& tt\\
  \hline
 \end{tabular}
-\label{tab:evaluations}
+\label{tab:evaluations_euqal}
 \end{table}
 
 

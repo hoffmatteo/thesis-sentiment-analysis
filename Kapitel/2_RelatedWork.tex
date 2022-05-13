@@ -1,7 +1,7 @@
 \chapter{Related work}
 \label{cha:Chapter2_RelatedWork}
 
-Length: 3-4 pages
+Length: 1-2 pages
 
 Effort: ~2 weeks
 
@@ -10,16 +10,24 @@ Ruhig mehr Zitate --> aber nicht detailliert betrachten
 Introduction to Data Mining --> zu generell, nur als Zitat
 Hier nur im engsten Sinne
 
-Questions:
-\begin{itemize}
-\item Does related work explain anything? --> Differentiation to fundamentals
-\end{itemize}
 
 Content
 \begin{itemize}
-\item General Data Mining and Sentiment Analysis
-\item Social Media/Twitter specific literature
+\item Alec Go, Richa Bhayani, and Lei Huang. 2009. Twitter Sentiment Classification Using Distant Supervision.
+Technical Report. Standford.
+\item Taboada or Serendio or Vader?
+\item Khuc et al.
 \end{itemize}
+
+\TODO{introduction to research space, etc.}
+\TODO{Maximum Entropy = Logistic Regression?}
+\TODO{cite more works, but only look at 3 in more detail? E.g. Lexicon Methods have been implemented by citation for reviews, citation, ..... Citation ....}
+
+For the machine learning approach, several different data sets and classifiers have been evaluated. Go et al., for example, created their own data set of 1.6 Million tweets, by searching for tweets containing an emoticon. Based on the searched emoticon, they labelled the tweet as positive or negative. Furthermore, they then processed tweets by removing usernames, links and repeated letters. They evaluated three different classifiers: multinomial Naive Bayes, Maximum Entropy and Support Vector Machines using a linear kernel. For Naive Bayes \TODO{and Maximum Entropy} they use the number of occurences of a feature, while they use feature presence for Support Vector Machines. They implemented these classifiers using several different feature models, including Unigram, Bigram, Unigram + Bigram, and Unigram + Parts of speech. The test data set consisted of 177 negative and 182 positive tweets, which were manually labeled, parsed from a variety of topics. They also compared the classifiers to a baseline, which constisted of counting the number of positive and negative words in a tweet, assigning the polarity with the higher count. The list was made by Twittratr and contained 174 positive and 185 negative words. They concluded that with Unigrams, Support Vector Machines achieved the highest accuracy of 82.2\%, with Naive Bayes coming in second place at 81.3\%, compared to Maximum Entropy's 80.5\%. All classifiers outperformed the baseline, which had an accuracy of 65.2\%. When Bigrams were evaluated, the accuracy slightly decreased for Maximum Entropy and Support Vector Machines, while it slightly increased for Naive Bayes. The highest overall accuracy was achieved by Maximum Entropy when using Unigrams + Bigrams, at 83.0\%, while Parts of Speech decreased the accuracy for all classifiers.
+
+
+
+
 
 
 
