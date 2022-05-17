@@ -1,5 +1,5 @@
 \section{Hybrid Method}
-\TODO{Sources!}
+Hybrid methods combine lexicon-based and machine-learning methods to balance their disadvantages. Lexicon-based methods are inherently very static, as they depend on a set list of words. If a tweet contains words which do not appear in the list, the lexicon-based can not classify it. On the other hand, a machine-learning method requires a large amount of labeled training data that is not easy to obtain manually \cite{DBLP:journals/csur/GiachanouC16}.
 
 \subsection{Approach 1}
 The first approach consisted of using the score of a lexicon-based method as an additional feature of the machine learning method. If a tweet is to be classified, it is first scored using the lexicon-based method. The calculated score is then used as an additional feature for the machine learning method. This has the advantage of not relying solely on the static dictionaries used by the lexicon-based method, while still being able to take specific sentence structures like negation into account.
@@ -32,7 +32,25 @@ For the third measure, Recall is calculated, which, according to Giachanou and C
 Finally, the last two measures are combined into the F-score, as seen in Equation \eqref{eq:fscore} \cite{DBLP:journals/csur/GiachanouC16}:
 \begin{equation}
     \label{eq:fscore}
-    F-score = 2*\frac{precision * recall}{precision + recall}.
+    Fscore = 2*\frac{precision * recall}{precision + recall}.
 \end{equation}
+
+In addition, a confusion matrix is used to show the number of true positives (TP), true negatives (TN), false positives (FP) and false negatives (FN) \cite{DBLP:journals/csur/GiachanouC16}. An example can be seen in Table \ref{tab:conf_example}.
+
+\begin{table}[h!]
+\centering
+\caption{Example of a confusion matrix \cite[p.~28:11]{DBLP:journals/csur/GiachanouC16}}
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}| }
+ \hline
+  &          Predicted as $positive$ &Predicted as $negative$  \\
+ \hline
+ Are $positive$        & TP&            FN\\
+  \hline
+ Are $negative$  &FP&                     TN\\
+ \hline
+
+\end{tabular}
+\label{tab:conf_example}
+\end{table}
 
 

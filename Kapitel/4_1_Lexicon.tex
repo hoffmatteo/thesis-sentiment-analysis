@@ -1,15 +1,7 @@
 \chapter{Methodology}
 \label{cha:Chapter4_Methodology}
 
-\section{Data}
-\begin{itemize}
-    \item What data does twitter provide, which is used (text)
-    \item Twitter API for test data?
-\end{itemize}
-
 \section{Lexicon-based Method}
-\TODO{ZEITFORM -> past}
-\TODO{WHY? --> explain decisions more}
 
 \subsection{Word classes}
 
@@ -30,44 +22,6 @@ Negations reverse the polarity of the connected sentiment, for example turning t
 The Cambridge Dictionary defines an emoji as "a digital image that is added to a message in electronic communication in order to express a particular idea or feeling" \cite{cambridgeEmoji}. As Hu et al. found out, "the most popular intentions are expressing sentiment, strengthening expression, and adjusting tone" \cite[p.~109]{Hu_Guo_Sun_Nguyen_Luo_2017}. The use of emojis on Twitter has been steadily increasing, with 21.54\% of global tweets containing at least one emoji in the month of December 2021 \cite{emojiStatistic}. Thus, it is clear that emojis are an important part of a tweet's overall sentiment and need to be taken into consideration.
 
 
-
-\subsection{Algorithm}
-
-For the lexicon-based approach, an algorithm was designed to classify tweets, as seen in Algorithm \ref{lexiconAlg}. Taking into account the four different word classes, we cover the most important parts of a tweet that define its sentiment. The total score of a tweet is calculated by adding the score of each sentiment word. For each sentiment word, the previous two words are evaluated to see if there is an intensifier and/or a negation. If so, the polarity is adjusted accordingly. Additionally, if an emoji is detected, its sentiment is also added to the total score.
-
-\begin{algorithm}[H]
-  \caption{Lexicon algorithm}\label{lexiconAlg}
-    \begin{algorithmic}[1]
-        \Function{analyze}{$tweet$}\Comment{Sentiment score of tweet}
-            \State $SentimentLexicon \gets Dictionary[word][sentiment]$
-            \State $NegationList \gets$ List of negation words
-            \State $IntensityLexicon \gets Dictionary[word][intensity]$
-            \State $EmojiLexicon \gets Dictionary[emoji][emojiSentiment]$ 
-            \State $score \gets 0.0$
-            \ForEach {$word \in tweet$}
-                \State $word =$ preprocess($word$)
-                \If{$word \in SentimentLexicon$} 
-                    \State $polarity \gets 1$
-                    \ForEach {$previousWord \in$ previous two words}
-                        \If{$previousWord \in NegationList$}
-                            \State $polarity = polarity * (-1)$
-                        \Else
-                            \If{$previousWord \in IntensityLexicon$}
-                                \State $polarity = polarity * intensity$
-                            \EndIf
-                        \EndIf
-                    \EndFor
-                    \State $score = score + polarity * sentiment$
-                \Else
-                    \If{$word \in EmojiLexicon$}
-                        \State $score = score + emojiSentiment$
-                    \EndIf
-                \EndIf 
-            \EndFor
-            \State \textbf{return} $score$
-        \EndFunction
-    \end{algorithmic}
-\end{algorithm}
 
 
 

@@ -273,6 +273,107 @@ author = {Walaa Medhat and Ahmed Hassan and Hoda Korashy},
 keywords = {Sentiment analysis, Sentiment classification, Feature selection, Emotion detection, Transfer learning, Building resources},
 abstract = {Sentiment Analysis (SA) is an ongoing field of research in text mining field. SA is the computational treatment of opinions, sentiments and subjectivity of text. This survey paper tackles a comprehensive overview of the last update in this field. Many recently proposed algorithms' enhancements and various SA applications are investigated and presented briefly in this survey. These articles are categorized according to their contributions in the various SA techniques. The related fields to SA (transfer learning, emotion detection, and building resources) that attracted researchers recently are discussed. The main target of this survey is to give nearly full image of SA techniques and the related fields with brief details. The main contributions of this paper include the sophisticated categorizations of a large number of recent articles and the illustration of the recent trend of research in the sentiment analysis and its related areas.}
 }
+@InProceedings{nb_freq,
+author="Schneider, Karl-Michael",
+editor="Vicedo, Jos{\'e} Luis
+and Mart{\'i}nez-Barco, Patricio
+and Mu{\'{n}}oz, Rafael
+and Saiz Noeda, Maximiliano",
+title="On Word Frequency Information and Negative Evidence in Naive Bayes Text Classification",
+booktitle="Advances in Natural Language Processing",
+year="2004",
+publisher="Springer Berlin Heidelberg",
+address="Berlin, Heidelberg",
+pages="474--485",
+abstract="The Naive Bayes classifier exists in different versions. One version, called multi-variate Bernoulli or binary independence model, uses binary word occurrence vectors, while the multinomial model uses word frequency counts. Many publications cite this difference as the main reason for the superior performance of the multinomial Naive Bayesclassifier. We argue that this is not true. We show that when all word frequency information is eliminated from the document vectors, the multinomial Naive Bayes model performs even better. Moreover, we argue that the main reason for the difference in performance is the way that negative evidence, i.e. evidence from words that do not occur in a document, is incorporated in the model. Therefore, this paper aims at a better understanding and a clarification of the difference between the two probabilistic models of Naive Bayes.",
+isbn="978-3-540-30228-5"
+}
+
+@InProceedings{poisson,
+  title = 	 {On the Naive Bayes Model for Text Categorization},
+  author =       {Eyheramendy, Susana and Lewis, David D. and Madigan, David},
+  booktitle = 	 {Proceedings of the Ninth International Workshop on Artificial Intelligence and Statistics},
+  pages = 	 {93--100},
+  year = 	 {2003},
+  editor = 	 {Bishop, Christopher M. and Frey, Brendan J.},
+  volume = 	 {R4},
+  series = 	 {Proceedings of Machine Learning Research},
+  month = 	 {03--06 Jan},
+  publisher =    {PMLR},
+  pdf = 	 {http://proceedings.mlr.press/r4/eyheramendy03a/eyheramendy03a.pdf},
+  url = 	 {https://proceedings.mlr.press/r4/eyheramendy03a.html},
+  abstract = 	 {This paper empirically compares the performance of four probabilistic models for text classification - Poisson, Bernoulli, Multinomial and Negative Binomial. We examine the "naive Bayes" assumption in the four models and show that the multinomial model is a modified naive Bayes Poisson model that assumes independence of document length and document class. Despite the fact that this last assumption might not be correct in many situations, we find that, in general, relaxing it does not change the performance of the classifier. Finally we propose and evaluate an ad-hoc method for incorporating document length.},
+  note =         {Reissued by PMLR on 01 April 2021.}
+}
+@article{poisson_words,
+author = {Katz, Slava M.},
+title = {Distribution of Content Words and Phrases in Text and Language Modelling},
+year = {1996},
+issue_date = {March 1996},
+publisher = {Cambridge University Press},
+address = {USA},
+volume = {2},
+number = {1},
+issn = {1351-3249},
+url = {https://doi.org/10.1017/S1351324996001246},
+doi = {10.1017/S1351324996001246},
+abstract = {This paper addresses the problem of distribution of words and phrases in text, a problem of great general interest and of importance for many practical applications. The existing models for word distribution present observed sequences of words in text documents as an outcome of some stochastic processes; the corresponding distributions of numbers of word occurrences in the documents are modelled as mixtures of Poisson distributions whose parameter values are fitted to the data. We pursue a linguistically motivated approach to statistical language modelling and use observable text characteristics as model parameters. Multi-word technical terms, intrinsically content entities, are chosen for experimentation. Their occurrence and the occurrence dynamics are investigated using a 100-million word data collection consisting of a variety of about 13,000 technical documents. The derivation of models describing word distribution in text is based on a linguistic interpretation of the process of text formation, with the probabilities of word occurrence being functions of observable and linguistically meaningful text characteristics. The adequacy of the proposed models for the description of actually observed distributions of words and phrases in text is confirmed experimentally. The paper has two focuses: one is modelling of the distributions of content words and phrases among different documents; and another is word occurrence dynamics within documents and estimation of corresponding probabilities. Accordingly, among the application areas for the new modelling paradigm are information retrieval and speech recognition.},
+journal = {Nat. Lang. Eng.},
+month = {mar},
+pages = {15–59},
+numpages = {45}
+}
+@inproceedings{pang-etal-2002-thumbs,
+    title = "Thumbs up? Sentiment Classification using Machine Learning Techniques",
+    author = "Pang, Bo  and
+      Lee, Lillian  and
+      Vaithyanathan, Shivakumar",
+    booktitle = "Proceedings of the 2002 Conference on Empirical Methods in Natural Language Processing ({EMNLP} 2002)",
+    month = jul,
+    year = "2002",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/W02-1011",
+    doi = "10.3115/1118693.1118704",
+    pages = "79--86",
+}
+@inproceedings{dave-et-al,
+author = {Dave, Kushal and Lawrence, Steve and Pennock, David M.},
+title = {Mining the Peanut Gallery: Opinion Extraction and Semantic Classification of Product Reviews},
+year = {2003},
+isbn = {1581136803},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/775152.775226},
+doi = {10.1145/775152.775226},
+abstract = {The web contains a wealth of product reviews, but sifting through them is a daunting task. Ideally, an opinion mining tool would process a set of search results for a given item, generating a list of product attributes (quality, features, etc.) and aggregating opinions about each of them (poor, mixed, good). We begin by identifying the unique properties of this problem and develop a method for automatically distinguishing between positive and negative reviews. Our classifier draws on information retrieval techniques for feature extraction and scoring, and the results for various metrics and heuristics vary depending on the testing situation. The best methods work as well as or better than traditional machine learning. When operating on individual sentences collected from web searches, performance is limited due to noise and ambiguity. But in the context of a complete web-based tool and aided by a simple method for grouping sentences into attributes, the results are qualitatively quite useful.},
+booktitle = {Proceedings of the 12th International Conference on World Wide Web},
+pages = {519–528},
+numpages = {10},
+keywords = {opinion mining, document classification},
+location = {Budapest, Hungary},
+series = {WWW '03}
+}
+@misc{nb_gauss,
+  doi = {10.48550/ARXIV.1302.4964},
+  
+  url = {https://arxiv.org/abs/1302.4964},
+  
+  author = {John, George H. and Langley, Pat},
+  
+  keywords = {Machine Learning (cs.LG), Artificial Intelligence (cs.AI), Machine Learning (stat.ML), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  
+  title = {Estimating Continuous Distributions in Bayesian Classifiers},
+  
+  publisher = {arXiv},
+  
+  year = {2013},
+  
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+
+
+
 
  
 

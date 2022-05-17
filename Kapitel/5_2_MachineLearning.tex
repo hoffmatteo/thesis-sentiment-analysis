@@ -6,11 +6,10 @@ For the machine learning method, WEKA, developed at the University of Waikato in
 \subsection{Training data}
 The training data for machine learning classifiers was created by Go et al. and consists of 1.6 million tweets \cite{GoBHaHua2009}. The tweets were parsed using the Twitter API by querying for positive or negative emoticons, such as ":)" and labeled as positive or negative depending on the emoticon. Furthermore, tweets containing both a negative and positive emoticon, as well as retweets were removed \cite{GoBHaHua2009}.
 
-This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a huge amount of topics \cite{GoBHaHua2009}.
-\TODO{put bi-gram and stemming + filtering, etc. in Methodology --> general Workflow for ML, here: numWords, LowerCase, Occurences, LovinsStemmer, bigram...}
-\TODO{some sources, why..., 79.8853 \%}
+This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a large number of topics \cite{GoBHaHua2009}.
+
 \subsection{Preprocessing}
-Before classifying can begin, tweets must be preprocessed. Because every word is treated as an attribute, some words can be removed in advance to improve both accuracy and performance \TODO{STOP WORDS = the...}. This includes frequent words such as "is", "I", and "the", which do not affect the sentiment of a tweet and can therefore be ignored. Finally, every word is transformed to lower case to prevent case sensitity, in addition to URLs being removed. Weka uses the Attribute-Relation File Format for its data, which contains a header describing the attributes, as well as the data itself, with one row containing one instance \cite{weka}. For this thesis, the class attribute was chosen to be nominal, either negative (-1.0) or positive (1.0), so we have a binary classification problem. Furthermore, the tweet text is added as a string attribute.
+Before classifying can begin, tweets must be pre-processed. Because every word is treated as an attribute, some words can be removed in advance to improve both accuracy and performance. Words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Finally, every word is transformed to lower case to prevent case sensitity, in addition to URLs being removed. Weka uses the Attribute-Relation File Format for its data, which contains a header describing the attributes, as well as the data itself, with one row containing an instance \cite{weka}. For this thesis, the class attribute was chosen to be nominal, either negative (-1.0) or positive (1.0), so we have a binary classification problem. Furthermore, the tweet text is added as a string attribute.
 
 \subsection{Filtering}
 In order to transform the text of a tweet into a suitable format for classifiers, weka's StringToWordVector filter is used \cite{weka}. This filter transforms the string feature, the tweet's text, by parsing each word out of it. The words are then added to a dictionary, which stores all recognized words. In the data, the words are implemented as numeric attributes, with the value denoting the number of occurrences.
@@ -18,12 +17,12 @@ In order to transform the text of a tweet into a suitable format for classifiers
 For example, the tweet "i love it" would result in three attributes, the attribute "i", the attribute "love", and the attribute "it", as can be seen in Figure \ref{fig:arff_train}. The dictionary, and with it the attributes, are all determined by the training data. The test data are also filtered, but only using the known words from the training data, no new words are added. 
 
 
-Additionally, a bi-gram model was used, which allows an attribute to consist of up to two words. Doing so allows us to replicate certain important relationships between two words, such as "not good". In an uni-gram model, each word is looked at separately, which results in the loss of "not" negating the positive "good". By using "not good" as a feature, the negation is taken into account and the attribute is thus clearly negative.
+Additionally, a bi-gram model was used, which allows an attribute to consist of up to two words. Doing so allows us to replicate certain important relationships between two words, such as "not good". In an unigram model, each word is looked at separately, which results in the loss of "not" negating the positive "good". By using "not good" as a feature, the negation is taken into account and the attribute is thus clearly negative.
 
-If every word/bi-gram was used as an attribute, the attribute size would be enormous and thus lead to performance problems. To prevent this, a limit was set for how often a word has to appear to be used as well as a (soft) limit of total words. In the testing, a limit of 15,000 words was found to be optimal, with words appearing at least 20 times in the training data.
-\TODO{source}
+If every word/bi-gram was used as an attribute, the attribute size would be enormous and thus lead to performance problems. To prevent this, a limit was set for how often a word has to appear to be used as well as a (soft) limit of total words. In the testing, a limit of 15,000 words was found to be optimal, with words appearing at least 20 times in the training data. This allowed for the greatest balance of performance and accuracy.
 
-Furthermore, the number of available words can be further reduced by using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. It does this using a two-step method, which first removes the ending, thus resulting in the stem. After this, similar stems are combined to account for different spellings. An example for this is "absorption", whose stem is "absorpt", while "absorbing" will result in "absorb". By using word stemming, related words are matched, thus creating combined attributes instead of considering each word form to be separate.
+
+Furthermore, the number of available words can be further reduced by using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. It does this using a two-step method, which first removes the ending, thus resulting in the stem. After this, similar stems are combined to account for different spellings. An example for this is "absorption", whose stem is "absorpt", while "absorbing" will result in "absorb". By using word stemming, related words are matched, thus creating combined attributes instead of considering each word form to be separate \cite{Lovins1968DevelopmentOA}.
 
  
 \begin{figure}
@@ -56,29 +55,15 @@ Furthermore, the number of available words can be further reduced by using word 
     \label{fig:arff_train}
 \end{figure}
 
-\begin{itemize}
-    \item StringToWordVector
-    \item Amount of words + dictionary
-    \item Occurences minimum
-    \item N-Gram?
-    \item 79.4226 with lovinsstemmer
-    \item lowercase
-    \item Binary vs. NumWords
-    \item ARFF
-\end{itemize}
+
 \subsection{Training}
-\begin{itemize}
-    \item Comparison Classifiers --> Accuracy? Runtime (Complexity), 78.60
-    \item ARFF
-    \item maybe experiment with number of training tweets?
-    \end{itemize}
-\TODO{Where improvements to filtering?}
 
-Once the training data has been preprocessed and filtered, the actual task of training the models can begin. As previously discussed, the classifiers chosen were Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. The process for each classifier can be described as follows: First, the classifier was trained using the standard parameters set by Weka and a small subsection of the training data. This was done to provide a first impression of the training runtime, which proved to have a great effect. After this, the subset of training data was gradually increased, until the entire data set was used, or the process became too resource intensive. Once the appropriate training size was found, the parameters of each classifier were evaluated, both to improve performance and accuracy. If performance was improved, the training size was also increased accordingly. Once the optimal parameters and training size were determined, weka's Evaluation class was used to calculate the parameters discussed \cite{weka}. Each classifier was first trained and evaluated using the maximum size of training data, and then reduced to the smallest classifier size, in this case \TODO{Logistic Regression with 95,000 instances}. This was done to provide both a guidance on best overall performance, which includes runtime, as well as good comparability.
+Once the training data has been preprocessed and filtered, the actual task of training the models can begin. As previously discussed, the classifiers chosen were Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. The process for each classifier can be described as follows: First, the classifier was trained using the standard parameters set by Weka and a small subsection of the training data. This was done to provide a first impression of the training runtime, which proved to have a great effect. After this, the subset of training data was gradually increased, until the entire data set was used, or the process became too resource intensive. 
 
-\subsection{Evaluation}
-In Table \ref{tab:evaluations}, each classifier can be seen with the optimal parameters, the number of training instances used, and the evaluation parameters discussed.
-\TODO{maybe also calculate for negative?}
+Once the appropriate training size was found, the parameters of each classifier were evaluated, both to improve performance and accuracy. If performance was improved, the training size was also increased accordingly. Once the optimal parameters and training size were determined, weka's Evaluation class was used to calculate the parameters discussed \cite{weka}. Each classifier was first trained and evaluated using the maximum size of training data, and then reduced to the smallest classifier size, in this case \TODO{Logistic Regression with 95,000 instances}. This was done to provide both a guidance on best overall performance, which includes runtime, as well as good comparability.
+
+\subsection{Discussion}
+In Table \ref{tab:evaluations_max}, each classifier can be seen with the optimal parameters, the maximum number of training instances used, and the evaluation parameters discussed, while in Table \ref{tab:evaluations_euqal}, each classifier was trained with the same number of instances for better comparison.
 \begin{table}[]
 \centering
 \caption{Classification performance of each classifier when using the maximum number of training instances.}
@@ -88,7 +73,7 @@ In Table \ref{tab:evaluations}, each classifier can be seen with the optimal par
  \hline
  Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%& tt\\
   \hline
- Naive Bayes (Multinomial)  &-&                     1,600,000&                79.42\%&        0.66&       0.70& 0.68\\
+ Naive Bayes (Multinomial)  &-&                     1,600,000&                79.42\%&        86.03\%&       83.76\%& 84.88\%\\
   \hline
  Random Forest              &depth = 300&            120,000&                 77.76\%&        0.67&       0.66& 0.66\\
   \hline
@@ -122,5 +107,32 @@ In Table \ref{tab:evaluations}, each classifier can be seen with the optimal par
 \label{tab:evaluations_euqal}
 \end{table}
 
+The highest accuracy was achieved by the multinomial Naive Bayes classifier, with an accuracy of 79.42\% and an F-score of 84.88\%. The confusion matrix for the multinomial Naive Bayes can be seen in Table \ref{tab:evaluations_conf}.
+\begin{table}[]
+\centering
+\caption{Classification performance of each classifier when using the same number of training instances.}
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}| }
+ \hline
+  &          Predicted as $positive$ &Predicted as $negative$  \\
+ \hline
+ Are $positive$        & 3121&            507\\
+  \hline
+ Are $negative$  &605&                     1171\\
+ \hline
+
+\end{tabular}
+\label{tab:evaluations_conf}
+\end{table}
 
 
+Some interesting observations can be made. First, the multinomial Naive Bayes seems to handle positive tweets better than negative ones. \TODO{more testing...}
+
+First, the topic of word frequency versus binary presence can be further analyzed. If we look at Equation \eqref{eq:multinomial_bayes}, we calculate the posterior probability $P(d_i|c_j)$ using the probability that a word occurs in the given class, $P(w_t|c_j)$ to the factor of $N_it$, the number of times $w_t$ appears in document $d_i$. Here, we assume that we use the frequency of a word that appears in a tweet. This is a logical assumption to make, as the number of times a word appears in a document can impact its sentiment, such as in the sentence "This is bad, really bad". In general, more information for the classifier to work with seems to be a good approach. However, when applied to multinomial Naive Bayes, the accuracy decreased when using word frequency compared to word presence. Schneider also observed this behavior and determined the multinomial distribution as the cause \cite{nb_freq}. As proven by Eyheramendy et al., the multinomial Naive Bayes model is a version of the Naive Bayes Poisson model, which assumes independence of document length and class \cite{poisson}. Furthermore, citing \cite{poisson_words}, Schneider stated that terms are more likely to appear a second time than at all. He concluded that this does not fit the Poisson distribution well, which is why the reduction to a binary presence of words improves accuracy \cite{nb_freq}.
+
+Next, the usefulness of n-grams can be discussed. Pang et al. observed unigrams to achieve a higher accuracy than bigrams \cite{pang-etal-2002-thumbs} on movie reviews, while Dave et al. noticed bigrams and trigrams to outperform unigrams on product reviews \cite{dave-et-al}. In Twitter Sentiment Analysis, Go et al. observed a decrease in the accuracy for bigrams compared to unigrams, but when unigrams and bigrams were used, the accuracy increased for most classifiers \cite{GoBHaHua2009}. This behavior was also observed in this thesis and can be explained by unigrams being the most important features for Sentiment Analysis, while bigrams are able to offer additional information.
+
+\TODO{gaussian... --> with vs. without word count}
+
+Another interesting observation is the distribution used for Naive Bayes. In Equation \eqref{eq:multinomial_bayes}, we assume that the class conditional probability $P(d_i|c_j)$ is distributed according to the multinomial distribution, while in Equation \eqref{nb:gauss} we apply the Gaussian distribution. The multinomial implementation clearly outperformed the Gaussian one, both in accuracy and performance. From this, we can gather that the multinomial distribution seems to better reflect the actual distribution of word occurrences.
+
+Next, performance should be noted. Only the two Naive Bayes implementations were able to handle all 1.6 Million training instances. Additionally, the multinomial Naive Bayes had a much shorter runtime. For the other three classifiers, using too many training instances would result in a \TODO{java heap space error.} Even after assigning more RAM to the program, the issue still persisted at a certain number of instances. Due to this, the multinomial Naive Bayes seems to offer the best mixture of performance and accuracy.

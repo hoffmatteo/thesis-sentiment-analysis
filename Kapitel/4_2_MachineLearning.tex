@@ -33,13 +33,22 @@ blablabla
         
         \TODO{P(c) eingehen}
         
-        There are different models on how to implement the Naive Bayes assumption for text classification. McCallum and Nigan compared two models, a multivariate Bernoulli model, and a multinomial model, and found the multinomial model to perform better at larger vocabulary sizes \cite{Mccallum1998}.
+        There are different models on how to implement the Naive Bayes assumption for text classification. In this thesis, the Gaussian Naive Bayes and Multinomial Naive Bayes are discussed. 
         
-        According to McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present but also how often it is present, the Bernoulli model's restriction to two values becomes uninformative. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
+        The Gaussian Naive Bayes assumes that numeric attributes, such as word count, are distributed according to the normal distribution, also called Gaussian distribution \cite{nb_gauss}. According to Evans et al., "it was originally developed as an approximation to the binomial distribution when the number of trials is large and the Bernoulli probability p is not close to 0 or 1". \cite[p.~143]{evans2011statistical}. It is described by two parameters, the mean $\mu$ and the standard deviation $\sigma$ \cite{evans2011statistical}. Applied to Naive Bayes, it results in Equation \eqref{nb:gauss}:
+        \begin{equation}
+        \label{nb:gauss}
+            P(w_t = v|c_j) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(v.\mu)^2}{2\sigma^2}},
+        \end{equation}
+        with $v$ denoting the number of times $w_t$ appears in the to be classified document.
+        
+        In order to calculate Equation \eqref{nb:gauss}, the mean $\mu$ and the standard deviation $\sigma$ have to be estimated for each numeric attribute given the class. Using maximum likelihood estimation, we estimate these two parameters using the training data. Once these two parameters are estimated for every attribute and class, unknown instances can be classified using Equation \eqref{nb:gauss} in conjunction with Equation \eqref{eq:naive_final}.
+        
+        According to McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. In this case, a document is represented by a tweet. By considering not only if a word is present but also how often it is present, the additional information may have an advantage. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
         
         \TODO {Gleichung?}
         
-        According to Forbes et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. The outcome $A_i$ occurs with probability $p_i$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
+        According to Evans et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. The outcome $A_i$ occurs with probability $p_i$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
         
         Applying this to the model, McCallum and Nigan state that "each document $d_i$ is drawn from a multinomial distribution of words with as many independent trials as the length of $d_i$" \cite[p.~3]{Mccallum1998}. Using the multinomial distribution, the class conditional probability can then be calculated using Equation \eqref{eq:multinomial_bayes}:
         \begin{equation}
