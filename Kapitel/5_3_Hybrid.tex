@@ -1,7 +1,46 @@
 \section{Hybrid Method}
 
 \subsection{Approach 1}
-
+For the first approach, the best performing machine-learning classifier was used, which was multinomial Naive Bayes. The ARFF format was changed to include an additional numeric feature, the lexicon-based method's score. Because weka only allows values greater than or equal to zero for a numeric attribute, the maximum and minimum scores were \TODO{restricted} to -10 and +10, and each score was shifted by adding 10. Each training instance was evaluated using the lexicon-based method, and the score was added to the instance. For the test instances, the same procedure was applied.
 \subsection{Approach 2}
-
+For the second approach, each training instance was scored using the lexicon-based method. Instead of adding an additional attribute though, the instance's class label was set to the lexicon-based method's score. Because we only considered two classes during classification, positive and negative, all instances with a neutral score were ignored. Furthermore, the score was normalized to -1.0 and 1.0, to fit the class labels. This resulted in 973,671 instances being used.
 \subsection{Discussion}
+
+
+The performance of each method can be seen in Table \ref{tab:evaluations_hybrid}. Both hybrid methods are an improvement on either of the other methods, with the second method achieving the highest overall accuracy. Despite this, the first method seems to be more balanced overall, as recall, precision, and F-score are roughly the same at 85\%. This suggests that the lexicon-based method is able to provide some stability to the machine-learning method. 
+
+\begin{table}
+\caption{blablabla}
+\centering
+\begin{tabular}{ |p{2cm}||p{2cm}|p{2cm}|p{2cm}|p{2cm}|}
+ \hline
+ Method &          Accuracy &      Recall &     Precision& F-score \\
+ \hline
+ Method 1       & 80.16\%&        85.12\%&       85.30\%& 85.21\%\\
+  \hline
+ Method 2       & 81.33\%&        89.47\%&       83.83\%& 86.55\%\\
+  \hline
+\end{tabular}
+\label{tab:evaluations_hybrid}
+\end{table}
+
+\iffalse
+\begin{table}[]
+\centering
+\caption{Confusion matrix Method 1.}
+\begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}| }
+ \hline
+  &          Predicted as $positive$ &Predicted as $negative$  \\
+ \hline
+ Are $positive$        & 3088&            540\\
+  \hline
+ Are $negative$  &532&                     1244\\
+ \hline
+
+\end{tabular}
+\label{tab:method1_conf}
+\end{table}
+
+\fi
+
+
