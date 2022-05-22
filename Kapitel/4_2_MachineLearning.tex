@@ -1,9 +1,22 @@
 \section{Machine Learning based Method}
-\subsection{Procedure}
-blablabla
-\begin{itemize}
-    \item 
-\end{itemize}
+For the machine learning classifier, several different methods are evaluated. The general approach of the machine-learning classifier can be seen in Figure \ref{fig:ml_approach}.
+\begin{figure}
+    \centering
+    \includegraphics[scale=0.5]{Images/ML_approach.png}
+    \caption{Caption}
+    \label{fig:ml_approach}
+\end{figure}
+
+\TODO{better: sources, more reasoning, stats, citation, etc. --> WHY did you choose this approach?}
+
+\subsection{Tokenization?}
+The machine-learning classifier relies on features, also called attributes, which have to be extracted from the training data. As mentioned previously, in Twitter Sentiment Analysis, these features are the presence or frequency of words. In this thesis, both approaches were compared. Additionally, a feature can contain more than one word, for example in a bi-gram model. This allows features to replicate certain important relationships between two words, such as "not good". In an unigram model, each word is looked at separately, which results
+in the loss of "not" negating the positive "good". By using "not good" as a feature, the negation is taken into account and the attribute is thus clearly negative. To summarize, a feature in this thesis may refer to one or two words, with their value being the frequency or presence.
+
+\subsection{Preprocessing}
+Before the data is used by the classifier, it first needs to be peprocessed. Because every word is treated as an attribute, some words can be removed in advance to improve both accuracy and performance. Words with low impact on the sentiment of a sentence, such as "the" and
+"is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Additionally, tweets often contain special characters such as a hashtag or an URL, which both are removed as well. Finally, tweets as an informal message often contain misspelled or otherwise modified words. By using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left
+untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}, different cases or spellings of the same word can be reduced to one common feature.
     \subsection{Naive Bayes}
         Naive Bayes is a probabilistic classification model. It is based on the Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
         \begin{equation}

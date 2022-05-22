@@ -8,6 +8,8 @@ The training data for machine learning classifiers was created by Go et al. and 
 
 This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a large number of topics \cite{GoBHaHua2009}.
 
+\TODO{delete parts that are methodology, only specifics/implementation details!}
+
 \subsection{Preprocessing}
 Before classifying can begin, tweets must be pre-processed. Because every word is treated as an attribute, some words can be removed in advance to improve both accuracy and performance. Words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Finally, every word is transformed to lower case to prevent case sensitity, in addition to URLs being removed. Weka uses the Attribute-Relation File Format for its data, which contains a header describing the attributes, as well as the data itself, with one row containing an instance \cite{weka}. For this thesis, the class attribute was chosen to be nominal, either negative (-1.0) or positive (1.0), so we have a binary classification problem. Furthermore, the tweet text is added as a string attribute.
 

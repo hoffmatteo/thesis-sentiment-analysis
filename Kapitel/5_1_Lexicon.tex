@@ -45,7 +45,9 @@ A lexicon constructed by Haak was used, which contains 198 emojis and their vale
 
 \subsection{Algorithm}
 
-An algorithm was designed to classify tweets, as seen in Algorithm \ref{lexiconAlg}. Taking into account the four different word classes, the most important parts of a tweet that define its sentiment were covered. The total score of a tweet is calculated by adding the score of each sentiment word. For each sentiment word, the previous two words are evaluated to see if there is an intensifier and/or a negation. If so, the polarity is adjusted accordingly. Additionally, if an emoji is detected, its sentiment is also added to the total score. The algorithm itself was implemented using Java.
+An algorithm was designed to classify tweets, as seen in Algorithm \ref{lexiconAlg}. The tweet is first split using whitespace to separate each word. Then each word is pre-processed. First, punctuation is removed, unless the word consists of an emoticon/emoji. After each processing step, the word is searched in the sentiment lexicon, if the word is not found, the next step is used. Characters that appear more than two times in a row are reduced to two times. Additionally, characters are removed from the end of a word to prevent different word endings affecting the algorithm, up until a minimum word length of 3.
+
+Taking into account the four different word classes, the most important parts of a tweet that define its sentiment were covered. The total score of a tweet is calculated by adding the score of each sentiment word. For each sentiment word, the previous two words are evaluated to see if there is an intensifier and/or a negation. If so, the polarity is adjusted accordingly. Additionally, if an emoji is detected, its sentiment is also added to the total score. The algorithm itself was implemented using Java.
 
 \begin{algorithm}[]
   \caption{Lexicon algorithm}\label{lexiconAlg}
