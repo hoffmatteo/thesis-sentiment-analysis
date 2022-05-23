@@ -2,34 +2,38 @@
 
 For the machine learning method, WEKA, developed at the University of Waikato in New Zealand, was chosen as the library. As described by Witten et al., "[t]he WEKA workbench is a collection of machine learning algorithms and data preprocessing tools [...]" \cite[p.~7]{weka}. It also includes tools for the entire process of data mining, such as preparation of data and evaluation. WEKA is implemented in Java, the version of the library used in this thesis was 3.9.6. It also offers a graphical interface, which was not used in this thesis, only the library was used \cite{weka}. Weka was chosen because of its large collection of both algorithms and tools for data mining, as well as ease of use through an extensive documentation.
 
+Weka uses the Attribute-Relation File Format for its data, which contains a header describing the attributes, as well as the data itself, with one row containing one instance \cite{weka}. For this thesis, the class attribute was chosen to be nominal, either negative (-1.0) or positive (1.0), so we have a binary classification problem. Furthermore, the tweet text is added as a string attribute.
+
 \TODO{Twitter API for test data?}
 \subsection{Training data}
 The training data for machine learning classifiers was created by Go et al. and consists of 1.6 million tweets \cite{GoBHaHua2009}. The tweets were parsed using the Twitter API by querying for positive or negative emoticons, such as ":)" and labeled as positive or negative depending on the emoticon. Furthermore, tweets containing both a negative and positive emoticon, as well as retweets were removed \cite{GoBHaHua2009}.
 
 This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a large number of topics \cite{GoBHaHua2009}.
 
-\TODO{delete parts that are methodology, only specifics/implementation details!}
+\TODO{delete parts that are methodology, only specifics/implementation details.}
 
-\subsection{Preprocessing}
-Before classifying can begin, tweets must be pre-processed. Because every word is treated as an attribute, some words can be removed in advance to improve both accuracy and performance. Words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Finally, every word is transformed to lower case to prevent case sensitity, in addition to URLs being removed. Weka uses the Attribute-Relation File Format for its data, which contains a header describing the attributes, as well as the data itself, with one row containing an instance \cite{weka}. For this thesis, the class attribute was chosen to be nominal, either negative (-1.0) or positive (1.0), so we have a binary classification problem. Furthermore, the tweet text is added as a string attribute.
+\subsection{Tokenization}
+For Tokenization, weka's WordTokenizer was used, with the default delimiters, such as whitespace and "\textbackslash n".
+\subsection{Stop Word Filtering}
+For Stop Word Filtering, both a list and a dynamic approach were used. A short list of common words such as "the" was manually collected and evaluated. To further reduce the word size, a limit was set for how often a word has to appear to be used as well as a (soft) limit of total words. In the testing, a limit of 15,000 words was found to be optimal, with words appearing at least 20 times in the training data. This allowed for the greatest balance of performance and accuracy. This limit was set in weka's StringToWordVector, which is explained in more detail later.
+\subsection{URL/Hashtag Removal}
+??
 
-\subsection{Filtering}
-In order to transform the text of a tweet into a suitable format for classifiers, weka's StringToWordVector filter is used \cite{weka}. This filter transforms the string feature, the tweet's text, by parsing each word out of it. The words are then added to a dictionary, which stores all recognized words. In the data, the words are implemented as numeric attributes, with the value denoting the number of occurrences.
+\subsection{Stemming}
+For stemming, weka's LovinsStemmer was used, which is based on the Lovins Stemmer \cite{weka}. This stemmer uses a two-step method, which first removes the ending, thus obtaining the stem. After this, similar stems are combined to account for different spellings. An example for this is "absorption", whose stem is "absorpt", while "absorbing" will result in "absorb"\cite{Lovins1968DevelopmentOA}.
 
-For example, the tweet "i love it" would result in three attributes, the attribute "i", the attribute "love", and the attribute "it", as can be seen in Figure \ref{fig:arff_train}. The dictionary, and with it the attributes, are all determined by the training data. The test data are also filtered, but only using the known words from the training data, no new words are added. 
+\subsection{Feature Selection}
+In order to transform the text of a tweet into a suitable format for classifiers, weka's StringToWordVector filter is used \cite{weka}. This filter transforms the string feature, the tweet's text, by parsing each word out of it using the previously defined WordTokenizer. The words are then added to a dictionary, which stores all recognized words. In the data, the words are implemented as numeric attributes, with the value denoting the number of occurrences or its presence.
 
-
-Additionally, a bi-gram model was used, which allows an attribute to consist of up to two words. Doing so allows us to replicate certain important relationships between two words, such as "not good". In an unigram model, each word is looked at separately, which results in the loss of "not" negating the positive "good". By using "not good" as a feature, the negation is taken into account and the attribute is thus clearly negative.
-
-If every word/bi-gram was used as an attribute, the attribute size would be enormous and thus lead to performance problems. To prevent this, a limit was set for how often a word has to appear to be used as well as a (soft) limit of total words. In the testing, a limit of 15,000 words was found to be optimal, with words appearing at least 20 times in the training data. This allowed for the greatest balance of performance and accuracy.
+For example, the tweet "i love it" would result in three attributes, the attribute "i", the attribute "love", and the attribute "it", as can be seen in Figure \ref{fig:arff_train}. The dictionary, and with it the attributes, are all determined by the training data. The test data is also filtered, but only using the known words from the training data, no new words are added. 
 
 
-Furthermore, the number of available words can be further reduced by using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. It does this using a two-step method, which first removes the ending, thus resulting in the stem. After this, similar stems are combined to account for different spellings. An example for this is "absorption", whose stem is "absorpt", while "absorbing" will result in "absorb". By using word stemming, related words are matched, thus creating combined attributes instead of considering each word form to be separate \cite{Lovins1968DevelopmentOA}.
 
- 
+
 \begin{figure}
     \centering
 \begin{tikzpicture}
+\vspace{5mm}
 \node[draw, text width=6cm] at (0,0) { @relation TrainingData \\
                                         \medskip
                                         @attribute calculatedScore {-1.0, 1.0} \\
@@ -53,17 +57,14 @@ Furthermore, the number of available words can be further reduced by using word 
                                         {0 0,   1 1 , 3 1 , 4 1}
                                         };
 \end{tikzpicture}
-    \caption{Example of training data in the ARFF format utilized by Weka \cite{weka}.}
+\vspace{5mm}
+    \caption{Example of training data in the ARFF format utilized by Weka before and after feature selection \cite{weka}.}
     \label{fig:arff_train}
 \end{figure}
 
 
 \subsection{Training}
-
-Once the training data has been preprocessed and filtered, the actual task of training the models can begin. As previously discussed, the classifiers chosen were Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. The process for each classifier can be described as follows: First, the classifier was trained using the standard parameters set by Weka and a small subsection of the training data. This was done to provide a first impression of the training runtime, which proved to have a great effect. After this, the subset of training data was gradually increased, until the entire data set was used, or the process became too resource intensive. 
-
-Once the appropriate training size was found, the parameters of each classifier were evaluated, both to improve performance and accuracy. If performance was improved, the training size was also increased accordingly. Once the optimal parameters and training size were determined, weka's Evaluation class was used to calculate the parameters discussed \cite{weka}. Each classifier was first trained and evaluated using the maximum size of training data, and then reduced to the smallest classifier size, in this case \TODO{Logistic Regression with 95,000 instances}. This was done to provide both a guidance on best overall performance, which includes runtime, as well as good comparability.
-
+\TODO{actual implementation stuff}
 \subsection{Discussion}
 In Table \ref{tab:evaluations_max}, each classifier can be seen with the optimal parameters, the maximum number of training instances used, and the evaluation parameters discussed, while in Table \ref{tab:evaluations_euqal}, each classifier was trained with the same number of instances for better comparison.
 \begin{table}[]

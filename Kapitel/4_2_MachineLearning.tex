@@ -1,5 +1,7 @@
 \section{Machine Learning based Method}
-For the machine learning classifier, several different methods are evaluated. The general approach of the machine-learning classifier can be seen in Figure \ref{fig:ml_approach}.
+Machine Learning is a popular approach in Sentiment Analysis. Pang et al. were one of the first to employ and compare the use of different machine learning classifiers, without using any prior knowledge. Their classifiers worked in the movie review domain, where they were able to achieve high accuracy \cite{pang-etal-2002-thumbs}. Go et al. proved that machine learning classifiers also achieved high accuracy in the Twitter domain.
+
+
 \begin{figure}
     \centering
     \includegraphics[scale=0.5]{Images/ML_approach.png}
@@ -7,17 +9,69 @@ For the machine learning classifier, several different methods are evaluated. Th
     \label{fig:ml_approach}
 \end{figure}
 
-\TODO{better: sources, more reasoning, stats, citation, etc. --> WHY did you choose this approach?}
+\begin{figure}
+    \centering
+    \tikzset{
+  every shadow/.style={
+    fill=none,
+    shadow xshift=0pt,
+    shadow yshift=0pt}
+}
+\tikzset{module/.append style={top color=\col,bottom color=\col}}
 
-\subsection{Tokenization?}
-The machine-learning classifier relies on features, also called attributes, which have to be extracted from the training data. As mentioned previously, in Twitter Sentiment Analysis, these features are the presence or frequency of words. In this thesis, both approaches were compared. Additionally, a feature can contain more than one word, for example in a bi-gram model. This allows features to replicate certain important relationships between two words, such as "not good". In an unigram model, each word is looked at separately, which results
-in the loss of "not" negating the positive "good". By using "not good" as a feature, the negation is taken into account and the attribute is thus clearly negative. To summarize, a feature in this thesis may refer to one or two words, with their value being the frequency or presence.
+\smartdiagramset{uniform color list=white for 6 items,
+    back arrow disabled=true, module minimum width=2cm,
+    module minimum height=2cm,
+    module x sep=3cm,
+    text width=2cm,
+    uniform arrow color=true,
+    arrow color=black,
+    additions={
+        additional item shape=rectangle,
+        additional item offset=0.5cm,
+        additional item width=4cm,
+        additional item height=2cm,
+        additional item text width=4cm,
+        additional item fill color=white!20,
+        additional item border color=black,
+        additional arrow color=gray,
+        additional arrow tip=stealth,
+        additional arrow line width=1pt
+      }
+    }
+    \smartdiagramadd[flow diagram:horizontal]{Tokenization, Stop Word Filtering, URL/Hashtag Removal, Stemming, Feature Selection, Classification}
+    {below of module5/Unigrams vs. Bigrams \\ Word Frequency vs. Presence} 
+    \smartdiagramconnect{->}{module5/additional-module1}
+    \vspace{25mm}
 
-\subsection{Preprocessing}
-Before the data is used by the classifier, it first needs to be peprocessed. Because every word is treated as an attribute, some words can be removed in advance to improve both accuracy and performance. Words with low impact on the sentiment of a sentence, such as "the" and
-"is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Additionally, tweets often contain special characters such as a hashtag or an URL, which both are removed as well. Finally, tweets as an informal message often contain misspelled or otherwise modified words. By using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left
-untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}, different cases or spellings of the same word can be reduced to one common feature.
-    \subsection{Naive Bayes}
+   \caption{Caption}
+    \label{fig:my_label}
+\end{figure}
+
+\TODO{better: sources, more reasoning, stats, citation, etc. --> WHY did you choose this approach?, figure see Lin thesis}
+
+\subsection{Tokenization}
+\TODO{more?}
+
+Tokenization refers to the extraction of words out of a tweet/sentence \cite{DBLP:journals/csur/GiachanouC16}. In this thesis, tweets are tokenized based on whitespace. \TODO{ngram here!}
+\subsection{Stop Word Filtering}
+Because every word is treated as an attribute, some words can be removed in advance to improve both data sparsity and the feature size. Words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Although there are pre-compiled lists of Stop Words, these often are outdated and not Twitter specific. Additionally, Saif et al. observed that the usage of pre-compiled lists reduced the accuracy of classification performance and recommended a dynamic solution, which considers the number of times a word appears over the data set \cite{data_sparsity}. 
+
+\subsection{URL/Hashtag Removal}
+Tweets often contain URLs of the media, article, etc. the tweet is concerned with. Because these links in itself don't affect the sentiment, they are too ignored. Additionally, tweets often contain a hashtag, which indicates that the tweet is concerned with specific topic. The hashtag character "\#" is removed, to not differentiate between words such as \#good and good and thus further reduce data sparsity and feature size.
+\subsection{Stemming}
+Tweets as an informal message often contain misspelled or otherwise modified words \cite{DBLP:journals/csur/GiachanouC16}. By using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left
+untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}, different cases or spellings of the same word can be reduced to one common feature, which, again, reduces data sparsity.
+
+\subsection{Feature Selection}
+The machine-learning classifier relies on features, also called attributes, which have to be extracted from the training data. In Twitter, these features most often are syntactic features, such as words. Here, the approaches also differentiate between a feature consisting of only one word, also called unigram, or two (bigram) or more words (n-gram). Additionally, the assigned value also differs between using the binary presence of a word, or its frequency in a tweet \cite{DBLP:journals/csur/GiachanouC16}. In this thesis, all approaches are considered.
+
+\subsection{Classification}
+Once the training data has been preprocessed and turned into features, the task of training the models can begin. The classifiers chosen are Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. Because the classifiers may have different runtimes, each classifier is first evaluated using a small subset of training data, to obtain a first impression of the training runtime. After this, the data size is gradually increased, until the entire data set was used, or the process becomes too resource intensive. Once the appropiate training size is found, the parameters of each classifier are evaluated, to improve both performance and accuracy. If the performance can be improved, the training size is adjusted accordingly. Once the optimal parameters and training size are found, the classifiers are evaluated and compared. To facilitate a better comparison, the classifiers are evaluated both using their maximum training size, as well as the same minimum training size.
+
+The following sections explain each machine-learning method in more detail.
+
+    \subsubsection{Naive Bayes}
         Naive Bayes is a probabilistic classification model. It is based on the Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
         \begin{equation}
             \label{eq:bayes}
@@ -96,7 +150,7 @@ untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA
         
         By using Equation \eqref{eq:prob_word}, we calculate the word probability $P(w_t|c_j$). We utilize this in Equation \eqref{eq:multinomial_bayes} to calculate the class conditional probability $P(d_i|c_j)$ using the multinomial distribution. Finally, this allows us to estimate the posterior probability $P(c|d)$, as shown in Equation \eqref{eq:naive_final}. By selecting the class with the higher posterior probability, the classifier is able to make a prediction.
         
-\subsection{Random Forest}
+\subsubsection{Random Forest}
         According to Tan et al., Random Forest is an ensemble method that utilizes multiple base classifiers to take a vote on their predictions. The final prediction is then made by either averaging the vote or taking the majority vote. Random Forest applies a set of decorrelated decision trees by implementing two key characteristics.
         
         The first characteristic is Bagging. Each tree is trained by a data set that was sampled from the original training data. Because the sampling is done with replacement and the samples must have the same size as the original training data, the sample will, on average, only contain 63\% of the original data.
@@ -139,7 +193,7 @@ untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA
 \end{figure}
 \TODO{satzzeichen nach Gleichung, siehe Buch}
 \TODO{citations}
-\subsection{Logistic Regression}
+\subsubsection{Logistic Regression}
 Logistic Regression calculates the posterior probability $P(c_j|d_i)$ directly, without relying on the class conditional probability like Naive Bayes, which is why it is a probabilistic discriminative model. In a binary model, the class label can be assigned by calculating the odds, as seen in Equation \eqref{eq:logistic_odds}:
         \begin{equation}
             \label{eq:logistic_odds}
@@ -193,7 +247,7 @@ $\sigma(z)$ is called the sigmoid function, whose graph can be seen in Figure \r
 \end{figure}
 As seen in Figure \ref{fig:sigmoid}, $\sigma(z) \geq 0.5$ when $z \geq 0$, so if $z \geq 0$, we assign the instance $d_i$ to the class $c = 1$. Using training instances, the parameters $w$ and $b$ can be learned, and thus the posterior probability $P(c_j|d_i)$ can be estimated \cite{DBLP:books/aw/TanSKK2019}.
 
-\subsection{Support Vector Machine}
+\subsubsection{Support Vector Machine}
 Tan et al. describe the Support Vector Machine as a discriminative classifier. It is based on a separating hyperplane that, as the name suggests, tries to separate instances of two classes. Furthermore, it uses a subset of the training instances, those that are the hardest to classify, meaning those nearest the boundaries of the classes. These instances are called support vectors \cite{DBLP:books/aw/TanSKK2019}.
 
 The hyperplane can be described by Equation \eqref{eq:hyperplane}:
