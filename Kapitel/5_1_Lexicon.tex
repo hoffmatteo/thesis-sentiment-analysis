@@ -49,6 +49,9 @@ An algorithm was designed to classify tweets, as seen in Algorithm \ref{lexiconA
 
 Taking into account the four different word classes, the most important parts of a tweet that define its sentiment were covered. The total score of a tweet is calculated by adding the score of each sentiment word. For each sentiment word, the previous two words are evaluated to see if there is an intensifier and/or a negation. If so, the polarity is adjusted accordingly. Additionally, if an emoji is detected, its sentiment is also added to the total score. The algorithm itself was implemented using Java.
 
+Although this thesis focuses on polarity classification, the lexicon method is also able to return the strength of a given sentiment, as well as a neutral score of 0. A neutral score is only returned if no sentiment word could be detected.
+
+
 \begin{algorithm}[]
   \caption{Lexicon algorithm}\label{lexiconAlg}
     \begin{algorithmic}[1]
