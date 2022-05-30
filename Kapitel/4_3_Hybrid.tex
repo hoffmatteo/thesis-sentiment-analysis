@@ -2,14 +2,12 @@
 Hybrid methods combine lexicon-based and machine-learning methods to balance their disadvantages. Lexicon-based methods are inherently static, as they depend on a set list of words. If a tweet contains words which do not appear in the list, the lexicon-based can not classify it. On the other hand, a machine-learning method requires a large amount of labeled training data that is not easy to obtain manually \cite{DBLP:journals/csur/GiachanouC16}.
 
 \subsection{Approach 1}
-The first approach consisted of using the score of a lexicon-based method as an additional feature of the machine learning method. If a tweet is to be classified, it is first scored using the lexicon-based method. The calculated score is then used as an additional feature for the machine learning method. This has the advantage of not relying solely on the static dictionaries used by the lexicon-based method, while still being able to take specific sentence structures like negation into account.
+The first approach consisted of using the score of a lexicon-based method as an additional feature of the machine learning method, similar to the approach used by Khuc et al. \cite{khuc}. If a tweet is to be classified, it is first scored using the lexicon-based method. The calculated score is then used as an additional feature for the machine learning method. This has the advantage of not relying solely on the static dictionaries used by the lexicon-based method, while still being able to take specific sentence structures like negation into account.
 \subsection{Approach 2}
-The second approach trains the machine learning classifier using tweets labeled by the lexicon-based method. The precision of a machine learning classifier is based on its training data, both its quality and its size \cite{DBLP:journals/csur/GiachanouC16}. Because machine learning classifiers perform better with more training data, using human-labeled training data is too expensive. Some approaches like Go et al. classify tweets as positive or negative based on the presence of certain emoticons and are thus able to train using 1.6 million tweets \cite{GoBHaHua2009}. By annotating tweets using a more accurate lexicon-based approach, the quality of the training data could increase and thus the machine learning classifier could become more accurate.
-\subsection{Approach 3}
-
+The second approach trains the machine learning classifier using tweets labeled by the lexicon-based method. The precision of a machine learning classifier is based on its training data, both its quality and its size \cite{DBLP:journals/csur/GiachanouC16}. Because machine learning classifiers perform better with more training data, using human-labeled training data is often not feasible. Some approaches like Go et al. classify tweets as positive or negative based on the presence of certain emoticons and are thus able to train using 1.6 million tweets \cite{GoBHaHua2009}. By annotating tweets using a more accurate lexicon-based approach, the quality of the training data could increase and thus the machine learning classifier could become more accurate.
 
 \section{Evaluation}
-In order to compare and evaluate the different methods and classifiers, four measures are employed, which are frequently used for classifiers. The first measure is Accuracy, which calculates the ratio of correctly classified instances to total number of instances. and is described by Equation \eqref{eq:accuracy} for a binary classification (positive vs. negative):
+In order to compare and evaluate the different methods and classifiers, four commonly used measures are employed. The first measure is Accuracy, which calculates the ratio of correctly classified instances to total number of instances. and is described by Equation \eqref{eq:accuracy} for a binary classification:
 
 \begin{equation}
     \label{eq:accuracy}
@@ -17,13 +15,13 @@ In order to compare and evaluate the different methods and classifiers, four mea
 \end{equation}
 with $TP$ denoting the number of true positives, $TN$ the number of true negatives, $FP$ the number of false positives, and $FN$ the number of false negatives \cite{DBLP:journals/csur/GiachanouC16}. 
 
-Next, Precision is used to measure the exactness, by comparing the number of instances classified as positive to the actual number of positive instances, as seen in Equation \eqref{eq:precision}:
+Next, Precision is used to measure the exactness, by comparing the number of instances classified as positive to the actual number of positive instances, as seen in Equation \eqref{eq:precision} \cite{DBLP:journals/csur/GiachanouC16}:
 \begin{equation}
     \label{eq:precision}
     Accuracy = \frac{TP + TN}{TP + TN + FP + FN}.
 \end{equation}
 
-For the third measure, Recall is calculated, which, according to Giachanou and Crestani "denotes the fraction of positive instances that were predicted to be positive". The equation for this is shown in Equation \eqref{eq:recall}:
+For the third measure, Recall is calculated, which, according to Giachanou and Crestani "denotes the fraction of positive instances that were predicted to be positive". The equation for this is shown in Equation \eqref{eq:recall} \cite{DBLP:journals/csur/GiachanouC16}:
 \begin{equation}
     \label{eq:recall}
     Recall = \frac{TP}{TP + FN}.
@@ -39,7 +37,7 @@ In addition, a confusion matrix is used to show the number of true positives (TP
 
 \begin{table}[h!]
 \centering
-\caption{Example of a confusion matrix \cite[p.~28:11]{DBLP:journals/csur/GiachanouC16}}
+\caption{Example of a confusion matrix by Giachanou and Crestani \cite[p.~28:11]{DBLP:journals/csur/GiachanouC16}.}
 \begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}| }
  \hline
   &          Predicted as $positive$ &Predicted as $negative$  \\

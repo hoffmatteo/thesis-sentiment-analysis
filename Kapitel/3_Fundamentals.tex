@@ -106,6 +106,8 @@ For polarity classification, Medhat et al. divide techniques into three categori
 
 The lexicon-based approach makes use of a sentiment lexicon, which contains sentiment words and their values. In addition, intensifiers and negations may be used. To classify a document, all the values of sentiment words detected in the document are summed up, if the sum is positive the document is classified as negative, if the sum is 0 as neutral, and if the sum is negative as negative. By using negations and intensifiers, the sentiment values are adjusted \cite{liu_2015}. There are three different approaches to building a sentiment lexicon, which are outlined by Medhat et al. There is the manual collection of words, which is, of course, very time-intensive. Next, a dictionary-based approach can be used. This method starts with a small list of opinion words, and then searches dictionaries such as WordNet for synonyms and antonyms, maintaining the orientations for synonyms and reversing them for antonyms. The found words are then added to the list and used for the next iteration. The corpus-based approach utilizes context-specific orientations along with a list of opinion words to find opinion words in a large corpus. It is based on sentiment consistency, which assumes that adjective conjoined by e.g. "and" have the same polarity, while "but" would signify opposing polarities. This approach can be further subdivided into statistical approaches, which finds co-occurrence patterns using statistics, and semantic approaches, which utilizes semantic relationships \cite{MEDHAT20141093}.
 
+\TODO{hybrid fundamentals?}
+
 
 
 
