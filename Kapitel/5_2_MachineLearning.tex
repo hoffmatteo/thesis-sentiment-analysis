@@ -62,6 +62,5 @@ For example, the tweet "i love it" would result in three attributes, the attribu
     \label{fig:arff_train}
 \end{figure}
 
-\TODO{libsvm}
 \subsection{Training}
 For training, Weka's FilteredClassifier was used, which combines an arbitrary filter with an arbitrary classifier. The classifier classes used were "NaiveBayes" for Gaussian Naive Bayes, "NaiveBayesMultinomial", "Logistic" for Logistic Regression, "LibSV"M for Support Vector Machine and "RandomForest" \cite{weka}. For the Support Vector Machine, the LibSVM library had to be added to the project, as Weka only provided a wrapper class \cite{Chang2001}. Once a classifier was built, its file was saved. RandomForest resulted in large files, with the largest being 471 megabytes. For the evaluation, Weka's Evaluation class was used, which automatically calculated all needed measures \cite{weka}.
