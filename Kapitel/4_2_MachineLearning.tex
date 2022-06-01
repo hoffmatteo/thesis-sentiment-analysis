@@ -1,6 +1,5 @@
-\section{Machine Learning based Method}
-\TODO{kind of similiar to related work?}
-Machine Learning is a popular approach in Sentiment Analysis. Pang et al. were one of the first to employ and compare the use of different machine learning classifiers. Their classifiers worked in the movie review domain, where they were able to achieve high accuracy \cite{pang-etal-2002-thumbs}. Go et al. proved that machine learning classifiers also achieved high accuracy in the Twitter domain, which is why a machine-learning based approach has to be considered.
+\section{Machine Learning Method}
+Machine Learning is the most popular approach in sentiment analysis. Pang et al. were one of the first to employ and compare the use of different machine learning classifiers. Their classifiers worked in the movie review domain, where they were able to achieve high accuracy \cite{pang-etal-2002-thumbs}. Go et al. proved that machine learning classifiers also achieved high accuracy in the Twitter domain, which is why a machine learning approach is considered. The following subsections explain each step of the process for the machine learning method, which is also depicted in Figure \ref{fig:ml_process}.
 
 \iffalse
 \begin{figure}
@@ -49,30 +48,32 @@ Machine Learning is a popular approach in Sentiment Analysis. Pang et al. were o
 
     \vspace{25mm}
 
-   \caption{Process for machine-learning based method.}
-    \label{fig:my_label}
+   \caption{Process for machine learning based method.}
+    \label{fig:ml_process}
 \end{figure}
 
-
 \subsection{Tokenization}
-The machine-learning classifier relies on features, also called attributes, which have to be extracted from the training data. In Twitter, these features most often are syntactic features, such as words. Tokenization refers to the extraction process of words out of a tweet/sentence \cite{DBLP:journals/csur/GiachanouC16}.  Here, the models also differentiate between a feature consisting of only one word, also called unigram, or two (bigram) or more words (n-gram). In this thesis, both models are looked at, and words are tokenized based on whitespace.
+The machine learning classifier relies on features, also called attributes, which have to be extracted from the training data. In Twitter, these features most often are syntactic features, such as words. Tokenization refers to the extraction process of words out of a tweet/sentence, the most common process being whitespace, which is also used in this thesis \cite{DBLP:journals/csur/GiachanouC16}.  Here, the approaches also differentiate between a feature consisting of only one word, also called unigram, or two (bigram) or more words (n-gram). In this thesis, unigrams, bigrams, and the combination of both are analyzed.
+
 \subsection{Stop Word Filtering}
-Because every word is treated as an attribute, some words can be removed in advance to improve both data sparsity and the feature size. Words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as Stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Although there are pre-compiled lists of Stop Words, these often are outdated and not Twitter specific. Additionally, Saif et al. observed that the usage of pre-compiled lists reduced the accuracy of classification performance and recommended a dynamic solution, which considers the number of times a word appears over the data set \cite{data_sparsity}. 
+Because every word is treated as an attribute, some words can be removed in advance to improve both data sparsity and the feature size. Words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as stop words and can thus be ignored \cite{DBLP:journals/csur/GiachanouC16}. Although there are compiled lists of stop words, these often are outdated and not Twitter specific. Additionally, Saif et al. observed that the usage of compiled lists reduced the accuracy of classification performance and recommended a dynamic solution, which considers the number of times a word appears over the data set \cite{data_sparsity}. This thesis combines both approaches and uses a stop word list, as well as a dynamic solution.
 
 \subsection{URL/Hashtag Removal}
-Tweets often contain URLs of the media, article, etc. the tweet is concerned with. Because these links in itself don't affect the sentiment, they are too ignored. Additionally, tweets often contain a hashtag, which indicates that the tweet is concerned with specific topic. The hashtag character "\#" is removed, to not differentiate between words such as \#good and good and thus further reduce data sparsity and feature size.
+Tweets often contain URLs of the media, article, etc. the tweet is concerned with. Because these links in itself don't affect the sentiment, they can be ignored. Additionally, tweets often contain a hashtag, which indicates that the tweet is concerned with specific topic. The hashtag character "\#" is removed, to not differentiate between words such as \#good and good and thus further reduce data sparsity and feature size.
+
+
 \subsection{Stemming}
-Tweets as an informal message often contain misspelled or otherwise modified words \cite{DBLP:journals/csur/GiachanouC16}. By using word stemming, which, according to Lovins, "reduces all words with the same root (or, if prefixes are left
-untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}, different cases or spellings of the same word can be reduced to one common feature, which, again, reduces data sparsity.
+Tweets as an informal message often contain misspelled or otherwise modified words \cite{DBLP:journals/csur/GiachanouC16}. Word stemming, according to Lovins, "reduces all words with the same root (or, if prefixes are left
+untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. Thus, different cases or spellings of the same word can be reduced to one common feature, which also reduces data sparsity.
 
 \subsection{Vectorization}
-\TODO{source}
+\TODO{naming --> feature selection?}
 Vectorization is the process of converting tweets into a format that is readable for the classifier. This includes the definition of data types, its representation and more. Additionally, the assigned value of a tweet also differs between using the binary presence of a word, or its frequency in a tweet \cite{DBLP:journals/csur/GiachanouC16}. In this thesis, both approaches are considered.
 
 \subsection{Classification}
-Once the training data has been preprocessed and turned into features, the task of training the models can begin. The classifiers chosen are Naive Bayes using the Gaussian Distribution, Naive Bayes using the multinomial Distribution, Random Forest, Logistic Regression and Support Vector Machine. Because the classifiers may have different runtimes, each classifier is first evaluated using a small subset of training data, to obtain a first impression of the training runtime. After this, the data size is gradually increased, until the entire data set was used, or the process becomes too resource intensive. Once the appropiate training size is found, the parameters of each classifier are evaluated, to improve both performance and accuracy. If the performance can be improved, the training size is adjusted accordingly. Once the optimal parameters and training size are found, the classifiers are evaluated and compared. To facilitate a better comparison, the classifiers are evaluated both using their maximum training size, as well as the same minimum training size.
+Once the training data has been preprocessed and turned into features, the task of training the models can begin. The classifiers chosen were Naive Bayes using the Gaussian distribution, Naive Bayes using the multinomial distribution, Random Forest, Logistic Regression and Support Vector Machine. Because the classifiers may have different runtimes, each classifier was first evaluated using a small subset of training data, in order to obtain a first impression of the training runtime. After this, the data size was gradually increased, until the entire data set was used, or the process became too resource intensive. Once the appropiate training size was found, the parameters of each classifier were evaluated, to improve both performance and accuracy. If the performance could be improved, the training size was adjusted accordingly. Once the optimal parameters and training size were found, the classifiers were evaluated and compared. To facilitate a better comparison, the classifiers were evaluated both using their maximum training size, as well as the same minimum training size.
 
-The following sections explain each machine-learning method in more detail.
+The following subsections explain each machine learning method in more detail.
 
     \subsubsection{Naive Bayes}
         Naive Bayes is a probabilistic, generative classification model, as it does not directly estimate the probability from the training data. It is based on the Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
@@ -82,11 +83,9 @@ The following sections explain each machine-learning method in more detail.
         \end{equation}
         where $c_j$ is a class label and $d_i$ is the document, in our case a tweet. \cite{DBLP:books/aw/TanSKK2019}. 
         
-        Bayes theorem allows to calculate the posterior probability $P(c_j|d_i)$, which Tan et al. describe as "the probability of observing a class label $c_j$ for a data instance given its set of attribute values $d_i$" \cite[p.~418]{DBLP:books/aw/TanSKK2019}. 
+        Bayes theorem allows to calculate the posterior probability $P(c_j|d_i)$, which Tan et al. describe as "the probability of observing a class label $c_j$ for a data instance given its set of attribute values $d_i$" \cite[p.~418]{DBLP:books/aw/TanSKK2019}. To calculate the posterior probability, the class conditional probability $P(d_i|c_j)$ is needed, which describes the probability of observing a set of attribute values given a class. Because of this indirect calculation, Naive Bayes is a generative model. One approach to calculate the class conditional probability outlined by Tan et al. is to ''consider the fraction of training instances of a given class for every possible combination of attribute values'' \cite[p.~419]{DBLP:books/aw/TanSKK2019}. With a large number of attributes and values, this method becomes computationally infeasible due to the exponential growth of combinations \cite{DBLP:books/aw/TanSKK2019}.
 
-        To calculate the posterior probability, the class conditional probability $P(d_i|c_j)$ is needed, which describes the probability of observing a set of attribute values given a class. Because of this indirect calculation, Naive Bayes is a generative model. One approach to calculate the class conditional probability outlined by Tan et al. is to ''consider the fraction of training instances of a given class for every possible combination of attribute values'' \cite[p.~419]{DBLP:books/aw/TanSKK2019}. With a large number of attributes and values, this method becomes computationally infeasible due to the exponential growth of combinations \cite{DBLP:books/aw/TanSKK2019}.
-
-        Due to this, the Naive Bayes assumption is employed to estimate the class conditional probability. Naive Bayes uses conditional independence, which states that attribute values are only dependent on the class label and not each other. Thus, the class conditional probability can be calculated by using Equation \eqref{eq:naive_assumption}:
+        Due to this, the Naive Bayes assumption is employed to estimate the class conditional probability. Naive Bayes assumes conditional independence, which states that attribute values are only dependent on the class label and not each other. Thus, the class conditional probability can be calculated by using Equation \eqref{eq:naive_assumption}:
         \begin{equation}
             \label{eq:naive_assumption}
             P(d_i|c_j) = \prod_{t=1}^{n}P(w_{t}|c_j),
@@ -96,22 +95,27 @@ The following sections explain each machine-learning method in more detail.
         Furthermore, $P(d)$ remains constant for every class label $c$, so the class that maximizes Equation \eqref{eq:naive_final} is chosen: 
         \begin{equation}
             \label{eq:naive_final}
-            P(c_j|d_i)\propto P(c_j)\prod_{t=1}^{n}P(w_{t}|c_j) 
+            P(c_j|d_i)\propto P(c_j)\prod_{t=1}^{n}P(w_{t}|c_j) .
         \end{equation}   
         
         $P(c_j)$ denotes the prior probability and thus the distribution of class labels, which can be obtained using prior knowledge or the training data.
         
+
         There are different models on how to implement the Naive Bayes assumption for text classification. In this thesis, the Gaussian Naive Bayes and Multinomial Naive Bayes are discussed. 
         
-        The Gaussian Naive Bayes assumes that numeric attributes, such as word count, are distributed according to the normal distribution, also called Gaussian distribution \cite{nb_gauss}. According to Evans et al., "it was originally developed as an approximation to the binomial distribution when the number of trials is large and the Bernoulli probability p is not close to 0 or 1". \cite[p.~143]{evans2011statistical}. It is described by two parameters, the mean $\mu$ and the standard deviation $\sigma$ \cite{evans2011statistical}. Applied to Naive Bayes, it results in Equation \eqref{nb:gauss}:
+        \paragraph{Gaussian Naive Bayes} \mbox{} \\
+
+        The Gaussian Naive Bayes assumes that numeric attributes, such as word count, are distributed according to the normal distribution, also called gaussian distribution \cite{nb_gauss}. According to Evans et al., "[the gaussian distribution] was originally developed as an approximation to the binomial distribution when the number of trials is large and the Bernoulli probability p is not close to 0 or 1". \cite[p.~143]{evans2011statistical}. It is described by two parameters, the mean $\mu$ and the standard deviation $\sigma$ \cite{evans2011statistical}. Applied to Naive Bayes, it results in Equation \eqref{nb:gauss}:
         \begin{equation}
         \label{nb:gauss}
             P(w_t = v|c_j) = \frac{1}{\sqrt{2\pi}\sigma}e^{-\frac{(v.\mu)^2}{2\sigma^2}},
         \end{equation}
         with $v$ denoting the number of times $w_t$ appears in the to be classified document \cite{nb_gauss}.
         
-        In order to calculate Equation \eqref{nb:gauss}, the mean $\mu$ and the standard deviation $\sigma$ have to be estimated for each numeric attribute given the class. The two parameters can be approximated by using the sample average and sample standard deviation of the training data. Once these two parameters are calculated for every attribute and class, unknown instances can be classified using Equation \eqref{nb:gauss} in conjunction with Equation \eqref{eq:naive_final} \cite{nb_gauss}.
+        In order to calculate Equation \eqref{nb:gauss}, the mean $\mu$ and the standard deviation $\sigma$ have to be estimated for each numeric attribute, in our case words, given the class. The two parameters can be approximated by using the sample average and sample standard deviation of the training data. Once these two parameters are calculated for every word and class, unknown instances can be classified using Equation \eqref{nb:gauss} in conjunction with Equation \eqref{eq:naive_final} \cite{nb_gauss}.
         
+        \paragraph{Multinomial Naive Bayes} \mbox{} \\
+
         According to McCallum and Nigan, "the multinomial model captures word frequency information in documents" \cite[p.~3]{Mccallum1998}. By considering not only if a word is present but also how often it is present, the additional information may have an advantage. They describe the document as being "an ordered sequence of word events, drawn from the same vocabulary V" \cite[p.~3]{Mccallum1998}, with its length being independent of class. Using Naive Bayes, we assume that every word event is independent.
         
         According to Evans et al., "the multinomial variate is a multidimensional generalization of the binomial. Consider a trial that can result in only one of $k$ possible distinct outcomes, labeled $A_i, i = 1,...,k$. The outcome $A_i$ occurs with probability $p_i$. The multinomial distribution relates to a set of n-independent trials of this type." \cite[p.~135]{evans2011statistical}.
@@ -127,7 +131,7 @@ The following sections explain each machine-learning method in more detail.
         To estimate $P(w_t|c_j)$, the probability of a word $w_t$ given a class $c_j$, training instances are used to count the number of times a word appears in a class in Equation \eqref{eq:prob_word}:
         \begin{equation}
             \label{eq:prob_word}
-                P(w_t|c_j) = \frac{1 + \sum_{i=1}^{|D|}N_{it} P(c_j|d_i)}{|V| + \sum_{s=1}^{|V|} \sum_{i=1}^{|D|}N_{is} P (c_j|d_i)} 
+                P(w_t|c_j) = \frac{1 + \sum_{i=1}^{|D|}N_{it} P(c_j|d_i)}{|V| + \sum_{s=1}^{|V|} \sum_{i=1}^{|D|}N_{is} P (c_j|d_i)}, 
         \end{equation}
         with $D$ containing labeled training documents $(d_i,c_j)$, $N_{it}$ describing the number of times $w_t$ appears in document $d_i$, and $|V|$ containing all words \cite{Mccallum1998}.
         Equation \eqref{eq:prob_word} contains the posterior probability $P(c_j|d_i)$, which is the probability we want to calculate for unknown documents. Because we use labeled training documents, we know the class label, thus resulting in the posterior probability shown in Equation \eqref{eq:post_prob}:
@@ -135,19 +139,19 @@ The following sections explain each machine-learning method in more detail.
                 \label{eq:post_prob}
                 P(c_j|d_i)= 
                 \begin{dcases}
-                1,& \text{if } d_i \text{ was assigned the class label } c_j \\
-                0,              & \text{otherwise}
+                1,& \text{if } d_i \text{ was assigned the class label } c_j, \\
+                0,              & \text{otherwise.}
         \end{dcases}
         \end{equation}
         Because of Equation \eqref{eq:post_prob}, Equation \eqref{eq:prob_word} only sums up the number of occurrences of a word in instances of a single class, as the occurrences in other classes are multiplied with 0. Thus, it can be simplified into Equation \eqref{eq:prob_word_simpler}:
                 \begin{equation}
             \label{eq:prob_word_simpler}
-                P(w_t|c_j) = \frac{1 + count(w_t, c_j)}{|V| + \sum_{s=1}^{|V|}count(w_s|c_j)} 
+                P(w_t|c_j) = \frac{1 + count(w_t, c_j)}{|V| + \sum_{s=1}^{|V|}count(w_s|c_j)}, 
         \end{equation}
 
         with $count(w_t|c_j)$ counting the number of times a word $w_t$ appears in all training instances of a class $c_j$.
         
-        By using Equation \eqref{eq:prob_word}, we calculate the word probability $P(w_t|c_j$). We utilize this in Equation \eqref{eq:multinomial_bayes} to calculate the class conditional probability $P(d_i|c_j)$ using the multinomial distribution. Finally, this allows us to estimate the posterior probability $P(c|d)$, as shown in Equation \eqref{eq:naive_final}. By selecting the class with the higher posterior probability, the classifier is able to make a prediction.
+        By using Equation \eqref{eq:prob_word}, we calculate the word probability $P(w_t|c_j$). We utilize this in Equation \eqref{eq:multinomial_bayes} to calculate the class conditional probability $P(d_i|c_j)$ using the multinomial distribution. Finally, this allows us to estimate the posterior probability $P(c|d)$, as shown in Equation \eqref{eq:naive_final}.
         
 \subsubsection{Random Forest}
         According to Tan et al., Random Forest is an ensemble method that utilizes multiple base classifiers to take a vote on their predictions. The final prediction is then made by either averaging the vote or taking the majority vote. Random Forest applies a set of decorrelated decision trees by implementing two key characteristics \cite{DBLP:books/aw/TanSKK2019}.
@@ -156,7 +160,7 @@ The following sections explain each machine-learning method in more detail.
         
         The selection of input attributes is the second characteristic. When a tree is being constructed, an attribute must be selected for splitting at each internal node. Random Forest randomly chooses a subset of attributes, from which the attribute with the maximum reduction in an impurity measure is chosen \cite{DBLP:books/aw/TanSKK2019}.
         
-        Through these characteristics, Random Forest reduces the correlation of trees and thus the variance, because the trees use different data sets and input attributes \cite{DBLP:books/aw/TanSKK2019}. In Figure \ref{fig:tree}, a part of a tree generated by a Random Forest classifier can be seen. Here, the existence of a word is used as the attribute for splitting. If, for example, $hurts \geq 0.5$, the word $hurts$ exist in the document that is being analyzed, while $hurts < 0.5$ signifies that the word $hurts$ does not exist.
+        Through these characteristics, Random Forest reduces the correlation of trees and thus the variance, because the trees use different data sets and input attributes \cite{DBLP:books/aw/TanSKK2019}. In Figure \ref{fig:tree}, a part of a tree generated by a Random Forest classifier can be seen. Here, the existence of a word is used as the attribute for splitting. If, for example, $hurts \geq 0.5$, the word $hurts$ exist in the document that is being analyzed, while $hurts < 0.5$ signifies that the word $hurts$ does not exist in the document.
         
         \begin{figure}
         \centering
@@ -190,19 +194,20 @@ The following sections explain each machine-learning method in more detail.
       \label{fig:tree}
 \end{figure}
 \subsubsection{Logistic Regression}
+\TODO{connection with z = wd+b, cond. prob = sigma(...) --> make connection with z and function clearer to graph}
 Logistic Regression calculates the posterior probability $P(c_j|d_i)$ directly, without relying on the class conditional probability like Naive Bayes, which is why it is a probabilistic discriminative model. In a binary model, the class label can be assigned by calculating the odds, as seen in Equation \eqref{eq:logistic_odds} \cite{DBLP:books/aw/TanSKK2019}:
         \begin{equation}
             \label{eq:logistic_odds}
                 \frac{P(c=1|d)}{P(c=0|d)}.
         \end{equation}
-If the odds are greater than 1, then the class label 1 can be assigned to document d, otherwise class 0 is assigned. Logistic Regression represents the odds using a linear predictor $z=w^Tx + b$, which results in equation \eqref{eq:logistic_linear}:
+If the odds are greater than 1, then the class label 1 can be assigned to document d, otherwise class label 0 is assigned. Logistic Regression represents the odds using a linear predictor $z=w^Tx + b$, which results in equation \eqref{eq:logistic_linear}:
         \begin{equation}
             \label{eq:logistic_linear}
                 \frac{P(c=1|d)}{P(c=0|d)} = e^z = e^{w^Td+b},
         \end{equation}
 with the parameters $w$ and $b$ and $w^t$ signifying the vector transpose \cite{DBLP:books/aw/TanSKK2019}.
 
-By substituting $P(c=0|d)$ with $1 - P(c=1|x)$ and solving for $P(c=1|d)$, we get Equation \eqref{eq:logistic_sigmoid}:
+In order to get the posterior probability, we substitute $P(c=0|d)$ with $1 - P(c=1|x)$ and solve for $P(c=1|d)$, thus obtaining Equation \eqref{eq:logistic_sigmoid}:
         {\begin{equation}
             \label{eq:logistic_sigmoid}
                 P(c=1|d) = \frac{1}{1+e^{-z}} = \sigma(z).

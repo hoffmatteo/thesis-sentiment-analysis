@@ -1,6 +1,5 @@
 \section{Hybrid Method}
-Hybrid methods combine lexicon-based and machine-learning methods to balance their disadvantages. Lexicon-based methods are inherently static, as they depend on a set list of words. If a tweet contains words which do not appear in the list, the lexicon-based can not classify it. On the other hand, a machine-learning method requires a large amount of labeled training data that is not easy to obtain manually \cite{DBLP:journals/csur/GiachanouC16}.
-
+\TODO{something here?}
 \subsection{Approach 1}
 The first approach consisted of using the score of a lexicon-based method as an additional feature of the machine learning method, similar to the approach used by Khuc et al. \cite{khuc}. If a tweet is to be classified, it is first scored using the lexicon-based method. The calculated score is then used as an additional feature for the machine learning method. This has the advantage of not relying solely on the static dictionaries used by the lexicon-based method, while still being able to take specific sentence structures like negation into account.
 \subsection{Approach 2}
