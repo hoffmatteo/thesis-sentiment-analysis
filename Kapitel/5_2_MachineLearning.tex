@@ -4,13 +4,10 @@ For the machine learning method, WEKA, developed at the University of Waikato in
 
 Weka uses the Attribute-Relation File Format for its data, which contains a header describing the attributes, as well as the data itself, with one row containing one instance \cite{weka}. For this thesis, the class attribute was chosen to be nominal, either negative (-1.0) or positive (1.0), for a binary classification problem. Furthermore, the tweet text is added as a string attribute.
 
-\TODO{Twitter API for test data?, date}
 \subsection{Training data}
 The training data for machine learning classifiers was created by Go et al. and consists of 1.6 million tweets \cite{GoBHaHua2009}. The tweets were parsed using the Twitter API by querying for positive or negative emoticons, such as ":)" and labeled as positive or negative depending on the emoticon. Furthermore, tweets containing both a negative and positive emoticon, as well as retweets were removed \cite{GoBHaHua2009}.
 
 This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a large number of topics \cite{GoBHaHua2009}.
-
-\TODO{delete parts that are methodology, only specifics/implementation details.}
 
 \subsection{Tokenization}
 For Tokenization, weka's NGramTokenizer was used, which splits a text into Ngrams of a certain size. The default delimiters, such as whitespace and "\textbackslash n", were used for splitting. The minimum size of the Ngram was set to 1 to include Unigrams, and the maximum size was set to 2 to include Bigrams \cite{weka}.
