@@ -42,13 +42,14 @@ A lexicon constructed by Haak was used, which contains 198 emojis and their vale
 
 \subsection{Algorithm}
 
-An algorithm was designed to classify tweets, as seen in Algorithm \ref{lexiconAlg}. Each tweet was first split using whitespace to separate each word. Then, each word was pre-processed. First, punctuation was removed, unless the word consisted of an emoticon/emoji. After each processing step, the word was searched in the sentiment lexicon; if the word was not found, the process continued with the next step. Characters that appeared more than two times in a row were reduced to two times. Additionally, characters were removed from the end of a word to prevent different word endings from affecting the algorithm, up to a minimum word length of 3.
+An algorithm was designed to classify tweets, as seen in Algorithm \ref{lexiconAlg}. Each tweet was first split using whitespace to separate each word. Then, each word was pre-processed. First, punctuation was removed, unless the word consisted of an emoticon/emoji. After each processing step, the word was searched in the sentiment lexicon; if the word was not found, the process continued with the next step. Characters that appeared more than two times in a row were reduced to two times, in order to prevent empathetic lengthening. Additionally, characters were removed from the end of a word to prevent different word endings from affecting the algorithm, up to a minimum word length of 3. One special case
 
-Taking into account the four different word classes, the most important parts of a tweet that define its sentiment were covered. The total score of a tweet was calculated by adding the score of each sentiment word. For each sentiment word, the previous two words were evaluated to see if there was an intensifier and/or a negation. If so, the polarity was adjusted accordingly. Additionally, if an emoji was detected, its sentiment was also added to the total score. The algorithm itself was implemented using Java.
+Taking into account the four different word classes, the most important parts of a tweet that define its sentiment were covered. There is one special case which has to be considered. The used lexicons define "no" as both a sentiment word and a negation, which is why the algorithm checks whether a sentiment word appears after "no" to determine whether it is a negation or not. If it is a negation, the word is skipped.
+
+The total score of a tweet was calculated by adding the score of each sentiment word. For each sentiment word, the previous two words were evaluated to see if there was an intensifier and/or a negation. If so, the polarity was adjusted accordingly. Additionally, if an emoji was detected, its sentiment was also added to the total score. The algorithm itself was implemented using Java.
 
 Although this thesis focuses on polarity classification, the lexicon method was also able to return the strength of a given sentiment, as well as a neutral score of 0. A neutral score was only returned if no sentiment word could be detected or if the sum of detected sentiments was equal to 0.
 
-\TODO{anpassen an neuen Stand}
 \begin{algorithm}
   \caption{Lexicon-based algorithm used to return a positive, negative or neutral score for a given tweet.}\label{lexiconAlg}
     \begin{algorithmic}[1]
@@ -61,7 +62,14 @@ Although this thesis focuses on polarity classification, the lexicon method was 
             \ForEach {$word \in tweet$}
                 \State $word =$ preprocess($word$)
                 \If{$word \in SentimentLexicon$} 
-                    \State $polarity \gets 1$
+                 \If{$word ==$ "no"}
+                        \ForEach {$nextWord \in$ next two words}
+                        \If{$nextWord \in SentimentLexicon$}
+                            \State Skip word
+                        \EndIf
+                        \EndFor
+                \Else
+                \State $polarity \gets 1$
                     \ForEach {$previousWord \in$ previous two words}
                         \If{$previousWord \in NegationList$}
                             \State $polarity = polarity * (-1)$
@@ -72,11 +80,13 @@ Although this thesis focuses on polarity classification, the lexicon method was 
                         \EndIf
                     \EndFor
                     \State $score = score + polarity * sentiment$
+                \EndIf 
                 \Else
                     \If{$word \in EmojiLexicon$}
                         \State $score = score + emojiSentiment$
                     \EndIf
                 \EndIf 
+
             \EndFor
             \State \textbf{return} $score$
         \EndFunction

@@ -9,31 +9,29 @@ The training data for machine learning classifiers was created by Go et al. and 
 
 This resulted in 800,000 positive and 800,000 negative tweets that were periodically requested on no specific topic, thus covering a large number of topics \cite{GoBHaHua2009}.
 
-\subsection{Tokenization}
-For Tokenization, weka's NGramTokenizer was used, which splits a text into Ngrams of a certain size. The default delimiters, such as whitespace and "\textbackslash n", were used for splitting. The minimum size of the Ngram was set to 1 to include Unigrams, and the maximum size was set to 2 to include Bigrams \cite{weka}.
-\subsection{Stop Word Filtering}
-For Stop Word Filtering, both a list and a dynamic approach were used. A short list of common words such as "the" was manually collected and evaluated. To further reduce the word size, a limit was set for how often a word has to appear to be included, as well as a (soft) limit of total words. In the testing, a limit of 15,000 words was found to be optimal, with words appearing at least 20 times in the training data. This allowed for the greatest balance of performance and accuracy. This limit was set in weka's StringToWordVector, which is explained in more detail later.
-\subsection{URL/Hashtag Removal}
-??
+\subsection{Preprocessing}
 
-\subsection{Stemming}
+\subsubsection{URL/Hashtag Removal}
+The hashtags and URLs were removed using regular expressions.
+
+\subsubsection{Stop Word Filtering}
+For stop word filtering, both a list and a dynamic approach were used. A short list of common words such as "the" was manually collected and evaluated. To further reduce the word size, a limit was set for how often a word has to appear to be included, as well as a (soft) limit of total words. In the testing, a limit of 15,000 words was found to be optimal, with words appearing at least 20 times in the training data. This allowed for the greatest balance of performance and accuracy. This limit was set in weka's StringToWordVector, which is explained in more detail later.
+
+\subsubsection{Stemming}
 For stemming, weka's LovinsStemmer was used, which is based on the Lovins Stemmer \cite{weka}. This stemmer uses a two-step method, which first removes the ending, thus obtaining the stem. After this, similar stems are combined to account for different spellings. An example of this is "absorption", whose stem is "absorpt", while "absorbing" will result in "absorb"\cite{Lovins1968DevelopmentOA}.
 
-\subsection{Vectorization}
-In order to transform the text of a tweet into a suitable format for classifiers, weka's StringToWordVector filter is used. This filter transforms the string feature, the tweet's text, by parsing each word out of it using the previously defined NGramTokenizer. The words are then added to a dictionary, which stores all recognized words. In the data, the words are implemented as numeric attributes, with the value denoting the number of occurrences or its presence \cite{weka}.
+\subsection{Feature Selection}
+In order to transform the text of a tweet into features, and thus a suitable format for classifiers, weka's StringToWordVector filter was used. This filter transforms the string feature, the tweet's text, by parsing each word out of it, as we decided to use the words as features. This process is also known as tokenization \cite{DBLP:journals/csur/GiachanouC16}, which was implemented using weka's NGramTokenizer. This class splits a text into n-grams of a certain size. Standard delimiters, such as whitespace and "\textbackslash n", were used for splitting. The minimum and maximum size of n-grams were set according to whether a unigram, bigram, or a combination was used. \cite{weka}. The filter automatically adds all recognized terms to a dictionary. In the data, the words were implemented as numeric attributes, with the value denoting the number of occurrences or its presence \cite{weka}.
 
-For example, the tweet "i love it" would result in three attributes, the attribute "i", the attribute "love", and the attribute "it", as can be seen in Figure \ref{fig:arff_train}. The dictionary, and with it the attributes, are all determined by the training data. The test data set is also filtered, but only using the known words from the training data, no new words are added to the dictionary \cite{weka}.
-
-
-
+For example, the tweet "i love it" would result in three attributes, the attribute "i", the attribute "love", and the attribute "it", as can be seen in Figure \ref{fig:arff_train}. The values denote the attribute index, as well as the number of occurrences. The dictionary, and with it the attributes, were all determined by the training data. The test data set was also filtered, but only using the known words from the training data, no new words were added to the dictionary \cite{weka}.
 
 \begin{figure}
     \centering
 \begin{tikzpicture}
 \vspace{5mm}
-\node[draw, text width=6cm] at (0,0) { @relation TrainingData \\
+\node[draw, text width=7cm](A) at (0,0) { @relation TrainingData \\
                                         \medskip
-                                        @attribute calculatedScore {-1.0, 1.0} \\
+                                        @attribute calculatedScore \{-1.0, 1.0\} \\
                                         @attribute tweetText string \\
                                         \medskip
                                         @data \\
@@ -41,23 +39,25 @@ For example, the tweet "i love it" would result in three attributes, the attribu
                                         -1.0,'i hate it' \\
                                         
                                         };
-\node[draw, text width=6cm] at (8,0) { @relation TrainingData \\
+\node[draw, text width=7cm](B) at (8.5,0) { @relation TrainingData \\
                                         \medskip
-                                        @attribute calculatedScore {-1.0, 1.0} \\
+                                        @attribute calculatedScore \{-1.0, 1.0\} \\
                                         @attribute i numeric \\
                                         @attribute love numeric \\
                                         @attribute it numeric \\
                                         @attribute hate numeric \\
                                         \medskip
                                         @data \\
-                                        {0 1.0, 1 1 , 2 1 , 3 1} \\
-                                        {0 0,   1 1 , 3 1 , 4 1}
+                                        \{0 1.0, 1 1 , 2 1 , 3 1\} \\
+                                        \{0 0,   1 1 , 3 1 , 4 1\}
                                         };
+\draw[->, line width=0.5mm] (A) -- (B);
+
 \end{tikzpicture}
 \vspace{5mm}
-    \caption{Example of training data in the ARFF format utilized by Weka before and after vectorization \cite{weka}.}
+    \caption{Example of training data in the ARFF format utilized by Weka before and after feature selection \cite{weka}.}
     \label{fig:arff_train}
 \end{figure}
 
 \subsection{Training}
-For training, Weka's FilteredClassifier was used, which combines an arbitrary filter with an arbitrary classifier. The classifier classes used were "NaiveBayes" for Gaussian Naive Bayes, "NaiveBayesMultinomial", "Logistic" for Logistic Regression, "LibSV"M for Support Vector Machine and "RandomForest" \cite{weka}. For the Support Vector Machine, the LibSVM library had to be added to the project, as Weka only provided a wrapper class \cite{Chang2001}. Once a classifier was built, its file was saved. RandomForest resulted in large files, with the largest being 471 megabytes. For the evaluation, Weka's Evaluation class was used, which automatically calculated all needed measures \cite{weka}.
+For training, Weka's FilteredClassifier was used, which combines an arbitrary filter with an arbitrary classifier. The classifier classes used were (1) "NaiveBayes" for Gaussian Naive Bayes, (2) "NaiveBayesMultinomial" for Multinomial Naive Bayes, (3) "Logistic" for Logistic Regression, (4) "LibSVM" for Support Vector Machines, and (5) "RandomForest" for Random Forest \cite{weka}. For the Support Vector Machines, the LibSVM library had to be added to the project, as Weka only provided a wrapper class \cite{Chang2001}. Once a classifier was built, its file was saved. Random Forest resulted in large files, with the largest being 471 megabytes. For the evaluation, Weka's class Evaluation was used, which automatically calculates all necessary measures \cite{weka}.

@@ -49,15 +49,16 @@ The typical process of a machine learning classifier can be seen in Figure \ref{
     \label{fig:ml_process}
 \end{figure}
 
+\subsection{Preprocessing}
+In order to prepare the tweets for feature extraction, a few steps can be taken to encounter some of the characteristics that define tweets \cite{DBLP:journals/csur/GiachanouC16}.
 
-
-\subsection{URL/Hashtag Removal}
+\subsubsection{URL/Hashtag Removal}
 Tweets often contain URLs of the media, article, etc. the tweet is concerned with. Because these links in itself don't affect the sentiment, and are unique, they can be ignored to reduce data sparsity. Additionally, tweets often contain a hashtag, which indicates that the tweet is concerned with specific topic. The hashtag character "\#" is removed, to not differentiate between words such as \#good and good and thus further reduce data sparsity.
 
-\subsection{Stop Word Filtering}
+\subsubsection{Stop Word Filtering}
 Common words with low impact on the sentiment of a sentence, such as "the" and "is", are referred to as stop words and can be ignored, as they do not provide any additional information. Although there are compiled lists of stop words, these often are outdated and not Twitter specific \cite{DBLP:journals/csur/GiachanouC16}. Additionally, Saif et al. observed that the usage of compiled lists reduced the accuracy of classification performance and recommended a dynamic solution, which considers the number of times a word appears over the data set \cite{data_sparsity}. This thesis combines both approaches and uses a stop word list, as well as a dynamic solution.
 
-\subsection{Stemming}
+\subsubsection{Stemming}
 Tweets as an informal message often contain misspelled or otherwise modified words \cite{DBLP:journals/csur/GiachanouC16}. Word stemming, according to Lovins, "reduces all words with the same root (or, if prefixes are left
 untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. Thus, different cases or spellings of the same word can be reduced to one common feature, which also reduces data sparsity.
 
@@ -69,6 +70,8 @@ This thesis utilizes syntactic features, which are the most used features. Appro
 In addition, the usage of a term's frequency in a tweet varies. Some approaches utilize a binary presence, which does not differentiate whether a term appears multiple times in a sentence, while others utilize the frequency \cite{DBLP:journals/csur/GiachanouC16}. In this thesis, both approaches are considered.
 
 \subsection{Classifiers}
+\TODO{ngram}
+
 Once the training data has been preprocessed and turned into features, the task of training the classifier models can begin. The classifiers chosen were Naive Bayes using the Gaussian distribution, Naive Bayes using the multinomial distribution, Random Forest, Logistic Regression and Support Vector Machine. Because the classifiers may have different runtimes, each classifier was first evaluated using a small subset of training data, in order to obtain a first impression of the training runtime. After this, the data size was gradually increased, until the entire data set was used, or the process became too resource intensive. Once the optimal training size was found, the parameters of each classifier were evaluated, to improve both performance and accuracy. If the performance could be improved, the training size was adjusted accordingly. Once the optimal parameters and training size were found, the classifiers were evaluated and compared. To facilitate a better comparison, the classifiers were evaluated both using their maximum training size, as well as the same minimum training size.
 
 The following subsections explain each machine learning method in more detail.
