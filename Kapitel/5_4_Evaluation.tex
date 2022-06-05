@@ -1,11 +1,11 @@
 \chapter{Evaluation}
-\section{Lexicon method}
+\section{Lexicon-based Method}
 
-The binary classification performance by the lexicon-based method can be seen in Table \ref{tab:eval_lex}. Overall, the lexicon-based method achieved good results. The difference of over six percentage points between recall and precision suggests that the main problem was the detection of sentiment words, \TODO{hence the lower recall value}. When a sentiment could be detected, the precision suggests that the correct sentiment of positive or negative was often correctly assigned. Out of the 5,404 test instances, 509 could not be classified due to no sentiment word being detected, thus classified as 0.0/neutral. In another 45 instances, the detected sentiments balanced each other out perfectly, resulting in a 0.0 score. When taking the confusion matrix seen in Table \ref{tab:evaluations_conf_lex}, the method seems to be able to classify positive tweets better, while the unclassified instances are distributed evenly. 
+The binary classification performance by the lexicon-based method can be seen in Table \ref{tab:eval_lex}. Overall, the lexicon-based method achieved good results, achieving an accuracy of 71.04\%. The 6 percentage point difference between recall and precision suggest that the classifier is very accurate when predicting a positive sentiment, but does not make that prediction often enough. Out of the 5,404 test instances, 509 could not be classified due to no sentiment word being detected, thus classified as 0.0/neutral. In another 45 instances, the detected sentiments balanced each other out perfectly, resulting in a 0.0 score. Taking the confusion matrix seen in Table \ref{tab:evaluations_conf_lex}, the method appears to be better able to classify positive tweets, while the unclassified instances are evenly distributed. Another interesting observation is that, for positive instances, the number of false negative and false neutral instances is very close, compared to negative instances. This may suggest that an improvement for positive instances should focus on correctly predicting the false neutral instances, instead of the false negative instances, as this may be an easier task. For example, identifying certain idioms may be easier to implement than , for example, correctly detecting sarcasm.
 
-Another interesting observation can be made when the neutral test instances are included. The accuracy dropped to 52.56\%. The reason for this sharp drop is the difficulty in trying to predict neutral instances with an approach that mainly focuses on polarity classification. Of 4,968 neutral test instances, which is around half of the total instances, only 1,613 were predicted correctly. Of these correct neutrals, the large majority was classified as neutral because no sentiment words could be detected. Once a sentiment word was detected in a neutral instance, it was more likely to be classified as positive or negative than neutral. When looking at the algorithm, this makes sense, as it is very rare for sentiment words to add up to 0. Even when rounding was introduced to make the margin for neutral instances wider, such as between -0.5 and +0.5, the accuracy did not increase significantly. This is due to the fact that although more neutral instances were correctly predicted, more positive/negative instances were incorrectly classified as neutral due to rounding.
+Another interesting observation can be made when the neutral test instances are included. The accuracy dropped to 52.56\%. The reason for this sharp drop is the difficulty in trying to predict neutral instances with an approach that mainly focuses on polarity classification. Of 4,968 neutral test instances, which is around half of the total instances, only 1,613 were correctly predicted. Of these correct neutrals, the large majority were classified as neutral because no sentiment words could be detected. Once a sentiment word was detected in a neutral instance, it was more likely to be classified as positive or negative than neutral. When looking at the algorithm, this makes sense, as it is very rare for sentiment words to add up to 0. Even when rounding was introduced to make the margin for neutral instances wider, such as between -0.5 and +0.5, the accuracy did not increase significantly. This is due to the fact that although more neutral instances were correctly predicted, more positive/negative instances were incorrectly classified as neutral due to rounding.
 
-These results show that when applying the described lexicon-based method to sentiment polarity classification, a high accuracy can be achieved. If neutrality is also to be considered, the above approach does not achieve a high accuracy. This suggests that while a lexicon-based method is able to detect neutrality/objectivity, a different approach should be used for this task, such as the usage of different types of lexicons.
+These results show that when the described lexicon-based method is applied to sentiment polarity classification, a high accuracy can be achieved. If neutrality is also to be considered, the above approach does not achieve high accuracy. This suggests that while a lexicon-based method is capable of detecting neutrality / objectivity, a different approach should be used for this task, such as the usage of different types of lexicons.
 
 \begin{table}
 \caption{Classification performance for the lexicon-based method.}
@@ -38,9 +38,12 @@ These results show that when applying the described lexicon-based method to sent
 
 
 
-\section{Machine-Learning method}
-In Table \ref{tab:evaluations_max}, each classifier can be seen with the optimal parameters, the maximum number of training instances used, and the evaluation parameters discussed, while in Table \ref{tab:evaluations_euqal}, each classifier was trained with the same number of instances for better comparison.
-\TODO{numbers}
+\section{Machine Learning Method}
+\TODO{Numbers are not final yet, content will probably change a bit (maybe additional tables}
+
+
+In Table \ref{tab:evaluations_max}, each classifier can be seen with its optimal parameters, the maximum number of training instances used, and the evaluation parameters discussed. In Table \ref{tab:evaluations_euqal}, each classifier was trained with the same number of instances for better comparison. The highest accuracy was achieved by Multinomial Naive Bayes, with an accuracy of 79.42\% and an F-score of 84.88\%. The confusion matrix for the Multinomial Naive Bayes can be seen in Table \ref{tab:evaluations_conf}, which shows that the classifier seems to be able to handle positive tweets better than negative ones.
+
 \begin{table}
 \centering
 \caption{Classification performance of each classifier when using the maximum number of training instances.}
@@ -54,7 +57,7 @@ In Table \ref{tab:evaluations_max}, each classifier can be seen with the optimal
   \hline
  Random Forest              &depth = 300&            120,000&                 77.76\%&        0.67&       0.66& 0.66\\
   \hline
- Logistic Regression        &iterations = 10&            95,000&                 76.94\%&        0.64&       0.65& 0.65\\
+ Logistic Regression        &iterations = 10&   95,000&    76.94\%&        64.02\%&   65.20\%& 64.60\%\\
   \hline
  Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%& tt\\
  \hline
@@ -70,24 +73,22 @@ In Table \ref{tab:evaluations_max}, each classifier can be seen with the optimal
  \hline
  Classifier name &          Parameters &             Training Instances &    Accuracy &      Recall &     Precision& F-score \\
  \hline
- Naive Bayes (Gauss)        &-&            TODO&                 60.99\%&        0.21&       82.14\%& tt\\
+ Naive Bayes (Gauss)        &-&     TODO&                 60.99\%&        0.21&       82.14\%& tt\\
   \hline
- Naive Bayes (Multinomial)  &-&                     1,600,000&                79.42\%&        0.66&       0.70& 0.68\\
+ Naive Bayes (Multinomial)  &-&     95,000& 77.31\%&        82.61\%&       83.44\%& 83.02\%\\
   \hline
- Random Forest              &depth = 300&            120,000&                 77.76\%&        0.67&       0.66& 0.66\\
+ Random Forest              &depth = 300&            95,000&76.81\%&  81.90\%&     83.29\%& 82.59\%\\
   \hline
  Logistic Regression        &iterations = 10&            95,000&                 76.94\%&        0.64&       0.65& 0.65\\
   \hline
- Support Vector Machine     &kernel = linear&            TODO&                 77.11\%&        0.48&       45.52\%& tt\\
+ Support Vector Machine     &kernel = linear&   95,000&     76.70\%& 82.97\%&  82.44\%\%& 82.70\%\\
  \hline
 \end{tabular}
 \label{tab:evaluations_euqal}
 \end{table}
-
-The highest accuracy was achieved by the multinomial Naive Bayes classifier, with an accuracy of 79.42\% and an F-score of 84.88\%. The confusion matrix for the multinomial Naive Bayes can be seen in Table \ref{tab:evaluations_conf}.
 \begin{table}
 \centering
-\caption{Confusion matrix for the multinomial Naive Bayes classifier.}
+\caption{Confusion matrix for the Multinomial Naive Bayes classifier.}
 \begin{tabular}{ |p{3cm}||p{3cm}|p{3cm}| }
  \hline
   &          Predicted as $positive$ &Predicted as $negative$  \\
@@ -101,25 +102,22 @@ The highest accuracy was achieved by the multinomial Naive Bayes classifier, wit
 \label{tab:evaluations_conf}
 \end{table}
 
+The topic of word frequency versus binary presence can also be analyzed. If we look at Equation \eqref{eq:Multinomial_bayes}, we calculate the posterior probability $P(d_i|c_j)$ using the probability that a word occurs in the given class, $P(w_t|c_j)$ to the factor of $N_it$, the number of times $w_t$ appears in document $d_i$. Here, we assume that we use the frequency of a word that appears in a tweet. This is a logical assumption to make, as the number of times a word appears in a document can impact its sentiment, such as in the sentence "This is bad, really bad". In general, more information for the classifier to work with seems to be a good approach. However, when applied to Multinomial Naive Bayes, the accuracy decreased when using word frequency compared to word presence. Schneider also observed this behavior and determined the Multinomial distribution as the cause \cite{nb_freq}. As proven by Eyheramendy et al., the Multinomial Naive Bayes model is a version of the Naive Bayes Poisson model, which assumes independence of document length and class \cite{Poisson}. Furthermore, citing \cite{Poisson_words}, Schneider stated that terms are more likely to appear a second time than at all. He concluded that this does not fit the Poisson distribution well, which is why the reduction to a binary presence of words improves accuracy \cite{nb_freq}.
 
-\TODO{Some interesting observations can be made. First, the multinomial Naive Bayes seems to handle positive tweets better than negative ones.}
+\TODO{provide some numbers}
+Additionally, the usefulness of n-grams can be discussed. In this thesis, the combination of unigrams and bigrams was shown to be optimal. Using only bigrams resulted in a lower accuracy than using only unigrams. This behavior can be explained by unigrams offering the most coverage, as only the presence of a single word is needed. As additional information, bigrams offer the ability to take certain sentence structures into account, which is why the accuracy is higher compared to only unigrams.
 
-Next, the topic of word frequency versus binary presence can be further analyzed. If we look at Equation \eqref{eq:multinomial_bayes}, we calculate the posterior probability $P(d_i|c_j)$ using the probability that a word occurs in the given class, $P(w_t|c_j)$ to the factor of $N_it$, the number of times $w_t$ appears in document $d_i$. Here, we assume that we use the frequency of a word that appears in a tweet. This is a logical assumption to make, as the number of times a word appears in a document can impact its sentiment, such as in the sentence "This is bad, really bad". In general, more information for the classifier to work with seems to be a good approach. However, when applied to multinomial Naive Bayes, the accuracy decreased when using word frequency compared to word presence. Schneider also observed this behavior and determined the multinomial distribution as the cause \cite{nb_freq}. As proven by Eyheramendy et al., the multinomial Naive Bayes model is a version of the Naive Bayes Poisson model, which assumes the independence of document length and class \cite{poisson}. Furthermore, citing \cite{poisson_words}, Schneider stated that terms are more likely to appear a second time than at all. He concluded that this does not fit the Poisson distribution well, which is why the reduction to a binary presence of words improves accuracy \cite{nb_freq}.
+Another interesting observation is the distribution used for Naive Bayes. In Equation \eqref{eq:Multinomial_bayes}, we assume that the class conditional probability $P(d_i|c_j)$ is distributed according to the Multinomial distribution, while in Equation \eqref{nb:gauss} we apply the Gaussian distribution. The Multinomial implementation clearly outperformed the Gaussian one. From this, we can gather that the Multinomial distribution seems to better reflect the actual distribution of word occurrences.
 
-\TODO{NUMBERS HERE}
-Additionally, the usefulness of n-grams can be discussed. Pang et al. observed unigrams that achieve a higher accuracy than bigrams \cite{pang-etal-2002-thumbs} on movie reviews, while Dave et al. noticed bigrams and trigrams to outperform unigrams on product reviews \cite{dave-et-al}. In Twitter Sentiment Analysis, Go et al. observed a decrease in the accuracy of bigrams compared to unigrams, but when unigrams and bigrams were used, the accuracy increased for most classifiers \cite{GoBHaHua2009}. This behavior was also observed in this thesis and can be explained by unigrams being the most important features for Sentiment Analysis, while bigrams are able to offer additional information.
+Finally, performance should be noted. Only the two Naive Bayes implementations were able to handle all 1.6 million training instances. Additionally, the Multinomial Naive Bayes had a much shorter runtime. For the other three classifiers, using too many training instances would result in a "java heap space" error. Even after assigning more memory to the program, the issue still persisted at a certain number of instances. Due to this, the Multinomial Naive Bayes seems to offer the best mixture of performance and accuracy.
 
-Another interesting observation is the distribution used for Naive Bayes. In Equation \eqref{eq:multinomial_bayes}, we assume that the class conditional probability $P(d_i|c_j)$ is distributed according to the multinomial distribution, while in Equation \eqref{nb:gauss} we apply the Gaussian distribution. The multinomial implementation clearly outperformed the Gaussian one. From this, we can gather that the multinomial distribution seems to better reflect the actual distribution of word occurrences.
+To summarize, machine-learning classifiers offer very high accuracy, with Multinomial Naive Bayes achieving almost 80\%. However, the disadvantages are also clear. The need for labeled training data and the long and unpredictable runtime of some methods resulted in this method being much more time-consuming and complex than the lexicon-based method. 
 
-Finally, performance should be noted. Only the two Naive Bayes implementations were able to handle all 1.6 million training instances. Additionally, the multinomial Naive Bayes had a much shorter runtime. For the other three classifiers, using too many training instances would result in a "java heap space" error. Even after assigning more memory to the program, the issue still persisted at a certain number of instances. Due to this, the multinomial Naive Bayes seems to offer the best mixture of performance and accuracy.
+\section{Hybrid Method}
 
-To summarize, machine-learning classifiers offer very high accuracy, with multinomial Naive Bayes achieving almost 80\%. However, the disadvantages are also clear. The need for labeled training data and the long and unpredictable runtime of some methods resulted in this method being much more time-consuming and complex than the lexicon-based method. 
+The performance of each method can be seen in Table \ref{tab:evaluations_hybrid}. Both hybrid methods are an improvement on either of the other approaches, with the second method achieving the highest overall accuracy. Despite this, the first method seems to be more balanced overall, as recall, precision, and F-score are roughly equal at 85-86\%. This suggests that the lexicon-based score as a feature is able to provide some stability to the machine-learning method. Using the lexicon-based method as a labeling mechanism also proved to be more effective than simply assigning labels based on an emoticon. 
 
-\section{Hybrid}
-
-The performance of each method can be seen in Table \ref{tab:evaluations_hybrid}. Both hybrid methods are an improvement on either of the other methods, with the second method achieving the highest overall accuracy. Despite this, the first method seems to be more balanced overall, as recall, precision, and F-score are roughly equal at 85-86\%. This suggests that the lexicon-based score as a feature is able to provide some stability to the machine-learning method. Using the lexicon-based method as a mechanism for scoring also proved to be more effective than simply assigning labels based on an emoticon. 
-
-Although the accuracy improved, this method also adds further complexity to the process. In this thesis, both the lexicon-based method and the machine-learning classifier were already implemented, which reduced the additional effort. However, if no existing methods are to be used, developing and testing two different approaches may be too laborious compared to the improvement in accuracy over only using the machine-learning approach.
+Although the accuracy improved, this method also adds further complexity to the process. In this thesis, both the lexicon-based method and the machine learning classifier were already implemented, which reduced the additional effort. However, if no existing methods are to be used, developing and testing two different approaches may be too laborious compared to the improvement in accuracy over only using the machine-learning approach.
 
 \begin{table}
 \caption{Classification performance of the two hybrid approaches.}

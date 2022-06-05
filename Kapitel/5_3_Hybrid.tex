@@ -1,9 +1,10 @@
 \section{Hybrid Method}
 
 \subsection{Lexicon-based score as feature}
-For the first approach, the best performing machine-learning classifier was used, which was multinomial Naive Bayes. The ARFF format was changed to include an additional numeric feature, the lexicon-based method's score. Because weka only allows values greater than or equal to zero for a numeric attribute, the lexicon method's score was normalized to -1.0, 0 and 1.0, and each score was shifted by adding 1. Each training instance was evaluated using the lexicon-based method, and the score was added to the instance. For the test instances, the same procedure was applied.
-\subsection{Label training data with lexicon-based method}
-For the second approach, each training instance was again scored using the lexicon-based method. Instead of adding an additional attribute though, the instance's class label was set to the lexicon-based method's score. Because we only considered two classes during classification, positive and negative, all instances with a neutral score were ignored. Furthermore, the score was normalized to -1.0 and 1.0, to fit the class labels. This resulted in 973,671 instances being used.
+For the first approach, the best performing machine-learning classifier was used, which was Multinomial Naive Bayes. The data format was changed to include an additional numeric feature, the lexicon-based method's score. Because Weka only allows values greater than or equal to zero for a numeric attribute, the lexicon method's score was normalized to -1.0, 0 and 1.0, and each score was shifted by adding 1. Each training instance was evaluated using the lexicon-based method, and the score was added to the instance. For the test instances, the same procedure was applied.
+
+\subsection{Lexicon-based score as training label}
+For the second approach, each training instance was scored using the lexicon-based method. Instead of adding an additional attribute though, the instance's class label was set to the lexicon-based method's score. Because we only considered two classes during classification, positive and negative, all instances with a neutral score were ignored. Furthermore, the score was normalized to -1.0 and 1.0, to fit the binary class labels. This resulted in 973,671 instances being used.
 
 
 
