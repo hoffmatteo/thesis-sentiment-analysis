@@ -4,8 +4,7 @@
 The test data contained human-annotated tweets provided by two different sources and covered a wide variety of topics. In total, 10,372 tweets were used, of which 1,776 were negative, 4,968 neutral, and 3,628 positive.
 
 \subsection{SentiStrength}
-\TODO{double}
-SentiStrength is a data set constructed in 2012 by Thelwall et al. to evaluate the second version of their SentiStrength algorithm, a lexicon-based classifier. As mentioned previously, they created data sets from multiple different sources, including Twitter, BBC Forum, and other social media platforms. In this thesis, only the Twitter data set is used, which was labeled by one person \cite{10.1002/asi.21662}.
+SentiStrength is a data set constructed in 2012 by Thelwall et al. to evaluate the second version of their SentiStrength algorithm, a lexicon-based classifier. As mentioned in section \ref{sub:related_lexicon}, they created data sets from multiple different sources, including Twitter, BBC Forum, and other social media platforms. In this thesis, only the Twitter data set was used, which was labeled by one person \cite{10.1002/asi.21662}.
 
 The data set contains three columns, an integer score of 1 to 5 for the positive score, a separate integer score of 1 to 5 for the negative score, and the tweet text. A score of 1 signifies no sentiment, while a score of 5 signals strong sentiment. \cite{10.1002/asi.21662}. Because a tweet can have both a considerable positive and negative score, an approach inspired by Saif et al. is used to convert it to a single polarity. A tweet is defined as positive if the positive score is at least 1.5 times higher than the negative one and vice versa. If neither score is at least 1.5 greater, the tweet is classified as neutral \cite{oro40660}. This resulted in 947 negative, 1,959 neutral and 1,336 positive tweets.
 
@@ -35,7 +34,7 @@ A lexicon constructed by Haak was used, which contains 198 emojis and their vale
 \begin{figure}
     \centering
     \includegraphics[scale=0.05]{Images/emoji_smile.png}
-    \caption{Grinning face emoji, \TODO{SOURCE}}
+    \caption{Grinning face emoji by Twitter \cite{twitter:image}}
     \label{fig:emoji}
 \end{figure}
 
@@ -43,7 +42,7 @@ A lexicon constructed by Haak was used, which contains 198 emojis and their vale
 
 \subsection{Algorithm}
 
-An algorithm was designed to classify tweets, which can be seen in Algorithm \ref{lexiconAlg}. Each tweet was first split using whitespace to separate each word. Then, each word was preprocessed. First, punctuation was removed, unless the word consisted of an emoticon/emoji. After each processing step, the word was searched in the sentiment lexicon; if the word was not found, the process continued with the next step. Characters that appeared more than two times in a row were reduced to two times, in order to prevent empathetic lengthening. Additionally, characters were removed from the end of a word to prevent different word endings from affecting the algorithm, up to a minimum word length of 3.
+An algorithm was designed to classify tweets, which can be seen in Algorithm \ref{lexiconAlg}. Each tweet was first split using whitespace to separate each word. Then, each word was preprocessed. First, punctuation was removed, unless the word consisted of an emoticon/emoji. After each processing step, the word was searched in the sentiment lexicon; if the word was not found, the process continued with the next step. Characters that appeared more than two times in a row were reduced to two times, in order to prevent emphatic lengthening. Additionally, characters were removed from the end of a word to prevent different word endings from affecting the algorithm, up to a minimum word length of 3.
 
 Taking into account the four different word classes, the most important parts of a tweet that affect its sentiment were covered. There is one special case which had to be considered. The used lexicons define "no" as both a sentiment word and a negation, which is why the algorithm checked whether a sentiment word appeared after "no". If that was the case, the word was skipped, as it is used as a negation.
 

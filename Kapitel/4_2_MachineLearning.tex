@@ -65,9 +65,11 @@ In order to handle misspellings and different word forms, stemming was used. Wor
 untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. Thus, different forms or spellings of the same word were reduced to one common feature, which also reduces data sparsity.
 
 \subsection{Feature Selection}
-This thesis utilizes syntactic features, which are the most commonly implemented features. For word models, the effectiveness of each model varies, as some, like Go et al., determined that bigrams reduced the accuracy in most cases, compared to unigrams \cite{GoBHaHua2009}, while others such as Pak and Paroubek concluded that bigrams offer the better accuracy compared to unigrams \cite{pak}. Thus, this thesis evaluates both unigrams, bigrams, and their combination, which has shown to improve accuracy further \cite{GoBHaHua2009}.
+This thesis utilizes syntactic features, which are the most commonly implemented features. For the specific syntactic features, the effectiveness of each model varies, as some, like Go et al., determined that bigrams reduced the accuracy in most cases, compared to unigrams \cite{GoBHaHua2009}. Others such as Pak and Paroubek concluded that bigrams offer the better accuracy compared to unigrams \cite{pak}. Thus, this thesis evaluates both unigrams, bigrams, and their combination, which has shown to improve accuracy further \cite{GoBHaHua2009}.
 
 In addition, the usage of a term's frequency in a tweet varies. Some approaches implement a binary presence, which does not differentiate whether a term appears multiple times in a tweet, while others utilize the frequency \cite{DBLP:journals/csur/GiachanouC16}. In this thesis, both approaches are considered.
+
+Because capitalization is not considered in this approach, all features are converted to lowercase to not differentiate between features based on capitalization.
 
 \subsection{Classifiers}
 \label{sub:classifiers}
@@ -77,6 +79,7 @@ Once the training data has been preprocessed and turned into features, the task 
 The following subsections explain each machine learning method in more detail. Each method is implemented for a binary classification problem, with the input document, in our case tweets, $d_i$ consisting of attribute values, here the presence or frequency of a word, $w_t$. The classifier then tries to assign a class $c_j$, positive or negative, to an unknown document $d_i$.
 
     \subsubsection{Naive Bayes}
+    \label{sub:nb}
         Naive Bayes is a probabilistic, generative classification model. It is based on the Bayes theorem, which is shown in Equation \eqref{eq:bayes}:
         \begin{equation}
             \label{eq:bayes}

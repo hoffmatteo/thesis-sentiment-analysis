@@ -43,8 +43,6 @@ Content
 \fi
 
 
-
-\TODO{maybe define attribute here better?}
 \section{Data Mining}
 Because of the massive amount of data that is collected every day, for example, through social media platforms such as Twitter, processing and extracting information becomes more valuable and challenging. Tan et al. describe data mining as "... [blending] traditional data analysis methods with sophisticated algorithms to process this abundance of data" \cite[p.~21]{DBLP:books/aw/TanSKK2019}. Data mining faces some challenges. First, scalability is important, as the amount of data that can be collected and stored is constantly growing. Next, dimensionality has to be considered, which describes the number of attributes a data set has. If, for example, multiple measurements of the same data point need to be taken into account, each measurement becomes an attribute. Furthermore, data types are becoming more complex, as data from fields such as social media, DNA research, and climate are analyzed \cite{DBLP:books/aw/TanSKK2019}.
 
@@ -64,7 +62,6 @@ Data mining can be separated into two different groups. Predictive tasks try to 
 
 \section{Sentiment Analysis}
 
-\TODO{features? = attributes, take text from methodology}
 
 \subsection{Definition}
 
@@ -95,14 +92,14 @@ For polarity classification, Medhat et al. divided techniques into three categor
 \label{sub:fund_mach}
 In general, the machine learning approach treats sentiment analysis as a text classification problem, employing training data to classify unknown instances, often using words as attributes. Supervised machine learning utilizes labeled training documents together with classifiers such as Naive Bayes. Because it can be difficult to generate a large number of labeled training data, unsupervised approaches are applied, which rely solely on unlabeled data \cite{MEDHAT20141093}. The supervised methods are further subdivided. According to Tan et al., probabilistic classifiers, such as Naive Bayes and Logistic Regression, "make use of probability theory to represent the relationship between attributes and class labels" \cite[p.~414]{DBLP:books/aw/TanSKK2019}. Linear classifiers, on the other hand, try to find a hyperplane to separate instances from different classes \cite{MEDHAT20141093}. Decision Tree Classifiers, such as Random Forest, use attribute values to divide data into a tree structure. Finally, rule-based classifiers utilize a set of rules to classify an instance \cite{DBLP:books/aw/TanSKK2019}.
 
-Feature selection is one of the essential parts of the machine learning process, as a classifier relies on the provided attributes. Giachanou and Crestani identified several different possible features for Twitter sentiment analysis: (1) semantic features, for example, sentiment words and negations, which are extracted using lexicons; (2) syntactic features, such as the presence of a word or term; (3) stylistic features, which include emoticons and punctuation; and (4) twitter-specific features, for example hashtags or the number of replies \cite{DBLP:journals/csur/GiachanouC16}. For syntactic features, approaches differentiate on word models. Some look at each word of a tweet seperately, which is called the unigram model, while others combine two (bigram model) or more words (n-gram model) as a combined feature.
+Feature selection is one of the essential parts of the machine learning process, as a classifier relies on the provided attributes. Giachanou and Crestani identified several different possible features for Twitter sentiment analysis: (1) semantic features, for example, sentiment words and negations, which are extracted using lexicons; (2) syntactic features, such as the presence of a word or term; (3) stylistic features, which include emoticons and punctuation; and (4) twitter-specific features, for example hashtags or the number of replies \cite{DBLP:journals/csur/GiachanouC16}. For syntactic features, approaches differentiate on how to implement them. Some approaches look at each word of a tweet seperately, which is called the unigram model, while others combine two (bigram model) or more words (n-gram model) as a combined feature.
 
 \subsubsection{Lexicon-based methods}
 As stated previously, the lexicon-based approach needs a sentiment lexicon to identify sentiment words and their values. In addition, modifiers such as intensifiers and negations can be included to adjust sentiment values \cite{liu_2015}. There are three different methods to building a sentiment lexicon, which are outlined by Medhat et al. There is the manual collection of words, which is, of course, very time-intensive. A dictionary-based approach, which starts with a small list of sentiment words, can also be used. It then searches dictionaries for synonyms and antonyms of the sentiment words, maintaining the orientations for synonyms and reversing them for antonyms. The found words are then added to the list and considered in the next iteration. The corpus-based approach utilizes context-specific orientations along with a list of opinion words to find other opinion words in a large corpus. It is based on sentiment consistency, which assumes that adjectives conjoined by "and" have the same polarity, while "but" would signify opposing polarities. This approach can be further subdivided into statistical approaches, which find words using statistics, and semantic approaches, which utilize semantic relationships \cite{MEDHAT20141093}.
 
 \TODO{how}
 \subsubsection{Hybrid methods}
-Hybrid methods combine lexicon-based and machine learning methods to balance their disadvantages. Lexicon-based methods are inherently static, as they depend on a set list of words. If a tweet contains words that do not appear in the list, the lexicon-based method can not classify it. On the other hand, a machine-learning method requires a large amount of labeled training data that is not easy to obtain manually \cite{DBLP:journals/csur/GiachanouC16}.
+Hybrid methods combine lexicon-based and machine learning methods to balance their disadvantages. Lexicon-based methods are inherently static, as they depend on a set list of words. If a tweet contains words that do not appear in the lexicon, the lexicon-based method can not classify it. On the other hand, a machine-learning method requires a large amount of labeled training data that is not easy to obtain manually \cite{DBLP:journals/csur/GiachanouC16}.
 
 
 \section{Twitter}
