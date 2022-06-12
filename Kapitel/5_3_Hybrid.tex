@@ -1,11 +1,11 @@
 \section{Hybrid Method}
 For the hybrid methods, the best performing machine learning classifier was used, which was Multinomial Naive Bayes.
 
-\subsection{Lexicon-based score as feature}
-The data format was changed to include an additional numeric feature, the lexicon-based method's score. Because Weka only allows values greater than or equal to zero for a numeric attribute, the lexicon method's score was normalized to -1.0, 0 and 1.0, and each score was shifted by adding 1.
+\subsection{Lexicon-Based Score as Feature}
+The data format was changed to include an additional numeric feature, the lexicon-based method's score. Because Weka only allows values greater than or equal to zero for a numeric attribute, the lexicon method's score was normalized to -1.0, 0, and 1.0, and each score was shifted by adding 1.
 
-\subsection{Lexicon-based score as training label}
-For the second approach, each training instance was scored using the lexicon-based method and its class label was updated. Because two classes, are considered, all instances with a neutral score were ignored. Furthermore, the score was normalized to -1.0 and 1.0, to fit the binary class labels. This resulted in 973,671 instances being used.
+\subsection{Lexicon-Based Score as Training Label}
+For the second approach, each training instance was scored using the lexicon-based method and its class label was updated. Because only the positive and negative classes were considered, all instances with a neutral score were ignored. Furthermore, the score was normalized to -1.0 and 1.0, to fit the binary class labels. This resulted in 973,671 instances being used.
 
 
 

@@ -1,13 +1,13 @@
 \section{Hybrid Method}
 Hybrid methods have proven to be able to outperform the two simpler methods \cite{khuc}. Therefore, this thesis implemented two different approaches on how to combine the two methods.
 
-\subsection{Lexicon-based score as feature}
-The first approach consisted of using the score of the lexicon-based method as an additional feature of the machine learning method, similar to the approach used by Khuc et al. \cite{khuc}. If a tweet was to be classified, it was first scored using the lexicon-based method. The calculated score was then utilized as an additional feature for the machine learning method. This has the advantage of not relying solely on the static dictionaries used by the lexicon-based method, while still being able to take specific sentence structures like negations into account.
-\subsection{Lexicon-based score as training label}
+\subsection{Lexicon-Based Score as Feature}
+The first approach consisted of using the score of the lexicon-based method as an additional feature of the machine learning method, similar to the approach implemented by Khuc et al. \cite{khuc}. If a tweet was to be classified, it was first scored with the lexicon-based method. The calculated score was then utilized as an additional feature for the machine learning method. This has the advantage of not relying solely on the static dictionaries used by the lexicon-based method, while still being able to take specific sentence structures like negations into account.
+\subsection{Lexicon-Based Score as Training Label}
 The second approach trains the machine learning classifier using tweets labeled by the lexicon-based method. The precision of a machine learning classifier is based on its training data, both its quality and its size \cite{DBLP:journals/csur/GiachanouC16}. Because machine learning classifiers perform better with more training data, using human-labeled training data is often not feasible. Some approaches like Go et al. classify tweets as positive or negative based on the presence of certain emoticons and are thus able to train using 1.6 million tweets \cite{GoBHaHua2009}. By annotating tweets using a more accurate lexicon-based approach, the quality of the training data could increase and thus the machine learning classifier could become more accurate.
 
 \section{Evaluation}
-In order to compare and evaluate the different methods and classifiers, four commonly used measures for a binary classification are employed \cite{DBLP:journals/csur/GiachanouC16}. The first measure is accuracy, which calculates the ratio of correctly classified instances to total number of instances and is described by Equation \eqref{eq:accuracy}:
+In order to compare and evaluate the different methods and classifiers, four commonly used measures for a binary classification are employed. The first measure is accuracy, which calculates the ratio of correctly classified instances to the total number of instances and is described by Equation \eqref{eq:accuracy} \cite{DBLP:journals/csur/GiachanouC16}:
 
 \begin{equation}
     \label{eq:accuracy}
@@ -15,7 +15,7 @@ In order to compare and evaluate the different methods and classifiers, four com
 \end{equation}
 with $TP$ denoting the number of true positives, $TN$ the number of true negatives, $FP$ the number of false positives, and $FN$ the number of false negatives \cite{DBLP:journals/csur/GiachanouC16}.
 
-Next, precision is used to measure exactness, by comparing the number of instances classified as positive to the actual number of positive instances, as seen in Equation \eqref{eq:precision} \cite{DBLP:journals/csur/GiachanouC16}:
+Next, precision is used to measure exactness by comparing the number of instances classified as positive to the actual number of positive instances, as seen in Equation \eqref{eq:precision} \cite{DBLP:journals/csur/GiachanouC16}:
 \begin{equation}
     \label{eq:precision}
     Precision = \frac{TP}{TP + FP}.
@@ -27,13 +27,13 @@ For the third measure, recall is calculated, which, according to Giachanou and C
     Recall = \frac{TP}{TP + FN}.
 \end{equation}
 
-Finally, the last two measures are combined into the F-score, as seen in Equation \eqref{eq:fscore} \cite{DBLP:journals/csur/GiachanouC16}:
+Finally, the harmonic mean of precision and recall is calculated, in order to balance the two measures. This metric is known as F-score and is calculated using Equation \eqref{eq:fscore} \cite{DBLP:journals/csur/GiachanouC16}:
 \begin{equation}
     \label{eq:fscore}
     Fscore = 2*\frac{precision * recall}{precision + recall}.
 \end{equation}
 
-In addition, a confusion matrix is used to show the number and distribution of predictions. \cite{DBLP:journals/csur/GiachanouC16}. An example can be seen in Table \ref{tab:conf_example}.
+In addition, a confusion matrix is employed to show the number and distribution of predictions \cite{DBLP:journals/csur/GiachanouC16}. An example can be seen in Table \ref{tab:conf_example}.
 
 \begin{table}[h!]
 \centering
