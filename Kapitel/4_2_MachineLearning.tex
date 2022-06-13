@@ -1,16 +1,17 @@
 \section{Machine Learning Method}
-The typical process of a machine learning classifier can be seen in Figure \ref{fig:ml_approach}. In this thesis, a supervised approach is applied, which, as mentioned previously, requires labeled training data.
-As explained in chapter \ref{cha:Chapter3_Fundamentals}, a classification model requires a set of input attributes, also called features. These features have to be extracted from both the labeled and unlabeled tweets. In the following sections, the feature extraction process depicted in Figure \ref{fig:ml_process} is explained further.
+The typical process of a machine learning classifier can be seen in Figure \ref{fig:ml_approach}. In this thesis, a supervised approach is utilized, which, as mentioned previously, requires labeled training data.
+As explained in chapter \ref{cha:Chapter3_Fundamentals}, a classification model requires a set of input attributes, also called features. These features have to be extracted from both the labeled and unlabeled tweets. In the following sections, the feature extraction process depicted in Figure \ref{fig:ml_process} is explained further, followed by a detailed description of each classifier.
 \begin{figure}
     \centering
     \includegraphics[scale=0.5]{Images/ML_approach.png}
-    \caption{Typical process for sentiment classification by Giachanou and Crestani \cite[p.~28:3]{DBLP:journals/csur/GiachanouC16}}
+    \caption{Typical process for sentiment classification by Giachanou and Crestani \cite[p.~28:3]{DBLP:journals/csur/GiachanouC16}.}
     \label{fig:ml_approach}
 \end{figure}
 
 
 \begin{figure}
     \centering
+    \iffalse
     \tikzset{
   every shadow/.style={
     fill=none,
@@ -46,6 +47,8 @@ As explained in chapter \ref{cha:Chapter3_Fundamentals}, a classification model 
 
 
     \vspace{25mm}
+    \fi
+    \includegraphics[scale=0.6]{Images/machineLearning.png}
 
    \caption{Feature extraction process for the machine learning method.}
     \label{fig:ml_process}
@@ -65,7 +68,7 @@ In order to handle misspellings and different word forms, stemming was used. Wor
 untouched, the same stem) to a common form" \cite[p.~22]{Lovins1968DevelopmentOA}. Thus, different forms or spellings of the same word were reduced to one common feature, which also reduces data sparsity.
 
 \subsection{Feature Selection}
-This thesis utilized syntactic features, which are the most commonly implemented features. For the specific syntactic features, the effectiveness of each model varies, as some, like Go et al., determined that bigrams reduced the accuracy in most cases, compared to unigrams \cite{GoBHaHua2009}. Others such as Pak and Paroubek concluded that bigrams offer better accuracy compared to unigrams \cite{pak}. Thus, this thesis evaluated both unigrams, bigrams, and their combination, which has shown to improve accuracy further \cite{GoBHaHua2009}.
+This thesis utilized syntactic features, which are the most commonly implemented features. For the specific syntactic features, the effectiveness of each model varies, as some, like Go et al., determined that bigrams, compared to unigrams, reduced the accuracy in most cases \cite{GoBHaHua2009}. Others such as Pak and Paroubek concluded that bigrams offer better accuracy compared to unigrams \cite{pak}. Thus, this thesis evaluated both unigrams, bigrams, and their combination, which has shown to improve accuracy further \cite{GoBHaHua2009}.
 
 In addition, the usage of a term's frequency in a tweet varies. Some approaches implement a binary presence, which does not differentiate whether a term appears multiple times in a tweet, while others utilize the frequency \cite{DBLP:journals/csur/GiachanouC16}. In this thesis, both approaches were considered.
 
@@ -76,7 +79,7 @@ Because capitalization is not considered in this approach, all features were con
 
 Once the training data has been preprocessed and turned into features, the task of training the classifier models can begin. The classifiers chosen were Naive Bayes using the Gaussian distribution, Naive Bayes using the multinomial distribution, Random Forest, Logistic Regression, and Support Vector Machine. Because the classifiers may have different runtimes, each classifier was evaluated using a small subset of training data, in order to obtain a first impression of the training runtime. After this, the data size was gradually increased, until the entire data set was used, or the process became too resource-intensive. Once the maximum training size was found, the parameters of each classifier were evaluated, to improve both performance and accuracy. If the performance could be improved, the training size was adjusted accordingly. After the optimal parameters and training size were found, the classifiers were evaluated and compared. To facilitate a better comparison, the classifiers were evaluated both using their maximum training size, as well as the same minimum training size.
 
-The following subsections explain each machine learning method in more detail. Each method is described for a binary classification problem, with the input document, in this case tweets, $d_i$ consisting of attributes, the words. A word is described by the variable $w_t$, with its attribute value being $N_{it}$, which designates the number of times the word $w_t$ appears in the document $d_i$. The classifier then tries to assign a class $c_j$, positive or negative, to an unknown document $d_i$.
+The following subsections explain each machine learning method in more detail. Each method is described for a binary classification problem, with the input document $d_i$, in this case a tweet, consisting of attributes, the words. A word is described by the variable $w_t$, with its attribute value being $N_{it}$, which defines the number of times the word $w_t$ appears in the document $d_i$. The classifier then tries to assign a class $c_j$, positive or negative, to an unknown document $d_i$.
 
     \subsubsection{Naive Bayes}
     \label{sub:nb}
@@ -161,10 +164,11 @@ The following subsections explain each machine learning method in more detail. E
         
         The selection of input attributes is the second component. When a tree is being constructed, an attribute must be selected for splitting at each internal node. Random Forest randomly chooses a subset of attributes, from which the attribute with the maximum reduction in an impurity measure is chosen \cite{DBLP:books/aw/TanSKK2019}.
         
-        Through these characteristics, Random Forest reduces the correlation of trees and thus the variance, because the trees use different data sets and input attributes \cite{DBLP:books/aw/TanSKK2019}. In Figure \ref{fig:tree}, a part of a tree generated by a Random Forest classifier can be seen. Here, the existence of a word is used as the attribute for splitting. If, for example, $hurts \geq 0.5$, the word $hurts$ exists in the tweet that is being analyzed, while $hurts < 0.5$ signifies that the word $hurts$ does not exist in the tweet. Using this part of a tree, a tweet that contains both $hurts$ and $hates$ would be classified as negative.
+        Through these characteristics, Random Forest reduces the correlation of trees and thus the variance, because the trees use different data sets and input attributes \cite{DBLP:books/aw/TanSKK2019}. In Figure \ref{fig:tree}, a part of a tree generated by a Random Forest classifier can be seen. Here, the existence of a word is employed as the attribute for splitting. If, for example, $hurts \geq 0.5$, the word $hurts$ exists in the tweet that is being analyzed, while $hurts < 0.5$ signifies that the word $hurts$ does not exist in the tweet. Using this part of a tree, a tweet that contains both $hurts$ and $hates$ would be classified as negative.
         
         \begin{figure}
         \centering
+        \iffalse
         \begin{tikzpicture}
         [
         grow                    = right,
@@ -191,6 +195,8 @@ The following subsections explain each machine learning method in more detail. E
                 {$hates \geq 0.5$}}
               edge from parent node [above] {$hurts \geq 0.5$} };
 \end{tikzpicture}
+\fi
+\includegraphics[scale=0.6]{Images/random_forest.png}
     \caption{Part of a tree generated by the Random Forest classifier.}
       \label{fig:tree}
 \end{figure}
@@ -279,11 +285,11 @@ The hyperplane can be described by the generic Equation \eqref{eq:hyperplane}:
             \end{split}
     \end{equation}
     
-    There can be an indefinite number of hyperplanes, which is why it is necessary to choose one that has good generalization performance, which means that it can handle unseen instances. To do this, the margin of a hyperplane $B_i$ is calculated by drawing two hyperplanes, $B_{i1}$ and $B_{i2}$, parallel to $B_i$. The distance between the two hyperplanes is the margin of the hyperplane $B_i$, as seen in Figure \ref{fig:svm}. By choosing the hyperplane with the maximum margin, the classifier can allow for slight changes in data without immediately crossing onto the other side. Using the training instances and Equation \eqref{eq:svm_training}, as well as the maximum margin objective, the parameters $(m,b)$ can then be learned \cite{DBLP:books/aw/TanSKK2019}. .
+    There can be an indefinite number of hyperplanes, which is why it is necessary to choose one that has good generalization performance, meaning that it can handle unseen instances. To do this, the margin of a hyperplane $B_i$ is calculated by drawing two hyperplanes, $B_{i1}$ and $B_{i2}$, parallel to $B_i$. The distance between the two hyperplanes is the margin of the hyperplane $B_i$, as seen in Figure \ref{fig:svm}. By choosing the hyperplane with the maximum margin, the classifier can allow for slight changes in data without immediately crossing onto the other side. Using the training instances and Equation \eqref{eq:svm_training}, as well as the maximum margin objective, the parameters $(m,b)$ can then be learned \cite{DBLP:books/aw/TanSKK2019}.
 
     \begin{figure}
         \centering
-        \caption{Margin of a hyperplane in a two-dimensional data set by Tan et al. \cite{DBLP:books/aw/TanSKK2019}.
+        \caption{Margin of a hyperplane in a two-dimensional data set by Tan et al. \cite[p.~479]{DBLP:books/aw/TanSKK2019}.
         \label{fig:svm}
         }
         \includegraphics[scale=0.7]{Images/SVM_image.png}

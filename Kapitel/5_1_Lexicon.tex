@@ -1,7 +1,8 @@
 \chapter{Implementation}
 \label{cha:Chapter5_Implementation}
-\section{Test data}
-The test data contained human-annotated tweets provided by two different sources and covered a wide variety of topics. In total, 10,372 tweets were used, of which 1,776 were labelled as negative, 4,968 as neutral, and 3,628 as positive.
+This chapter describes the implementation of each method further, as well as any data sets used. All implementation was done with Java.
+\section{Test Data}
+The test data contained human-annotated tweets provided by two different sources, which are explained in the following subsections, and covered a wide variety of topics. In total, 10,372 tweets were used, of which 1,776 were labelled as negative, 4,968 as neutral, and 3,628 as positive.
 
 \subsection{SentiStrength}
 SentiStrength is a data set constructed in 2012 by Thelwall et al. to evaluate the second version of their SentiStrength algorithm, a lexicon-based classifier. As mentioned in section \ref{sub:related_lexicon}, they created data sets from multiple sources, including Twitter, BBC Forum, and other social media platforms. In this thesis, only the Twitter data set was used, which was labeled by one person \cite{10.1002/asi.21662}.
@@ -13,7 +14,7 @@ According to Giachanou and Crestani, "SemEval (Semantic Evaluation) is an ongoin
 
 The tweets were parsed based on popular topics that were identified earlier from January 2012 to January 2013, and tweets that did not contain sentiment-bearing words were filtered out to lower class imbalance. The annotation of tweets was done by five Amazon Mechanical Turk workers, for subtask B the polarity selected by the majority was chosen \cite{nakov-etal-2013-semeval}. As the data set only provided the tweet IDs and not the text, the Twitter API was used to crawl the text for each tweet. This was not possible for every tweet contained in the data set, as some were already deleted or otherwise not available. This resulted in 6,130 tweets, of which 829 were negative, 3,009 neutral, and 2,292 positive.
 
-\section{Lexicon-based Method}
+\section{Lexicon-Based Method}
 
 \subsection{Lexicons}
 In order to implement the word classes, four types of lexicons were used, which are described in the following sections.
@@ -42,11 +43,55 @@ A lexicon constructed by Haak was used, which contains 198 emojis and their vale
 
 \subsection{Algorithm}
 
-An algorithm was designed to classify tweets, which can be seen in Algorithm \ref{lexiconAlg}. Each tweet was first split using whitespace to separate each word. Then, each word was preprocessed. First, punctuation was removed, unless the word consisted of an emoticon/emoji. After each processing step, the word was searched for in the sentiment lexicon; if the word was not found, the process continued with the next step. Characters that appeared more than two times in a row were reduced to two times, in order to prevent emphatic lengthening. Additionally, characters were removed from the end of a word to prevent different word endings from affecting the algorithm, up to a minimum word length of 3.
+\begin{figure}
+    \centering
+    \iffalse
+    \tikzset{
+  every shadow/.style={
+    fill=none,
+    shadow xshift=0pt,
+    shadow yshift=0pt}
+}
+\tikzset{module/.append style={top color=\col,bottom color=\col}}
+
+\smartdiagramset{uniform color list=white for 4 items,
+    back arrow disabled=true, module minimum width=3cm,
+    module minimum height=2cm,
+    module x sep=4cm,
+    text width= 3cm,
+    uniform arrow color=true,
+    arrow color=black,
+    additions={
+        additional item shape=rectangle,
+        additional item offset=0.5cm,
+        additional item width=3cm,
+        additional item height=2cm,
+        additional item text width=3cm,
+        additional item fill color=white!20,
+        additional item border color=black,
+        additional arrow color=gray,
+        additional arrow line width=1pt
+      }
+    }
+    \smartdiagramadd[flow diagram:horizontal]{Remove Punctuation, Remove Emphatic Lengthening, Remove Last Characters}
+    {below of module1/Contained in Sentiment Lexicon?, below of module2/Contained in Sentiment Lexicon?, below of module3/Contained in Sentiment Lexicon?} 
+    \smartdiagramconnect{->}{module1/additional-module1}
+    \smartdiagramconnect{->}{module2/additional-module2}
+    \smartdiagramconnect{->}{module3/additional-module3}
+
+    \vspace{27mm}
+    \fi
+    \includegraphics[scale=0.65]{Images/lexicon.png}
+
+   \caption{Preprocessing of each word for the lexicon-based method.}
+    \label{fig:lex_preprocess}
+\end{figure}
+
+An algorithm was designed to classify tweets, which can be seen in Algorithm \ref{lexiconAlg}. Each tweet was first split using whitespace to separate each word. Then, each word was preprocessed, which is illustrated in Figure \ref{fig:lex_preprocess}. First, punctuation was removed, unless the word consisted of an emoticon/emoji. After each processing step, the word was searched for in the sentiment lexicon; if the word was not found, the process continued with the next step. Characters that appeared more three times or more in a row were reduced to two times, in order to prevent emphatic lengthening. Additionally, characters were removed from the end of a word to prevent different word endings from affecting the algorithm, up to a minimum word length of 3.
 
 Taking into account the four different word classes, the most important parts of a tweet that affect its sentiment were covered. There is one special case that had to be considered. The used lexicons define "no" as both a sentiment word and a negation, which is why the algorithm checked whether a sentiment word appeared after "no". If that was the case, the word "no" was skipped, as it was interpreted as a negation.
 
-The total score of a tweet was calculated by adding the score of each sentiment word. The two words in front of a sentiment word were evaluated to determine if there was an intensifier and/or a negation. If so, the polarity and strength were adjusted accordingly. Additionally, if an emoji was detected, its sentiment was also added to the total score. The algorithm itself was implemented using Java.
+The total score of a tweet was calculated by adding the score of each sentiment word. The two words in front of a sentiment word were evaluated to determine if there was an intensifier and/or a negation. If so, the polarity and strength were adjusted accordingly. Additionally, if an emoji was detected, its sentiment was also added to the total score.
 
 Although this thesis focuses on polarity classification, the lexicon-based method was also able to return the strength of a given sentiment, as well as a neutral score of 0. A neutral score was only returned if no sentiment word could be detected or if the sum of detected sentiments was equal to 0.
 
